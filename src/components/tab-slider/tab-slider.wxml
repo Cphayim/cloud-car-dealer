@@ -1,0 +1,141 @@
+<template name="tab-slider">
+    <view class="cy-tab-slider">
+        <!-- 
+            头部 Tab 
+            条件渲染：当 sliderData.length > 1 时
+        -->
+        <view hidden="{{sliderData.length <= 1}}" class="slider-head">
+            <view catchtap="changeSlider" class="title-group">
+                <!-- tab 循环渲染 -->
+                <block wx:for="{{sliderData}}" wx:key="tabTitle">
+                    <view data-index="{{index}}" class="title {{sliderActiveIndex === index? 'active':''}}">{{item.tabTitle}}</view>
+                </block>
+            </view>
+            <view class="border-bar">
+                <view class="border-bar-active" style="width:{{100/sliderTabCount}}%;transform:translateX({{sliderActiveIndex*100}}%) translateY(-100%);"></view>
+            </view>
+        </view>
+
+        <view class="slider-body {{showed?'showed':''}}">
+            <!-- 滑动组件 -->
+            <swiper bindchange="changeSlider" current="{{sliderActiveIndex}}" style="height:{{swiperHeight}}px;">
+                <!-- 列表循环渲染 -->
+                <block wx:for="{{sliderData}}" wx:for-item="list" wx:key="tabTitle">
+                    <!-- 
+                        根据 listType 的值条件渲染对应的模板
+                        text: 文字列表 渲染 si-text 模板
+                        graphic: 图文列表 渲染 si-graphic 模板
+                        ticket: 票券列表 渲染 si-ticket 模板
+                    -->
+                    <!-- 图文列表 -->
+                    <template wx:if="{{list.listType == 'graphic'}}" is="si-graphic" data="{{items:list.items, listType:'graphic'}}"></template>
+                    <!-- 票券列表 -->
+                    <template wx:elif="{{list.listType == 'ticket'}}" is="si-ticket" data="{{items:list.items, listType:'ticket'}}"></template>
+                    <!-- 时间轴列表 -->
+                    <template wx:elif="{{list.listType == 'axis'}}" is="si-axis" data="{{items:list.items, listType:'axis'}}" ></template>
+                    <!-- 文本列表 -->
+                    <template wx:else is="si-text" data="{{items:list.items, listType:'text'}}"></template>
+                </block>
+            </swiper>
+        </view>
+    </view>
+</template>
+
+<!-- 文字列表模板 -->
+<template name="si-text">
+    <swiper-item class="list">
+        <scroll-view class="basic text" data-list-type="{{listType}}" scroll-y style="height:100%;">
+            <!-- 循环渲染列表项 -->
+            <block wx:for="{{items}}" wx:key="id">
+                <view bindtap="sliderItemTap" id="{{item.id}}" class="item" data-send-msg="{{item.sendMsg}}">
+                    <!-- 条件渲染 -->
+                    <!-- 标题 -->
+                    <view wx:if="{{!!item.title}}" class="title">{{item.title}}</view>
+                    <!-- 内容缩略 -->
+                    <view wx:if="{{!!item.content}}" class="content">{{item.content}}</view>
+                    <!-- 标注 -->
+                    <view wx:if="{{!!item.label}}" class="label">{{item.label}}</view>
+                    <!-- 时间 -->
+                    <view wx:if="{{!!item.time}}" class="label">时间：{{item.time}}</view>
+                </view>
+            </block>
+        </scroll-view>
+    </swiper-item>
+</template>
+<!-- /文字列表模板 -->
+
+<!-- 图文列表模板 -->
+<template name="si-graphic">
+    <swiper-item class="list">
+        <scroll-view class="basic graphic" data-list-type="{{listType}}" scroll-y style="height:100%;">
+            <!-- 循环渲染列表项 -->
+            <block wx:for="{{items}}" wx:key="id">
+                <view bindtap="sliderItemTap" id="{{item.id}}" class="item" data-send-msg="{{item.sendMsg}}">
+                    <!-- 左图标 -->
+                    <view class="l">
+                        <image wx:if="{{item.image}}" src="{{item.image}}"></image>
+                        <view wx:if="{{!item.image}}" class="no-image">暂无图片</view>
+                    </view>
+                    <!-- 右内容 -->
+                    <view class="r">
+                        <view class="title">{{item.title}}</view>
+                        <view wx:if="{{item.starttime}}" class="time">开始时间：{{item.starttime}}</view>
+                        <view wx:if="{{item.endtime}}" class="time">结束时间：{{item.endtime}}</view>
+                    </view>
+                </view>
+            </block>
+        </scroll-view>
+    </swiper-item>
+</template>
+<!-- /图文列表模板 -->
+
+<!-- 票券模板 -->
+<template name="si-ticket">
+    <swiper-item class="list">
+        <scroll-view class="basic ticket" data-list-type="{{listType}}" scroll-y style="height:100%;">
+            <!-- 循环渲染列表项 -->
+            <block wx:for="{{items}}" wx:key="id">
+                <view bindtap="sliderItemTap" id="{{item.id}}" class="item" data-send-msg="{{item.sendMsg}}">
+                    <!-- 左图标 -->
+                    <view class="l">
+                        <view class="icon-extend-coupons"></view>
+                    </view>
+                    <!-- 右内容 -->
+                    <view class="r">
+                        <view wx:if="{{item.title}}" class="title">{{item.title}}</view>
+                        <view wx:if="{{item.type}}" class="type">{{item.type}}</view>
+                        <view wx:if="{{item.time}}" class="time">时间：{{item.time}}</view>
+                    </view>
+                </view>
+            </block>
+        </scroll-view>
+    </swiper-item>
+</template>
+<!-- /票券模板 -->
+
+<!-- 时间轴模板 -->
+<template name="si-axis">
+    <swiper-item class="list">
+        <scroll-view class="basic axis" data-list-type="{{listType}}" scroll-y style="height:100%;">
+            <!-- 外层包裹 -->
+            <view class="wrap-outer">
+                <view class="wrap-inner">
+                    <!-- 循环渲染列表项 -->
+                    <block wx:for="{{items}}" wx:key="id">
+                        <view class="item">
+                            <view class="l">
+                                <view class="date">{{item.date}}</view>
+                                <view class="time">{{item.time}}</view>
+                            </view>
+                            <view class="r">
+                                <view class="content">{{item.content}}</view>
+                            </view>
+                        </view>
+                    </block>
+                </view>
+            </view>
+            
+        </scroll-view>
+    </swiper-item>
+</template>
+<!-- /时间轴模板 -->

@@ -1,0 +1,80 @@
+<!--opportunity.wxml-->
+<!-- 业务详情 -->
+
+<!-- Intro 组件模板 -->
+<import src="../../../components/intro/intro.wxml"></import>
+
+<!-- List 组件模板 -->
+<import src="../../../components/list/list.wxml"></import>
+
+<view class="animation-box {{loaded?'loaded':''}}">
+    <!-- 
+        introData: 模板数据，对象将在一级模板内解构
+        tplNum: 调用的二级模板号，具体参照 Intro 组件内的模板文件
+    -->
+    <template is="intro" data="{{introData:pageData.userInfo,tplNum:1}}"></template>
+
+    <template is="list" data="{{listData:pageData.list,tplNum:1}}"></template>
+
+    <!-- 填充层(防止列表最后一项被固定层<提示>挡住) -->
+    <view class="padding" style="height:{{paddingLayerHeight}}px;"></view>
+    <!-- 提示 -->
+    <view class="m-operation">
+        <!-- 按钮组 -->
+        <view class="btn-group">
+            <view bindtap="flagInvalid" hover-class="hover">标记无效</view>
+            <view bindtap="changeStatus" class="blue" hover-class="hover" data-status="{{pageData.btn.status}}">{{pageData.btn.name}}</view>
+        </view>
+        <!-- 提示消息 -->
+        <view class="tip" hidden="{{pageData.isShow}}">
+            <view class="msg">{{pageData.tip.msg}}</view>
+        </view>
+    </view>
+</view>
+
+<view id="modal-1" class="m-modal" hidden="{{!modal1.isShowModal}}">
+    <view class="mask"></view>
+    <view class="modal">
+        <form bindsubmit="statusChangeFormSubmit">
+            <view class="content">
+                <view class="hd">{{modal1.modalType == 1 ? '客户还未建档，是否进行建档？':'客户资料有误，请重新确认！'}}</view>
+                <view class="bd">
+                    <!--<view class="text">{{modal1.modalType == 1 ? '客户还未建档，是否进行建档？':'客户资料有误，请重新确认！'}}</view>-->
+                    <view class="input-group">
+                        <label>姓名：</label>
+                        <input type="text" name="Name" value="{{pageData.userInfo.realname}}" placeholder="请输入姓名" placeholder-class="ph" />
+                    </view>
+                    <view class="input-group">
+                        <label>手机号：</label>
+                        <input type="text" name="MobilePhone" value="{{pageData.userInfo.phone}}" placeholder="请输入手机号" placeholder-class="ph" />
+                    </view>
+                    <view class="warning" hidden="{{!modal1.modalTip}}">{{modal1.modalTip}}</view>
+                </view>
+            </view>
+            <view class="btn-group">
+                <button bindtap="modalCancel" data-modal="2" class="btn" hover-class="hover">取消</button>
+                <button form-type="submit" class="btn" hover-class="hover">{{modal1.modalType == 1 ? '建档':'确认'}}</button>
+            </view>
+        </form>
+    </view>
+</view>
+<view id="modal-2" class="m-modal" hidden="{{!modal2.isShowModal}}" >
+    <view class="mask"></view>
+    <view class="modal">
+        <form bindsubmit="remarkSubmit">
+            <view class="content">
+                <view class="hd">添加备注信息</view>
+                <view class="bd">
+                    <!--<view class="text">添加备注信息</view>-->
+                     <view class="textarea">
+                        <textarea name="Remark" style="height:80px;" value="{{modal2.textareaVal}}" placeholder="请输入备注信息" />
+                     </view>
+                </view>
+            </view>
+            <view class="btn-group">
+                <button bindtap="modalCancel" data-modal="2" class="btn" hover-class="hover">取消</button>
+                <button form-type="submit" class="btn" hover-class="hover">确定</button>
+            </view>
+        </form>
+    </view>
+</view>

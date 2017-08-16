@@ -1,0 +1,250 @@
+/*
+ * Tab 首页样式
+ * @Author: 云程科技 
+ * @Date: 2017-06-28 18:06:05 
+ * @Last Modified by: Cphayim
+ * @Last Modified time: 2017-08-14 00:53:53
+ */
+
+@import '../../../dev-resource/config.dev.scss';
+// 通用块
+.section {
+    margin-bottom: 30rpx;
+    padding: 30rpx;
+    background-color: #fff;
+    &:last-of-type {
+        margin-bottom: 0;
+    }
+}
+
+.red {
+    @include font($smallFont, $redColor);
+}
+
+.badge {
+    display: inline-block;
+    margin-left: 2px;
+    padding: 2px 4px;
+    border-radius: 10px;
+    background-color: $redColor;
+    @include font($smallFont, #fff);
+}
+
+// 扩展占位符（可抽离）
+%red-ib {
+    display: inline-block;
+    margin-left: 2px;
+}
+
+// 战报
+.m-report {
+    display: flex;
+    .l {
+        // 潜在客户
+        flex: 2;
+        view {
+            &:nth-child(1) {
+                @include font($smallFont);
+            }
+            &:nth-child(2) {
+                margin-top: 10px;
+                @include font($largeFont, $secondFont, bold);
+            }
+        }
+    }
+    .r {
+        // 统计
+        flex: 4;
+        display: flex;
+        align-items: flex-end;
+        &>view {
+            flex: 1;
+            border-right: 1px #666 dotted;
+            @include font($smallFont);
+            text-align: center;
+            &:last-child {
+                border: none;
+            }
+        }
+        .red {
+            @extend %red-ib;
+        }
+    }
+}
+
+// 卡片
+.m-card {
+    display: flex;
+    justify-content: space-between;
+    @include font($smallFont);
+    text-align: center;
+    line-height: 1.5;
+    .card {
+        box-sizing: border-box;
+        width: 32%;
+        padding: 30rpx 0;
+    }
+    .title {
+        @include font($smallFont, $firstFont);
+    }
+    .count {
+        @include font($bigFont);
+    }
+    .red {
+        @extend %red-ib;
+    }
+}
+
+// 站内信
+.m-letter {
+    display: flex;
+    .l {
+        width: 60%;
+    }
+    .r {
+        width: 36%;
+        margin: -20rpx 0rpx -20rpx 10rpx;
+    }
+    .title {
+        vertical-align: middle;
+        @include font($normalFont, $firstFont);
+    }
+    .top {
+        margin-top: 6px; // 当文本溢出宽度时显示省略号...
+        width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        @include font($smallFont);
+        &:before {
+            content: '⦁';
+            @include font($bigFont, $redColor);
+            vertical-align: middle;
+        }
+    }
+}
+
+// 任务
+.m-task {
+    // 覆盖 section 的 padding
+    padding: 0;
+    .item {
+        display: flex; // 补 padding
+        padding: 30rpx;
+        border-bottom: $border;
+        &:last-of-type {
+            border: none;
+        }
+    }
+    .l {
+        // 图标与标题
+        flex: 2;
+        @include font($normalFont);
+        view {
+            display: inline-block;
+            margin-right: 4px;
+            vertical-align: middle;
+        }
+    }
+    .r {
+        // 进度条与比例
+        position: relative;
+        flex: 1;
+        align-items: center;
+        .progress-box {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            transform: translateY(-50%);
+            view {
+                display: inline-block;
+                width: 50%;
+                @include font($smallFont, $thirdFont);
+                vertical-align: middle;
+                text-align: right;
+            }
+            .progress {
+                border-radius: 5px;
+                overflow: hidden;
+            }
+        }
+    }
+}
+
+// 工具
+.m-tool {
+    display: flex; //覆盖 section padding
+    padding-left: 0;
+    padding-right: 0;
+    .item {
+        width: 20%;
+        .tool-name {
+            margin-top: 8px;
+            text-align: center;
+            @include font($smallFont);
+        }
+    }
+}
+
+/*卡片背景*/
+
+.icon-card {
+    background-image: url('../../../dev-resource/image-min/three_bg.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+
+/*站内信手机图标*/
+
+.icon-znxbg {
+    background-image: url('../../../dev-resource/image-min/look_phone.png');
+    background-size: auto 100%;
+    background-position: 50%;
+    background-repeat: no-repeat;
+}
+
+
+/*进度图标*/
+
+
+.icon-home-progress{
+    width: 20px;height: 20px;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+@for $i from 0 through 3{
+    .icon-progress-#{$i}{
+        background-image: url('../../../dev-resource/image-min/home-list-#{$i}.png');
+    }
+}
+
+
+/*工具图标*/
+
+.icon-home-tool {
+    margin-left: auto;
+    margin-right: auto;
+    width: 40px;
+    height: 40px;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+.icon-qrcode {
+    background-image: url('../../../dev-resource/image-min/icon-erweima.png');
+}
+
+.icon-waitdocument {
+    background-image: url('../../../dev-resource/image-min/icon-daijiandang.png');
+}
+
+.icon-newclient{
+    background-image: url('../../../dev-resource/image-min/icon-newclient.png');
+}
+.icon-scanning{
+    background-image: url('../../../dev-resource/image-min/icon-saoma.png');
+}
+.icon-groupsend{
+    background-image: url('../../../dev-resource/image-min/icon-qunfa.png'); 
+}

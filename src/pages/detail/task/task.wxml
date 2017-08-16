@@ -1,0 +1,19 @@
+<!--task.wxml-->
+<!-- 任务页 -->
+
+<!-- 审核(当前任务总进度) -->
+<view class="m-review section">
+  <view>今日任务</view>
+  <view class="progress"><view class="strong">{{progressStatistics}}</view>/{{countStatistics}}</view>
+  <progress percent="{{percent}}" color="#54b4ef" stroke-width="4" show-info active/>
+</view>
+
+<!-- 任务列表 -->
+<view class="m-task-list">
+  <view class="title">待督办</view>
+  <!-- 列表项 -->
+  <view wx:for="{{taskList}}" wx:key="item.name" class="item arrow-list">
+    <view class="name">{{item.name}}</view>
+    <view class="progress"><view class="strong">{{item.finished}}</view>/{{item.total}}</view>
+  </view>
+</view>

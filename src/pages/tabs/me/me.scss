@@ -1,0 +1,94 @@
+/*
+ * Tab 我 样式
+ * @Author: 云程科技 
+ * @Date: 2017-06-30 14:49:58 
+ * @Last Modified by: Cphayim
+ * @Last Modified time: 2017-07-07 14:38:57
+ */
+
+@import '../../../dev-resource/config.dev.scss';
+.section {
+    margin-bottom: 30rpx;
+    background-color: #fff;
+    &:last-of-type {
+        margin-bottom: 0;
+    }
+}
+
+// 图标名数组
+$workItemIcon:
+    'active', 'wechat','watcher','client',
+    'groupsend','preferential','batch','letter',
+    'address','friend','personalized','help','setting';
+// 循环创建图标类
+@each $val in $workItemIcon{
+    .icon-work-#{$val}{
+        $url: '../../../dev-resource/image-min/work-#{$val}.png';
+        $size: 72rpx 72rpx;
+        @include image($url,$size);
+    }
+} 
+
+// 基本信息
+.m-basic-info{
+    display: flex;
+    padding: 30rpx;
+    .l{
+        width: 120rpx;
+        margin-right: 30rpx;
+    }
+    .r{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        >view:first-child{
+            @include font($normalFont,$firstFont,bold);
+            margin-bottom: 5px;
+        }
+        >view:last-child{
+            @include font($smallFont,$secondFont);
+        }
+    }
+    .avatar{
+        width: 120rpx;
+        height: 120rpx;
+        border-radius: 50%;
+    }
+}
+// 办公
+.m-work {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    padding: 20rpx 0;
+    .item {
+        width: 25%;
+        box-sizing: border-box;
+        padding: 20rpx 10rpx;
+        >view {
+            // margin: 0 auto;
+            text-align: center;
+        }
+        >view:first-child {
+            // width: 74rpx;
+            height: 74rpx;
+        }
+        >view:last-child {
+            margin-top: 25rpx;
+            @include font($smallFont, $firstFont);
+        }
+    }
+}
+
+// 底部列表
+.m-list{
+    .item{
+        padding: 30rpx;
+        border-bottom: $border;
+        @include font($normalFont, $firstFont);
+        text-align: center;
+        &:last-child{
+            border: none;
+        }
+    }
+}

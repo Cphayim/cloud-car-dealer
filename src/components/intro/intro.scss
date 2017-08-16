@@ -1,0 +1,172 @@
+/*
+ * Intro 组件样式
+ * @Author: Cphayim 
+ * @Date: 2017-07-28 10:21:36 
+ * @Last Modified by: Cphayim
+ * @Last Modified time: 2017-08-14 10:51:48
+ */
+
+@import '../../dev-resource/config.dev.scss';
+// 图标名
+$iconnames:'cards',
+'edit',
+'phone',
+'wechat',
+'mail';
+// 图标遍历
+@each $val in $iconnames {
+    .icon-#{$val} {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        $url:'../../dev-resource/image-min/icon-#{$val}.png';
+        @include image($url);
+    }
+}
+
+// Intro 组件基本样式
+.m-intro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30rpx;
+    background-color: $blueColor;
+    >view {
+        margin-bottom: 5px;
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+    .avatar {
+        position: relative;
+        width: 140rpx;
+        height: 140rpx;
+        image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+        }
+        .bg {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-color: #bfe2f8;
+            transform: scale(0.8);
+            opacity: 1;
+        }
+        &.hover {
+            .bg {
+                transition: all 0.4s linear;
+                transform: scale(2.5);
+                opacity: 0.1;
+            }
+        }
+    }
+    .namewrap {
+        width: 100%;
+        text-align: center;
+    }
+    .realname,
+    .username {
+        // 防止名字过长移除，修剪处理
+        display: inline-block;
+        max-width: 48%;
+        @extend %text-clip;
+    }
+    .realname {
+        @include font(15px, #fff);
+    }
+    .username {
+        @include font($smallFont, #fff);
+        margin-left: 4px;
+        &:before {
+            content: ' [ ';
+        }
+        &:after {
+            content: ' ] ';
+        }
+    }
+    .text {
+        @include font($smallFont, #fff, 300);
+    }
+    .btn-group {
+        display: flex;
+        margin-top: 10px;
+        .btn {
+            position: relative;
+            width: 32px;
+            height: 32px;
+            margin: 0 10px;
+            .bg {
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                background-color: #bfe2f8;
+                transform: scale(0.8);
+                opacity: 1;
+            }
+            &.hover {
+                .bg {
+                    transition: all 0.4s;
+                    transform: scale(2);
+                    opacity: 0.1;
+                }
+            }
+        }
+    }
+}
+
+// Intro 组件动画样式
+.animation-box {
+    // 执行动画前
+    .m-intro {
+        >view {
+            transition: all 0.6s;
+        }
+        .avatar {
+            transform: scale(0);
+            opacity: 0;
+        }
+        .namewrap,
+        .text {
+            transform: translateY(200%);
+            opacity: 0;
+        }
+        .btn-group {
+            .btn {
+                transition: all 0.4s;
+                transform: scale(0);
+                opacity: 0;
+            }
+        }
+    } // 执行动画后
+    &.loaded {
+        .m-intro {
+            .avatar {
+                transform: scale(1);
+                opacity: 1;
+            }
+            .namewrap,
+            .text {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            .btn-group {
+                .btn {
+                    transform: scale(1);
+                    opacity: 1;
+                    @for $i from 1 through 4 {
+                        &:nth-of-type(#{$i}) {
+                            transition-delay: $i*0.2s;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

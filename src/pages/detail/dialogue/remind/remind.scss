@@ -1,0 +1,101 @@
+/*
+ * 聊天界面-提醒样式
+ * @Author: 云程科技 
+ * @Date: 2017-07-18 10:25:55 
+ * @Last Modified by: Cphayim
+ * @Last Modified time: 2017-07-19 17:34:26
+ */
+
+@import '../../../../dev-resource/config.dev.scss';
+
+page{
+    height: 100%;
+    overflow: hidden;
+}
+
+// 提醒人列表
+.m-remind-list {
+    background-color: #fff;
+    .item {
+        padding: 20rpx 30rpx;
+        display: flex;
+        border-top: $border;
+        &:first-of-type {
+            border: none;
+        }
+        .l,.c,.r {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+        .l{
+            width: 120rpx;
+        }
+        .c {
+            width: 490rpx;
+            padding: 0 8px;
+            margin: 10px 0;
+        }
+        .r {
+            align-items: flex-end;
+            width: 80rpx;
+            text-align: right;
+        }
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+        .realname,
+        .username {
+            // 防止名字过长移除，修剪处理
+            display: inline-block;
+            max-width: 48%;
+            @extend %text-clip;
+        } // 真实姓名
+        .realname {
+            @include font($normalFont, $firstFont);
+        } // 用户名
+        .username {
+            @include font($smallFont, $secondFont);
+            margin-left: 4px;
+            &:before {
+                content: ' [ ';
+            }
+            &:after {
+                content: ' ] ';
+            }
+        }
+        .role {
+            @include font($smallFont, $thirdFont);
+            margin-top: 8px;
+            width: 100%;
+            @extend %text-clip;
+        }
+        .time {
+            @include font($smallFont, $thirdFont);
+            width: 100%;
+        }
+    }
+}
+
+// 提醒按钮
+.m-remind-btn {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding: 20rpx 30rpx;
+    border-top: $border;
+    background-color: rgba(255, 255,255,1);
+    .remind-btn {
+        padding: 25rpx;
+        border-radius: 10rpx;
+        background-color: $blueColor;
+        text-align: center;
+        @include font($normalFont, #fff);
+        &.hover {
+            background-color: #6699cc;
+        }
+    }
+}

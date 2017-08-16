@@ -1,0 +1,32 @@
+<!--remind.wxml-->
+
+<!-- 列表滚动视图容器 -->
+<scroll-view style="height:100%;" scroll-y>
+  <!-- 列表 -->
+  <view class="m-remind-list">
+    <block wx:for="{{remindList}}" wx:key="id">
+      <view class="item" data-client-id="{{item.id}}">
+        <view class="l">
+          <image class="avatar" src="{{item.avatar}}"></image>
+        </view>
+        <view class="c">
+          <view class="namewrap">
+            <view class="realname">{{item.realname}}</view>
+            <view class="username">{{item.username}}</view>
+          </view>
+          <!-- 角色 -->
+          <view class="role">{{item.role}}</view>
+        </view>
+        <view class="r">
+          <icon type="success" color="{{item.checked?'#54b4ef':'#e0e0e0'}}" size="20" />
+        </view>
+      </view>
+    </block>
+    <!-- 填充层  -->
+    <view style="height:{{paddingLayerHeight}}px;">  
+    </view>
+  </view>
+</scroll-view>
+<view class="m-remind-btn">
+  <view class="remind-btn" hover-class="hover">提醒</view>
+</view>

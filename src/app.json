@@ -1,0 +1,70 @@
+{
+    "pages": [
+        "pages/welcome/welcome", 
+
+        "pages/search/search",
+
+        "pages/tabs/home/home",
+        "pages/detail/task/task",
+        
+        "pages/tabs/client/client",
+        "pages/detail/customer/customer",
+        "pages/detail/customer/customer-edit/customer-edit",
+
+        "pages/tabs/business/business",
+        "pages/detail/opportunity/opportunity",
+
+        "pages/tabs/message/message",
+        "pages/detail/dialogue/dialogue",
+        "pages/detail/dialogue/extend/extend",
+        "pages/detail/dialogue/remind/remind",
+
+        "pages/tabs/me/me"
+
+    ],
+    "window": {
+        "backgroundColor": "#eaeaea",
+        "backgroundTextStyle": "light",
+        "navigationBarTitleText": "商家助手",
+        "navigationBarTextStyle": "white",
+        "navigationBarBackgroundColor": "#54b4ef"
+    },
+    "tabBar": {
+        "color": "#999",
+        "backgroundColor": "#fff",
+        "selectedColor": "#54b4ef",
+        "borderStyle": "black",
+        "list": [{
+                "pagePath": "pages/tabs/home/home",
+                "text": "首页",
+                "iconPath": "assets/tab-icons/tab-home.png",
+                "selectedIconPath": "assets/tab-icons/tab-home-active.png"
+            },
+            {
+                "pagePath": "pages/tabs/business/business",
+                "text": "业务",
+                "iconPath": "assets/tab-icons/tab-work.png",
+                "selectedIconPath": "assets/tab-icons/tab-work-active.png"
+            },
+            {
+                "pagePath": "pages/tabs/client/client",
+                "text": "客户",
+                "iconPath": "assets/tab-icons/tab-client.png",
+                "selectedIconPath": "assets/tab-icons/tab-client-active.png"
+            },
+            {
+                "pagePath": "pages/tabs/message/message",
+                "text": "对话",
+                "iconPath": "assets/tab-icons/tab-message.png",
+                "selectedIconPath": "assets/tab-icons/tab-message-active.png"
+            },
+            {
+                "pagePath": "pages/tabs/me/me",
+                "text": "我",
+                "iconPath": "assets/tab-icons/tab-me.png",
+                "selectedIconPath": "assets/tab-icons/tab-me-active.png"
+            }
+        ]
+    },
+    "debug": true
+}

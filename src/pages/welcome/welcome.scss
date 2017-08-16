@@ -1,0 +1,172 @@
+/*
+ * 登录页样式
+ * @Author: 云程科技 
+ * @Date: 2017-06-28 14:23:24 
+ * @Last Modified by: Cphayim
+ * @Last Modified time: 2017-08-13 20:31:00
+ */
+
+@import '../../dev-resource/config.dev.scss';
+page {
+    background-color: #fff;
+}
+
+.align-center {
+    @extend %flex-v-h-c;
+}
+
+.m-logo {
+    margin-top: 160rpx;
+    margin-bottom: 50rpx;
+    view {
+        text-align: center;
+    }
+    .logo-image {
+        margin-bottom: 40rpx;
+        image {
+            width: 493rpx;
+            height: 326rpx;
+        }
+    }
+    .logo-title {
+        view:nth-child(1) {
+            margin-bottom: 30rpx;
+            @include font(46rpx, $secondFont, bold);
+        }
+        view:nth-child(2) {
+            font-size: 30rpx;
+            @include font(30rpx, $secondFont);
+        }
+    }
+}
+
+.m-login {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 40rpx;
+    @include font(14px);
+    view {
+        box-sizing: border-box;
+    }
+    .form-row {
+        display: flex;
+        height: 50px;
+        padding: 6px 0;
+        border-bottom: $border;
+        .l,
+        .r {
+            display: flex;
+            align-items: center;
+        }
+        .l {
+            flex: 1;
+        }
+        .r {
+            flex: 7;
+            padding-top: 5px;
+            input {
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+    .login-btn {
+        padding: 25rpx;
+        border: none;
+        margin-top: 50rpx;
+        background-color: #54b4ef;
+        line-height: 1;
+        @include font(14px, #fff);
+    }
+    .login-btn-hover {
+        background-color: #6699cc;
+    }
+}
+
+.m-copy {
+    margin-top: 10rpx;
+    @include font(12px, $thirdFont);
+}
+
+// 动画初始
+.animation-box {
+    .m-logo {
+        >view {
+            transition: all 0.8s linear;
+        }
+        .logo-image {
+            transform: rotate(-180deg);
+        }
+        .logo-image,
+        .logo-title {
+            opacity: 0;
+        }
+        .logo-title {
+            transform: translateY(100%);
+        }
+    }
+    .m-login {
+        transition: all 0.8s;
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    .m-copy {
+        transition: all 0.4s;
+        opacity: 0;
+    }
+}
+
+// 动画目标
+.animation-box.loaded {
+    .m-logo {
+        .logo-image {
+            transform: rotate(0);
+        }
+        .logo-image,
+        .logo-title {
+            opacity: 1;
+        }
+        .logo-title {
+            transform: translateY(0);
+        }
+    }
+    .m-login.show {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    .m-copy {
+        opacity: 1;
+    }
+}
+
+
+/*LOGO*/
+
+.icon-logo {
+    background-image: url('../../dev-resource/image-min/logo.png');
+    width: 493rpx;
+    height: 326rpx;
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+
+
+/*登录表单图标*/
+
+.icon-account {
+    /* background-image: url('./image-min/Icon_Account.png'); */
+    width: 48rpx;
+    height: 48rpx;
+    /* background-size: contain; */
+    /* background-repeat: no-repeat; */
+    background: url('../../dev-resource/image-min/Icon_Account.png') 50% 50%/contain no-repeat;
+}
+
+.icon-pwd {
+    background-image: url('../../dev-resource/image-min/Icon_Password.png');
+    width: 48rpx;
+    height: 48rpx;
+    background: url('../../dev-resource/image-min/Icon_Password.png') 50% 50%/contain no-repeat;
+    background-size: contain;
+    background-repeat: no-repeat;
+}

@@ -1,0 +1,23 @@
+<!--customer.wxml-->
+<!-- 客户详情 -->
+
+<!-- Intro 组件模板 -->
+<import src="/components/intro/intro.wxml"></import>
+
+<!-- List 组件模板 -->
+<import src="/components/list/list.wxml"></import>
+
+<!-- Tab-slider 组件模板 -->
+<import src="/components/tab-slider/tab-slider.wxml" />
+
+<!-- 容器 -->
+<view class="animation-box {{loaded?'loaded':''}}" >
+    <!-- Intro -->
+    <template is="intro" data="{{introData:pageData.userInfo,tplNum:2}}"></template>
+    <!-- 跟进信息 -->
+    <template is="list" data="{{listData:pageData.follow,tplNum:2}}"></template>
+    <!-- 基本信息 -->
+     <template is="list" data="{{listData:pageData.base,tplNum:2}}"></template>  
+    <!-- 跟踪记录 -->
+    <template is="tab-slider" data="{{...tabSlider}}"></template>
+</view>

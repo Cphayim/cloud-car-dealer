@@ -1,0 +1,60 @@
+<!-- 启动兼登录页 -->
+<!-- 
+  作为启动页首屏显示，逻辑层判断是否登录
+  已登录 -> 2秒后跳转到首页
+  未登录 -> 显示登录框
+-->
+<view class="align-center animation-box {{loaded?'loaded':''}}">
+  <!-- logo -->
+  <view class="m-logo">
+    <view class="logo-image icon-logo">
+    </view>
+    <view class="logo-title">
+      <view>商家助手</view>
+      <view>专为车商设计的管理平台</view>
+    </view>
+  </view>
+
+  <!-- 登录 -->
+  <view class="m-login {{isShowLogin?'show':''}}">
+    <!-- 登录表单 -->
+    <form bindsubmit="loginFromSubmit">
+      <!-- 行 -->
+      <view class="form-row" style="{{formData.UserName?'border-color:#54b4ef;':''}}">
+        <!-- 左列图标 -->
+        <view class="l">
+          <view class="icon-account"></view>
+        </view>
+        <!-- 右列输入框 -->
+        <view class="r">
+          <input type="text" confirm-type="next"
+            bindblur="inputBlur" bindconfirm="inputConfirm"
+            data-name="UserName" focus="{{focusTo === 1}}"
+            value=""
+            placeholder="请输入您的账号" />
+        </view>
+      </view>
+      <view class="form-row" style="{{formData.Password?'border-color:#54b4ef;':''}}">
+        <view class="l">
+          <view class="icon icon-pwd"></view>
+        </view>
+        <view class="r">
+          <input type="password" confirm-type="go"
+            bindblur="inputBlur" bindconfirm="inputConfirm"
+            data-name="Password" focus="{{focusTo === 2}}"
+            value=""
+            placeholder="请输入您的密码" />
+        </view>
+      </view>
+
+      <button
+        bindtap="login"
+        class="login-btn" hover-class="login-btn-hover">
+        登录
+      </button>
+    </form>
+  </view>
+
+  <!-- 声明 -->
+  <view class="m-copy">云程科技·技术支持</view>
+</view>

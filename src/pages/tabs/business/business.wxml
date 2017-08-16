@@ -1,0 +1,105 @@
+<!-- 业务 -->
+
+<!-- 组件引入 -->
+<import src="../../../components/search/search.wxml" />
+<import src="../../../components/selection/selection.wxml" />
+
+<!-- 搜索入口 -->
+<template is="search-outer" data="{{type:'business',url:pagePath.search}}"></template>
+<!-- selection 组件 -->
+<template wx:if="{{selection}}" is="selection" data="{{...selection}}"></template>
+
+<view class="m-business">
+  <!-- 列表项统计 -->
+  <view class="count">总共：{{businessTotal}}</view>
+  <!-- 列表 -->
+  <view class="list {{businessList.length === 0?'nocontent':''}}">
+    <block wx:for="{{businessList}}" wx:key="item.Id">
+      <view bindtap="toDetail" class="item" data-business-id="{{item.Id}}">
+        <view class="l">
+          <!-- 客户头像 -->
+          <view class="avatar-warp">
+            <image class="avatar" src="{{item.HeadImgUrl}}"></image>
+          </view>
+        </view>
+        <view class="c">
+          <!-- 客户名 -->
+          <view class="namewrap">
+            <view class="realname">{{item.Name}}</view>
+            <view class="username">{{item.Nickname}}</view>
+          </view>
+          <!-- 业务内容 -->
+          <view class="content">{{enumConfig[enumName+'PreFrom'][item.PreFrom]}} | {{item.FromTitle}}</view>
+        </view>
+        <view class="r">
+          <!-- 时间/状态 -->
+          <view class="time">{{item.Time}}</view>
+          <view wx:if="{{item.Status == 11}}" class="status status-finished">
+            {{enumConfig[enumName+'PreStatus'][item.Status]}}
+          </view>
+          <view wx:elif="{{item.Status == 9}}" class="status status-progressed">
+            {{enumConfig[enumName+'PreStatus'][item.Status]}}
+          </view>
+          <view wx:elif="{{item.Status == 2}}" class="status status-untreated">
+            {{enumConfig[enumName+'PreStatus'][item.Status]}}
+          </view>
+          <view wx:elif="{{item.Status == 10}}" class="status status-null">
+            {{enumConfig[enumName+'PreStatus'][item.Status]}}
+          </view>
+        </view>
+      </view>
+    </block>
+    <!-- 
+    <view bindtap="toDetail" class="item" data-client-id="client.id">
+      <view class="l">
+        <image class="avatar" src="https://cphayim.me/wp-content/uploads/2017/05/cphayim-avatar-2017.jpg"></image>
+      </view>
+      <view class="c">
+        <view class="namewrap">
+          <view class="realname">Cphayim</view>
+          <view class="username">Cphayim</view>
+        </view>
+        <view class="content">购车优惠|兰博基尼 LP-700</view>
+      </view>
+      <view class="r">
+        <view class="time">9:00</view>
+        <view class="status status-untreated">未联系</view>
+      </view>
+    </view> -->
+
+    <!-- <view bindtap="toDetail" class="item" data-client-id="client.id">
+      <view class="l">
+        <image class="avatar" src="https://cphayim.me/wp-content/uploads/2017/05/cphayim-avatar-2017.jpg"></image>
+      </view>
+      <view class="c">
+        <view class="namewrap">
+          <view class="realname">Cphayim</view>
+          <view class="username">Cphayim</view>
+        </view>
+        <view class="content">购车优惠|兰博基尼 LP-700</view>
+      </view>
+      <view class="r">
+        <view class="time">9:00</view>
+        <view class="status status-finished">已到店</view>
+      </view>
+    </view> -->
+
+    <!-- <view bindtap="toDetail" class="item" data-client-id="client.id">
+      <view class="l">
+        <image class="avatar" src="https://cphayim.me/wp-content/uploads/2017/05/cphayim-avatar-2017.jpg"></image>
+      </view>
+      <view class="c">
+        <view class="namewrap">
+          <view class="realname">Cphayim</view>
+          <view class="username">Cphayim</view>
+        </view>
+        <view class="content">购车优惠|兰博基尼 LP-700</view>
+      </view>
+      <view class="r">
+        <view class="time">9:00</view>
+        <view class="status status-null">已无效</view>
+      </view>
+    </view> -->
+
+  </view>
+</view>

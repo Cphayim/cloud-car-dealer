@@ -1,0 +1,32 @@
+<!--pages/message/message.wxml-->
+<!-- 销售顾问/对话 -->
+
+<!-- 组件引入 -->
+<import src="../../../components/search/search.wxml" />
+
+<!-- 搜索入口 -->
+<template is="search-outer" data="{{type:'message',url:'/pages/search/search'}}"></template>
+
+
+<!-- 对话/消息 -->
+<view class="m-msg section">
+  <!-- 对话(列表循环) -->
+  <block wx:for="{{msgList}}" wx:for-item="client" wx:key="id">
+    <view class="item" bindtap="toDetail" data-client-id="{{client.id}}">
+      <view class="l">
+        <image class="avatar" src="{{client.avatarUrl}}"></image>
+      </view>
+      <view class="r">
+        <view class="namewrap">
+          <view class="realname">{{client.realname}}</view>
+          <view class="username">{{client.username}}</view>
+        </view>
+        <!-- 最后一条消息 -->
+        <view class="last-msg">{{client.lastMsg}}</view>
+        <view class="time">
+          {{client.time}}
+        </view>
+      </view>
+    </view>
+  </block>
+</view>

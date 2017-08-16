@@ -1,0 +1,254 @@
+/*
+ * tabSlider 组件样式
+ * @Author: Cphayim
+ * @Date: 2017-07-13 16:57:34 
+ * @Last Modified by: Cphayim
+ * @Last Modified time: 2017-08-14 12:52:25
+ */
+
+@import '../../dev-resource/config.dev.scss';
+// 带 tab 栏的滑动组件
+.cy-tab-slider {
+    // Tab 选项卡
+    .slider-head {
+        text-align: center;
+        background-color: #fff;
+        .title-group {
+            display: flex;
+            .title {
+                flex: 1;
+                padding: 30rpx 0 22rpx;
+                @include font(14px, $thirdFont);
+                transition: all 0.4s;
+                &.active {
+                    @include font(15px, $firstFont);
+                }
+            }
+        }
+        .border-bar {
+            position: relative;
+            height: 2rpx;
+            background-color: #eaeaea;
+        }
+        .border-bar-active {
+            position: absolute;
+            top: 0;
+            height: 8rpx;
+            background-color: $blueColor;
+            transition: transform 0.4s;
+        }
+    } // 滑动列表
+    .slider-body {
+        @include font(14px, $secondFont);
+        swiper {
+            box-sizing: border-box;
+        }
+        .list {
+            $border: 1px solid #eaeaea;
+            border-left: $border;
+            border-right: $border;
+        } // 基本样式
+        .basic {}
+        // 文本列表
+        .text {
+            .item {
+                padding: 30rpx;
+                border-bottom: $border;
+                background-color: #fff;
+                transition: all 0.4s;
+                view {
+                    margin-bottom: 20rpx;
+                    &:last-child {
+                        margin-bottom: 0;
+                    }
+                }
+                .title {
+                    @include font(15px, $firstFont);
+                }
+                .content {
+                    @include font(14px, $secondFont);
+                }
+                .label {
+                    @include font(12px, $thirdFont);
+                }
+            }
+        } 
+        // 图文列表
+        .graphic{
+            .item{
+                padding: 30rpx;
+                display: flex;
+                border-bottom: $border;
+                background-color: #fff;
+                .l{
+                    width: 260rpx;height: 150rpx;
+                    padding: 10rpx;
+                    border: $border;
+                    image{
+                        width: 100%;height: 100%;
+                    }
+                    .no-image{
+                        width: 100%;height: 100%;
+                        background-color: #eaeaea;
+                        color: $thirdFont;
+                        text-align: center;
+                        line-height: 130rpx;
+                    }
+                }
+                .r{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    flex: 1;
+                    padding: 10rpx 0 10rpx 20rpx;
+                    view {
+                        margin-bottom: 20rpx;
+                        &:last-child {
+                            margin-bottom: 0;
+                        }
+                    }
+                    .title {
+                        @include font(15px, $firstFont);
+                        margin-bottom: 40rpx;
+                    }
+                    .time {
+                        @include font(12px, $thirdFont);
+                    }
+                }
+            }
+        }
+        // 票券列表
+        .ticket {
+            padding: 15rpx 0;
+            .item {
+                display: flex;
+                padding: 15rpx 30rpx;
+                .l,
+                .r {
+                    padding: 30rpx;
+                    background-color: #fff;
+                }
+                .l {
+                    position: relative;
+                    overflow: hidden;
+                    z-index: 1;
+                    width: 230rpx;
+                    .icon-extend-coupons {
+                        width: 80px;
+                        height: 80px;
+                        position: absolute;top: 50%;left: 50%;
+                        transform:translate(-50%,-50%);
+                        $url: '../../dev-resource/image-min/extend-coupons.png';
+                        @include image($url);
+                    }
+                }
+                .r {
+                    position: relative;
+                    z-index: 2;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    flex: 1;
+                    border-left: 3px dotted #eaeaea;
+                    view {
+                        margin-bottom: 20rpx;
+                        &:last-child {
+                            margin-bottom: 0;
+                        }
+                    }
+                    &:before,
+                    &:after {
+                        position: absolute;
+                        left: -23rpx;
+                        display: block;
+                        content: '';
+                        width: 40rpx;
+                        height: 40rpx;
+                        border-radius: 50%;
+                        background-color: #eaeaea;
+                    }
+                    &:before {
+                        top: -20rpx;
+                    }
+                    &:after {
+                        bottom: -20rpx;
+                    }
+                    .title {
+                        @include font(15px, $firstFont);
+                        margin-bottom: 30rpx;
+                    }
+                    .type {
+                        @include font(13px, $secondFont);
+                    }
+                    .time {
+                        @include font(12px, $thirdFont);
+                    }
+                }
+            }
+        }
+
+        // 时间轴列表
+        .axis{
+            overflow: hidden;
+            background-color: #fff;
+            .wrap-outer{
+                margin:50rpx 0 0 50px;
+                border-left: 1px solid #ccc;
+            }
+            .wrap-inner{
+                margin-left: -50px;
+                padding-right: 30rpx;
+            }
+            .item{
+                display: flex;
+                margin-bottom: 50rpx;
+                &:last-child{
+                    margin-bottom: 0;
+                    .l{
+                        background-color: #fff;
+                    }
+                }
+                .l{
+                    flex: 0 0 100px;
+                    margin-right: 30rpx;
+                    text-align: center;
+                    @include font($nanoFont,$thirdFont);
+                    .date,.time{
+                        padding: 10rpx 0 5rpx;
+                        background-color: #fff;
+                    }
+                }
+                .r{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    flex: 1 1 auto;
+                    .content{
+                        @include font(14px,$secondFont);
+                        line-height: 1.35;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.animation-box{
+    .cy-tab-slider{
+        .slider-head,.slider-body{
+            transition: all 0.6s;
+            opacity: 0;
+        }
+        .slider-body{
+            transform: translateY(200rpx);
+        }
+    }
+    &.loaded{
+        .slider-head,.slider-body{
+            opacity: 1;
+        }
+        .slider-body{
+            transform: translateY(0);
+        }
+    }
+}

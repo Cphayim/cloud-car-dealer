@@ -1,0 +1,60 @@
+// 该样式文件用于定义 SCSS 全局变量 混合宏 占位符，可在所有视图层 SCSS 文件内导入
+// 变量定义
+$nanoFont: 12px;
+$smallFont: 13px;
+$normalFont: 15px;
+$bigFont: 24px;
+$largeFont: 28px;
+$border: 1px solid #e2e2e2;
+$firstFont: #333;
+$secondFont: #666;
+$thirdFont: #999;
+$blueColor: #54b4ef;
+$redColor: #f35833;
+// 混合宏定义
+// 字体
+@mixin font($fs:$normalFont, $c:#666, $fw:normal) {
+    font-size: $fs;
+    color: $c;
+    font-weight: $fw;
+}
+
+// 插入背景图
+@mixin image($url: '', $size: 100% 100%, $position: 50% 50%, $repeat: no-repeat) {
+    background-image: url($url);
+    background-size: $size;
+    background-position: $position;
+    background-repeat: $repeat;
+}
+
+// 遮罩层
+@mixin mask($zIndex: 999, $bc:rgba(0, 0, 0, 0.5)) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: $zIndex;
+    width: 100%;
+    height: 100%;
+    background-color: $bc;
+}
+
+// 占位符定义
+// 垂直排列水平居中
+%flex-v-h-c {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+// 文字溢出修剪(使用前请现在样式上定义 width 或 max-width)
+%text-clip {
+    overflow: hidden;
+    white-space: nowrap; // 溢出部分转为 ...
+    text-overflow: ellipsis;
+}
+
+@mixin btn-hover($bg:rgba(0, 0, 0, 0.1)){
+    background-color: $bg;
+}

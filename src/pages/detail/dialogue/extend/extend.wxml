@@ -1,0 +1,5 @@
+
+<!-- 聊天界面-扩展工具 -->
+<import src="../../../../components/tab-slider/tab-slider.wxml" />
+
+<template is="tab-slider" data="{{...tabSlider}}"></template>

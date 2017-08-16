@@ -1,0 +1,20 @@
+page {
+    background-color: #eaeaea;
+}
+
+view {
+    box-sizing: border-box;
+}
+
+.section {
+    background-color: #fff;
+}
+
+// 暂无内容
+.nocontent {
+    min-height: 700rpx;
+    background-image: url('dev-resource/image-min/nocontent.png');
+    background-repeat: no-repeat;
+    background-position: 50% 20%;
+    background-size: 320rpx 400rpx;
+}

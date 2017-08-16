@@ -1,0 +1,75 @@
+<!--customer-edit.wxml-->
+<!-- 客户详情-编辑 -->
+
+<!-- 容器 -->
+<view class="animation-box {{loaded?'loaded':''}}">
+    <!-- 添加跟进记录 -->
+    <block wx:if="{{flag == 'follow'}}">
+        <view class="cy-list">
+            1
+        </view>
+    </block>
+    <!-- 完善客户资料 -->
+    <block wx:else>
+        <template is="customer-info" data="{{...customerInfo}}"></template>
+    </block>
+</view>
+
+<!-- 客户资料 -->
+<template name="customer-info">
+    <!-- 基本资料 -->
+    <view class="cy-edit-list cy-list">
+        <view class="head">
+            <view class="head-key">
+                基本信息
+            </view>
+        </view>
+        <view class="item-wrap">
+            <!-- 姓名 -->
+            <view class="item">
+                <view class="item-key">姓名</view>
+                <view class="item-val">
+                    <input type="text" value="{{Name}}" placeholder="请输入姓名" placeholder-class="placeholder" />
+                </view>
+            </view>
+            <!-- 手机号 -->
+            <view class="item">
+                <view class="item-key">手机号</view>
+                <view class="item-val">
+                    <input type="text" value="{{MobilePhone}}" placeholder="请输入手机号" placeholder-class="placeholder" />
+                </view>
+            </view>
+            <!-- 其他手机  -->
+            <view class="item">
+                <view class="item-key">其他手机</view>
+                <view class="item-val">
+                    <input type="text" value="{{}}" placeholder="请输入手机号" placeholder-class="placeholder" />
+                </view>
+            </view>
+            <!-- 性别 -->
+            <view class="item">
+                <view class="item-key">性别</view>
+                <view class="item-val">
+                    <picker bindchange="setSex" value="{{Sex}}" range="{{SexOptions}}">
+                        <view class="picker">
+                            {{SexOptions[Sex]}}
+                        </view>
+                    </picker>
+                </view>
+            </view>
+            <!-- 生日 -->
+            <view class="item">
+                <view class="item-key">生日</view>
+                <view class="item-val">
+                    <!-- 时间选择器 -->
+                    <picker mode="date" bindchange="setBirthday" value="{{Birthday}}" start="{{'1970-01-01'}}" end="{{lastBirthday}}">
+                        <view class="picker">
+                            {{Birthday?Birthday:'请选择生日'}}
+                        </view>
+                    </picker>
+                </view>
+            </view>
+
+        </view>
+    </view>
+</template>

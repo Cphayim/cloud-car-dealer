@@ -1,0 +1,115 @@
+<!--pages/detail/dialogue/dialogue.wxml-->
+<!-- 对话界面 -->
+
+<!-- 提醒 -->
+<view class="m-remind-head">
+  <view class="content">无法解答客户问题？提醒给其他员工解答吧！</view>
+  <view bindtap="gotoremind" class="remind-btn" hover-class="remind-btn-hover">立即提醒</view>
+</view>
+
+
+<!-- 内容视口容器 -->
+<scroll-view scroll-top="0" scroll-y scroll-with-animation style="height:{{contentViewHeight}}px;padding-top:{{isShowTip?'30px':'0'}};"
+  class="m-content-scroll-view">
+  <!-- 内容 -->
+  <view bindtouchstart="blurTextarea" class="m-content">
+    <view class="block time">
+      <view>15:10</view>
+    </view>
+    <view class="block msg self">
+      <view class="avatar">
+        <image src="https://img.vcar360.com/App_Content/Image/avatar.JPG"></image>
+      </view>
+      <view class="content">
+        <text>在吗？</text>
+      </view>
+    </view>
+    <!-- 时间块 -->
+    <view class="block time">
+      <view>15:11</view>
+    </view>
+    <!-- 消息块(他人) -->
+    <view class="block msg others">
+      <!-- 头像 -->
+      <view class="avatar">
+        <image src="https://cphayim.me/wp-content/uploads/2017/05/cphayim-avatar-2017.jpg"></image>
+      </view>
+      <!-- 内容 -->
+      <view class="content">
+        <text>亲，我是您的专属顾问，请问有什么可以帮助您吗？</text>
+      </view>
+    </view>
+    <!-- 消息块(自己) -->
+    <view class="block msg self">
+      <view class="avatar">
+        <image src="https://img.vcar360.com/App_Content/Image/avatar.JPG"></image>
+      </view>
+      <view class="content">
+        <text>为啥我昨天刚在你们店买的车，今天上路就掉一个轮子？</text>
+      </view>
+    </view>
+    <view class="block time">
+      <view>15:15</view>
+    </view>
+    <view class="block msg self">
+      <view class="avatar">
+        <image src="https://img.vcar360.com/App_Content/Image/avatar.JPG"></image>
+      </view>
+      <view class="content">
+        <text>人呢？</text>
+      </view>
+    </view>
+    <view class="block tip">
+      <view>您已被禁言</view>
+    </view>
+
+  </view>
+</scroll-view>
+
+
+<!-- 工具集 -->
+<view class="m-toolset">
+  <!-- 头 包含按钮和输入框 -->
+  <view class="tool-head">
+    <view bindtap="toggleInputModel" class="switch icon-switchbtn-{{isIntercom?'1':'0'}}"></view>
+    <textarea focus="{{isFocus}}" hidden="{{isIntercom}}" bindlinechange="lineChange" cursor-spacing="10" style="height:{{textareaHeight}}px"
+      maxlength="500" confirm-type="send" placeholder="在此输入您要发送的消息内容" />
+    <view hover-class="intercom-btn-hover" hover-stay-time="400" class="intercom-btn" hidden="{{!isIntercom}}">按住说话</view>
+    <view class="switch icon-switchbtn-2"></view>
+    <view bindtap="toggleExtend" class="switch icon-switchbtn-3"></view>
+  </view>
+  <view class="tool-body">
+    <view class="wrap extend-box" style="{{isShowExtend?'':'display:none;'}}">
+
+      <view class="item" hover-class="item-hover" hover-stay-time="400">
+        <view class="icon-extendbtn-0"></view>
+        <view class="text">图片</view>
+      </view>
+
+      <navigator url="{{pagePath.extend}}?cat=activity&nav=店内活动" class="item" hover-class="item-hover" hover-stay-time="400">
+        <view class="icon-extendbtn-1"></view>
+        <view class="text">店内活动</view>
+      </navigator>
+      <navigator url="{{pagePath.extend}}?cat=coupons&nav=优惠券" class="item" hover-class="item-hover" hover-stay-time="400">
+        <view class="icon-extendbtn-2"></view>
+        <view class="text">优惠券</view>
+      </navigator>
+      <navigator url="{{pagePath.extend}}?cat=game&nav=游戏" class="item" hover-class="item-hover" hover-stay-time="400">
+        <view class="icon-extendbtn-3"></view>
+        <view class="text">游戏</view>
+      </navigator>
+      <navigator url="{{pagePath.extend}}?cat=position&nav=商家位置" class="item" hover-class="item-hover" hover-stay-time="400">
+        <view class="icon-extendbtn-4"></view>
+        <view class="text">商家位置</view>
+      </navigator>
+      <navigator url="{{pagePath.extend}}?cat=questionnaire&nav=问卷调查" class="item" hover-class="item-hover" hover-stay-time="400">
+        <view class="icon-extendbtn-5"></view>
+        <view class="text">问卷调查</view>
+      </navigator>
+      <navigator url="{{pagePath.extend}}?cat=msgtpl&nav=对话模板" class="item" hover-class="item-hover" hover-stay-time="400">
+        <view class="icon-extendbtn-6"></view>
+        <view class="text">对话模板</view>
+      </navigator>
+    </view>
+  </view>
+</view>

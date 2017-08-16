@@ -1,0 +1,118 @@
+/*
+ * Tab 业务页样式
+ * @Author: 云程科技 
+ * @Date: 2017-07-03 10:35:23 
+ * @Last Modified by: Cphayim
+ * @Last Modified time: 2017-08-15 09:53:21
+ */
+
+@import '../../../dev-resource/config.dev.scss';
+/*!@import '../../../components/search/search.scss';!*/
+/*!@import '../../../components/selection/selection.scss';!*/
+
+.section {
+    background-color: #fff;
+}
+
+.m-business {
+    .count{
+        padding: 10rpx 30rpx;
+        background-color: #eaeaea;
+        @include font($smallFont,$firstFont);
+    }
+    .list{
+    }
+    // 该页面盒子伸缩分配与 客户、对话 不同
+    .item {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: $border;
+        padding: 20rpx 30rpx;
+        background-color: #fff;
+        &:last-of-type {
+            border: none;
+        }
+        .l,.c,.r{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .l{
+            flex: 0 0 auto;
+        }
+        .c {
+            flex: 1 1 auto;
+            // 随意定个宽度(必须)，弹性盒子计算伸缩
+            width: 50%;
+            padding: 0 8px;
+            margin: 10px 0;
+        }
+        .r {
+            flex: 0 1 auto;
+            text-align: right;
+        }
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            box-shadow: 0 0 0 1px #eee;
+        }
+        .realname,
+        .username {
+            // 防止名字过长移除，修剪处理
+            display: inline-block;
+            max-width: 48%;
+            @extend %text-clip;
+        } // 真实姓名
+        .realname {
+            @include font($normalFont, $firstFont);
+        } // 用户名
+        .username {
+            @include font($smallFont, $secondFont);
+            margin-left: 4px;
+            &:before {
+                content: ' [ ';
+            }
+            &:after {
+                content: ' ] ';
+            }
+        }
+        .content {
+            @include font($smallFont, $thirdFont);
+            margin-top: 8px;
+            width: 100%;
+            @extend %text-clip;
+        }
+        .time,.status {
+            @include font($smallFont, $thirdFont);
+            display: inline-block;
+            width: 100%;
+        }
+        .time{
+            margin-bottom: 5px;
+        }
+    }
+}
+.status:before{
+    display: inline-block;
+    width: 14px;height: 14px;
+    margin-right: 2px;
+    content:'';
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    vertical-align: middle;
+}
+.status-progressed:before{
+    background-image: url('../../../dev-resource/image-min/status-progress.png');
+}
+
+.status-untreated:before {
+    background-image: url('../../../dev-resource/image-min/status-untreated.png');
+}
+
+.status-finished:before {
+    background-image: url('../../../dev-resource/image-min/status-finished.png');
+}
+.status-null:before{
+    background-image: url('../../../dev-resource/image-min/status-null.png');
+}

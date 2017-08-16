@@ -1,0 +1,251 @@
+/*
+ * 对话界面样式
+ * @Author: 云程科技 
+ * @Date: 2017-07-07 13:55:54 
+ * @Last Modified by: Cphayim
+ * @Last Modified time: 2017-08-14 12:08:53
+ */
+
+@import '../../../dev-resource/config.dev.scss';
+// 输入框左右按钮图标
+@for $i from 0 through 3 {
+    .icon-switchbtn-#{$i} {
+        width: 60rpx;
+        height: 60rpx;
+        margin: 0 auto;
+        $url:'../../../dev-resource/image-min/dialogue-h-#{$i}.png';
+        @include image($url);
+    }
+}
+
+// 扩展按钮
+@for $i from 0 through 6 {
+    .icon-extendbtn-#{$i} {
+        width: 100rpx;
+        height: 100rpx;
+        margin: 0 auto;
+        $url:'../../../dev-resource/image-min/dialogue-#{$i}.png';
+        @include image($url);
+    }
+}
+
+page {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+// 提醒头
+.m-remind-head {
+    position: relative;
+    z-index: 300;
+    width: 100%;
+    padding: 30rpx;
+    background-color: #fff;
+    .content {
+        @include font($smallFont,$secondFont);
+    }
+    .remind-btn {
+        position: absolute;
+        right: 30rpx;
+        top: 50%;
+        padding: 10rpx;
+        border-radius: 4px;
+        border: 1px solid $blueColor;
+        transform: translateY(-50%);
+        background-color: #fff;
+        @include font($smallFont,$blueColor);
+    }
+    .remind-btn-hover{
+        background-color: $blueColor;
+        color: #fff;
+    }
+}
+
+// 内容区容器
+.m-content-scroll-view{
+    box-sizing: border-box;
+}
+
+// 内容区
+.m-content {
+    // 通用块
+    .block {
+        padding: 20rpx 30rpx;
+    } // 时间块, 提示块
+    .time,.tip {
+        view {
+            display: inline-block;
+            padding: 4px 4px;
+            border-radius: 4px;
+            @include font($smallFont,
+            #fff);
+            background-color: #d2d2d3;
+        }
+    }
+    .time{
+        text-align: center;
+    }
+    .tip{
+        text-align: center;
+    }
+
+    // 消息块
+    @extend %message;
+}
+
+%message {
+    // 消息块公共样式
+    .msg {
+        display: flex;
+        justify-content: flex-start;
+        .avatar {
+            flex: 0 0 120rpx;
+            image {
+                display: inline-block;
+                width: 88rpx;
+                height: 88rpx;
+                border-radius: 50%;
+            }
+        }
+        .content {
+            position: relative;
+            display: inline-block;
+            // flex: 0 0 300rpx;
+            max-width: 500rpx;
+            // min-width: 300rpx;
+            padding: 30rpx;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 2px 2px 4px #ccc;
+        }
+    } // 消息块(他人)
+    .others {
+        flex-direction: row;
+        .content{
+            background-color: #fff;
+            text{
+                @include font($normalFont,$firstFont);
+            }
+            &::before {
+                position: absolute;
+                top: 30rpx;
+                left: -12px;
+                display: block;
+                content: '';
+                width: 0;
+                height: 0;
+                border: 6px solid transparent;
+                border-right-color: #fff;
+            }
+        }
+    } // 消息块(自己)
+    .self {
+        flex-direction: row-reverse;
+        .avatar{
+            text-align: right;
+        }
+        .content{
+            background-color: $blueColor;
+            text{
+                @include font($normalFont,#fff);
+            }
+            &::after {
+                position: absolute;
+                top: 30rpx;
+                right: -12px;
+                display: block;
+                content: '';
+                width: 0;
+                height: 0;
+                border: 6px solid transparent;
+                border-left-color: $blueColor;
+            }
+        }
+    }
+}
+
+// 工具集(底部)
+.m-toolset {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: #f4f4f5;
+    @extend %tool-head;
+    @extend %tool-body;
+    navigator{
+        box-sizing: border-box;
+    }
+}
+
+// 工具集头
+%tool-head {
+    .tool-head {
+        display: flex;
+        align-items: flex-end;
+        padding: 10rpx 5rpx;
+        view,
+        textarea {
+            margin: 0 5rpx;
+        }
+        .switch {
+            flex: 0 0 auto;
+        }
+        textarea,
+        .intercom-btn {
+            @include font($normalFont,
+            $firstFont);
+            border: $border;
+            border-radius: 8px;
+            padding: 10rpx 4px;
+        }
+        textarea {
+            line-height:1;
+            background-color: #fff;
+        }
+        .intercom-btn {
+            box-sizing: content-box;
+            width: 100%;
+            height: 40rpx;
+            line-height: 40rpx;
+            text-align: center;
+            background-color: #f4f4f5;
+        }
+        .intercom-btn-hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+    }
+}
+
+// 工具集体
+%tool-body {
+    .tool-body {
+        .wrap {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            padding: 30rpx;
+            border-top: $border;
+        }
+        .extend-box {
+            .item {
+                position: relative;
+                flex: 0 1 25%;
+                width: 25%;
+                padding: 10rpx;
+                text-align: center;
+                .text {
+                    @include font($smallFont,
+                    $secondFont);
+                    padding: 15rpx 0;
+                }
+            }
+            .item-hover {
+                view:first-child {
+                    transition: all 0.2s;
+                    transform: scale(1.2);
+                }
+            }
+        }
+    }
+}

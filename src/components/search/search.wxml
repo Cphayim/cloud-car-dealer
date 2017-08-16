@@ -1,0 +1,11 @@
+<!-- 搜索框外部模块 -->
+<template name="search-outer">
+  <!-- 外部搜索框，点击进入搜索页，携带参数 type -->
+  <view class="m-search-outer">
+    <view catchtap="openSearch" 
+        data-type="{{type}}" data-url="{{url}}"
+        class="search">
+      <icon type="search" color="#999" size="13" />搜索
+    </view>
+  </view>
+</template>

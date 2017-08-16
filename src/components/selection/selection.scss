@@ -1,0 +1,199 @@
+
+
+@import "../../dev-resource/config.dev.scss";
+
+.icon-sreening:after {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    transform: translate(3px);
+    display: inline-block;
+    content: '';
+    width: 14px;
+    height: 14px;
+    $url:'../../dev-resource/image-min/searchSort_icon.png';
+    @include image($url);
+}
+
+// 选项盒子
+.m-options-box {
+    position: relative;z-index: 500;
+    @include font($smallFont, $firstFont);
+    // 遮罩
+    .mask{
+        @include mask();
+    }
+    // 选项标题组
+    .select-title-group {
+        display: flex;
+        position: relative;
+        z-index: 1000;
+        background-color: #fff;
+        @extend %select-title-group;
+    } // 选项列表组
+    .option-list-group {
+        position: absolute;
+        z-index: 1000;
+        width: 100%;
+        border-top: $border;
+        @extend %option-list-group;
+    } // 筛选列表组
+    .screening-list-group {
+        position: absolute;
+        z-index: 1001;
+        top: 0;
+        width: 100%;
+        background-color: #fff;
+        @extend %screening-list-group;
+    }
+}
+
+// 选项标题组 占位符
+%select-title-group {
+    .select,
+    .screening {
+        flex: 1 0 auto;
+        padding: 30rpx;
+        view {
+            position: relative;
+            display: inline-block;
+        }
+    }
+    .select {
+        text-align: center;
+        >view {
+            left: -6px;
+            &:after {
+                //箭头
+                position: absolute;
+                top: 50%;
+                left: 100%;
+                transition: all 0.3s;
+                margin-left: 3px;
+                margin-top: -3px;
+                width: 0;
+                height: 0;
+                display: inline-block;
+                content: '';
+                border-width: 6px 6px 6px 6px;
+                border-style: solid;
+                border-color: #bbb transparent transparent transparent;
+            }
+        }
+        &.active {
+            >view {
+                color: $blueColor;
+                &:after {
+                    border-top-color: $blueColor;
+                    transform-origin: 50% 25%;
+                    transform: rotate(180deg);
+                }
+            }
+        }
+    }
+    .screening {
+        padding-left: 0;
+        border-left: $border;
+        text-align: center;
+    }
+}
+
+// 选项列表组 占位符
+%option-list-group {
+    .option-list {
+        display: none;
+        padding-left: 30rpx;
+        background-color: #fff;
+        .option {
+            position: relative;
+            padding: 30rpx 30rpx 30rpx 0;
+            border-bottom: $border;
+            transform: translateX(100%);
+            transition: all 0.3s;
+            opacity: 0;
+            &:last-child {
+                border: none;
+            }
+            >icon {
+                position: absolute;
+                top: 50%;
+                right: 30rpx;
+                transform: translateY(-50%) scale(0);
+                opacity: 0;
+                transition: all 0.4s;
+            }
+        }
+        .option.active {
+            >icon {
+                transform: translateY(-50%) scale(1);
+                opacity: 1;
+            }
+        }
+    }
+    .option-list.active {
+        display: block;
+    }
+    .option-list.animation {
+        // option 入场动画
+        .option {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+}
+
+// 选项列表组 占位符
+%screening-list-group {
+    .screening-content {
+        display: flex;
+        border-bottom: $border;
+    }
+    .item {
+        padding: 30rpx;
+    }
+    scroll-view:first-child {
+        flex: 2 1 35%;
+        border-right: $border;
+    }
+    scroll-view:last-child {
+        flex: 3 2 65%;
+    }
+    .screening-h {
+        .item {
+            // transform: rotateX(-90deg);
+            transition: all 0.4s;
+            border-bottom: 1px solid #fff;
+        }
+        .item.active {
+            background-color: #d8d8d8;
+            border-color: #d8d8d8;
+        }
+    }
+    .screening-option {
+        .item {
+            position: relative;
+            border-bottom: $border;
+            >icon {
+                position: absolute;
+                top: 50%;
+                right: 30rpx;
+                transform: translateY(-50%);
+                transition: all 0.4s;
+            }
+        }
+    }
+    .btn-group {
+        display: flex;
+        view {
+            width: 50%;
+            text-align: center;
+        }
+        view:nth-child(1) {
+            color: $blueColor;
+        }
+        view:nth-child(2){
+            background-color: $blueColor;
+            color: #fff;
+        }
+    }
+}

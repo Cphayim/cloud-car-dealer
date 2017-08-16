@@ -1,0 +1,52 @@
+<!-- 
+    List 组件模板
+ -->
+<template name="list">
+    <template is="list-{{tplNum}}" data="{{...listData}}"></template>
+</template>
+
+<!-- 左右普通信息展示列表 -->
+<!--
+    listData: {
+        title,
+        items:[
+            {key,val},
+            {key,val},
+            {key,val},
+            {key,val}
+        ]
+    }
+  -->
+<template name="list-1">
+    <view class="cy-info-list cy-list">
+        <view wx:if="{{title}}" class="title">{{title}}</view>
+        <block wx:if="{{items}}">
+            <block wx:for="{{items}}" wx:key="key">
+                <view class="item" data-index="{{index}}">
+                    <view class="item-key">{{item.key}}</view>
+                    <view class="item-val">{{item.val}}</view>
+                </view>
+            </block>
+        </block>
+    </view>
+</template>
+<!-- /左右普通信息展示列表 -->
+
+<!-- 标题带链接的列表 -->
+<template name="list-2">
+    <view class="cy-headlink-list cy-list">
+        <view class="head">
+            <view class="head-key">{{head.key}}</view>
+            <view bindtap="headlinkListTap" data-flag="{{head.flag}}" class="head-val" hover-class="hover">{{head.val}}</view>
+        </view>
+        <view wx:if="{{items}}" class="item-wrap">
+            <block wx:for="{{items}}" wx:key="key">
+                <view class="item" data-index="{{index}}">
+                    <view class="item-key">{{item.key}}</view>
+                    <view class="item-val">{{item.val}}</view>
+                </view>
+            </block>
+        </view>
+    </view>
+</template>
+<!-- /标题带链接的列表 -->

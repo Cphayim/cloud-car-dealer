@@ -1,0 +1,16 @@
+<!--search.wxml-->
+<!-- 搜索页 -->
+
+<!-- 搜索框 -->
+<view class="m-search-input">
+  <view class="wrap">
+    <icon type="search" size="13" color="#999" />
+    <input type="text" placeholder="搜索"/>
+  </view>
+</view>
+
+<view>来自 {{searchType}}</view>
+
+<view>
+  以下待外部列表抽离完成后按照逻辑引用渲染
+</view>
