@@ -3,7 +3,7 @@
  * @Author: 云程科技 
  * @Date: 2017-07-03 10:35:23 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-08-17 15:06:26
+ * @Last Modified time: 2017-08-27 02:04:27
  */
 
 @import '../../../dev-resource/config.dev.scss';
@@ -23,9 +23,5 @@
     width: 100%;
 }
 .m-business {
-    .count{
-        padding: 10rpx 30rpx;
-        background-color: #eaeaea;
-        @include font(12px,$firstFont);
-    }
+    
 }
