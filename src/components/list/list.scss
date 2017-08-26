@@ -2,14 +2,13 @@
  * @Author: Cphayim
  * @Date: 2017-07-31 09:47:25 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-08-10 21:03:32
+ * @Last Modified time: 2017-08-17 15:11:25
  */
 
 @import '../../dev-resource/config.dev.scss';
-
 // 基本列表
-.cy-list{
-    .item{
+.cy-list {
+    .item {
         display: flex;
         padding: 25rpx 30rpx;
         border-bottom: $border;
@@ -25,8 +24,7 @@
             flex: 1 1 auto;
             display: flex;
             justify-content: flex-end;
-            align-items: center;
-            // text-align: right;
+            align-items: center; // text-align: right;
             color: $secondFont;
         }
     }
@@ -43,78 +41,217 @@
 }
 
 // 标题带链接的列表 和 可编辑的列表
-.cy-headlink-list,.cy-edit-list{
+.cy-headlink-list,
+.cy-edit-list {
     margin-bottom: 30rpx;
     background-color: #fff;
-    .head{
+    .head {
         display: flex;
         padding: 25rpx 30rpx;
         border-bottom: $border;
         @include font(15px);
         background-color: #fff;
-        .head-key{
+        .head-key {
             color: $firstFont;
         }
-        .head-val{
+        .head-val {
             flex: 1;
             text-align: right;
             color: $blueColor;
-            &.hover{
+            &.hover {
                 color: #6699cc;
             }
         }
     }
-    .item-wrap{
+    .item-wrap {
         padding-left: 30rpx;
     }
-    .item{
+    .item {
         padding-left: 0;
         font-size: 14px;
-        .item-key{
+        .item-key {
             color: $secondFont;
         }
-        .item-val{
+        .item-val {
             color: $thirdFont;
         }
     }
 }
 
 // 可编辑的列表
-.cy-edit-list{
-    .item{
-        .item-val{
-            input{
+.cy-edit-list {
+    .item {
+        .item-val {
+            input {
                 display: inline-block;
                 width: 100%;
-                @include font(14px,$thirdFont);
+                @include font(14px, $thirdFont);
                 text-align: right;
-                .placeholder{
-                    @include font(14px,#aaa);
+                .placeholder {
+                    @include font(14px, #aaa);
+                }
+            } // 选项盒子
+            .checkbox {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: flex-end;
+                width: 100%;
+                .option {
+                    margin: 10rpx;
+                    padding: 10rpx 20rpx;
+                    border: $border;
+                    border-radius: 10rpx;
+                    background-color: $grayColor;
+                    transition: all 0.3s;
+                    &.hover {
+                        transform: scale(1.1);
+                    }
+                    &.active {
+                        background-color: #fff;
+                        border-color: $blueColor;
+                        color: $blueColor;
+                    }
                 }
             }
-            picker,.picker{
-                width: 100%;height: 100%;
+            picker,
+            .picker {
+                width: 100%;
+                height: 100%;
                 text-align: right;
                 color: $thirdFont;
             }
-            .arrow{
+            .arrow {
                 position: relative;
                 padding-right: 17.5px;
-                @include font(14px,$thirdFont);
-                &:after{
+                @include font(14px, $thirdFont);
+                &:after {
                     position: absolute;
-                    right: -7.5px;top: 50%;
+                    right: -7.5px;
+                    top: 50%;
                     transform: translateY(-50%);
                     content: '';
                     display: inline-block;
                     width: 25px;
                     height: 25px;
-                    $url:'../../dev-resource/icon-image-min/rightArrow-2.png';
+                    $url: '../../dev-resource/icon-image-min/rightArrow-2.png';
                     @include image($url);
                 }
             }
         }
     }
+}
+
+// 带头像的客户/对话列表
+.cy-client-list {
+    .item {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: $border;
+        padding: 20rpx 30rpx;
+        background-color: #fff;
+        &:last-of-type {
+            border: none;
+        }
+        .l,
+        .c,
+        .r {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .l {
+            flex: 0 0 auto;
+        }
+        .c {
+            flex: 1 1 auto; 
+            width: 50%;
+            padding: 0 16rpx;
+            margin: 10rpx 0;
+        }
+        .r {
+            margin: 10rpx 0;
+            flex: 0 1 auto;
+            text-align: right;
+        }
+        .avatar-wrap {
+            width: 52px;
+            height: 52px;
+            padding: 2px;
+            border: $border;
+            border-radius: 50%;
+        }
+        .avatar {
+            width: 100%;
+            height: 100%; // padding: 5px;
+            border-radius: 50%; // box-shadow: 0 0 0 1px #eee;
+        }
+        .namewrap{
+            display: flex;
+            align-items: center;
+        }
+        .realname,
+        .username {
+            // 防止名字过长移除，修剪处理
+            display: inline-block;
+            max-width: 48%;
+            @extend %text-clip;
+        } // 真实姓名
+        .realname {
+            @include font($normalFont, $firstFont);
+        } // 用户名
+        .username {
+            @include font($smallFont, $secondFont);
+            margin-left: 8rpx;
+            &:before {
+                content: ' [ ';
+            }
+            &:after {
+                content: ' ] ';
+            }
+        }
+        .content {
+            @include font($smallFont, $thirdFont);
+            margin-top: 10rpx;
+            width: 100%;
+            @extend %text-clip;
+        }
+        .time,
+        .status,
+        .text {
+            @include font($smallFont, $thirdFont);
+            display: inline-block;
+            width: 100%;
+        }
+        .time {
+            font-size: 12px;
+            margin-bottom: 10rpx;
+        }
+    }
+}
+
+
+.status:before{
+    display: inline-block;
+    width: 14px;height: 14px;
+    margin-right: 2px;
+    content:'';
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    vertical-align: middle;
+}
+.status-progressed:before{
+    background-image: url('../../dev-resource/image-min/status-progress.png');
+}
+
+.status-untreated:before {
+    background-image: url('../../dev-resource/image-min/status-untreated.png');
+}
+
+.status-finished:before {
+    background-image: url('../../dev-resource/image-min/status-finished.png');
+}
+.status-null:before{
+    background-image: url('../../dev-resource/image-min/status-null.png');
 }
 
 // 列表动画控制
