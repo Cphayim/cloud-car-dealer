@@ -2,7 +2,7 @@ import BasePage from '../../basepage';
 import pagePath from '../../../config/path.config';
 import Selection from '../../../components/selection/selection';
 import toast from '../../../modules/toast';
-import { dateFormat } from '../../../modules/util';
+import { dateFormat, listTimeFormat } from '../../../modules/util';
 import { domain } from '../../../config/url.config';
 import { enumConfig } from '../../../config/enum.config.js';
 import { openSearch } from '../../../components/search/search';
@@ -19,8 +19,6 @@ import { resCodeCheck } from '../../../modules/auth';
  */
 
 
-// 枚举头
-const enumName = 'Opportunity';
 
 const selectionJSON = `[{ "name": "PreFrom", "title": "类型", "type": "select", "opts": [{ "title": "全部", "val": "" }, { "title": "试驾预约", "val": "1" }, { "title": "购车询价", "val": "2" }, { "title": "二手置换", "val": "3" }, { "title": "新车", "val": "4" }, { "title": "二手车", "val": "5" }, { "title": "购车优惠", "val": "7" }, { "title": "销售咨询", "val": "8" }] }, { "name": "PreStatus", "title": "状态", "type": "select", "opts": [{ "title": "全部", "val": "" }, { "title": "未联系", "val": "2" }, { "title": "已联系", "val": "9" }, { "title": "已到店", "val": "11" }, { "title": "无效", "val": "10" }] }]`;
 
@@ -31,9 +29,16 @@ const selection = new Selection({
 });
 
 class BusinessPage extends BasePage {
-    private selection = selection;
+    private selection: Selection = selection;
+
+    // 视图滚动属性
+    private searchHeight: number = 0;
+    private selectionHeight: number = 0;
+    private listPaddingTop: number = 0;
+
     public data: any = {
         pagePath: pagePath,
+        listPaddingTop: this.listPaddingTop, // 列表顶部填充层高度
         /**
          * 请求相关
          */
@@ -47,9 +52,8 @@ class BusinessPage extends BasePage {
         /*
          * 枚举相关
          */
-        enumName: enumName,
-        enumConfig: enumConfig,
-
+        OpportunityPreFrom: enumConfig.OpportunityPreFrom,
+        OpportunityStatus: enumConfig.OpportunityPreStatus,
         /**
          * 数据
          */
@@ -148,47 +152,14 @@ class BusinessPage extends BasePage {
                 }
                 // console.log(res.data);
 
-                // 获取当前时间
-                const currentDate = new Date();
-                const currentYear = currentDate.getFullYear();
-                const currentMonth = currentDate.getMonth() + 1;
-                const currentDay = currentDate.getDate();
 
                 // 时间字段处理 
                 res.data.map(item => {
-                    const date = new Date(item.CreateTime);
-                    const year = date.getFullYear();
-                    const month = date.getMonth() + 1;
-                    const day = date.getDate();
-                    // 如果是今天显示时间
-                    if (year === currentYear && month === currentMonth && day === currentDay) {
-                        item.Time = dateFormat('hh:mm', new Date(item.CreateTime));
-                    }
-                    // 否则显示日期
-                    // 当月
-                    else if (year === currentYear && month === currentMonth) {
-                        let dis = currentDay - day;
-                        // 昨天
-                        if (dis === 1) {
-                            item.Time = dateFormat('昨天', new Date(item.CreateTime));
-                        }
-                        // 前天
-                        else if (dis === 2) {
-                            item.Time = dateFormat('前天', new Date(item.CreateTime));
-                        } else {
-                            item.Time = dateFormat('MM-dd', new Date(item.CreateTime));
-                        }
-                    }
-                    // 同年
-                    else if (year === currentYear) {
-                        item.Time = dateFormat('MM-dd', new Date(item.CreateTime));
-                    }
-                    // 其它
-                    else {
-                        item.Time = dateFormat('yyyy-MM-dd', new Date(item.CreateTime));
-                    }
+                    item.time = listTimeFormat(item.CreateTime);
                     return item;
                 });
+
+                console.log(res.data);
 
                 // 将新数据拼接到 businessList 数组上
                 this.data.businessList.push(...res.data);
@@ -259,6 +230,27 @@ class BusinessPage extends BasePage {
         // _selection 初始化
         this.selection.init();
 
+        // 获取 search 入口组件高度
+        let p1 = new Promise((resolve, reject) => {
+            wx.createSelectorQuery().select('.m-search-outer').boundingClientRect(rect => {
+                resolve(rect.height);
+            }).exec();
+        });
+        // 获取 selection 组件高度
+        let p2 = new Promise((resolve, reject) => {
+            wx.createSelectorQuery().select('.m-options-box').boundingClientRect(rect => {
+                resolve(rect.height);
+            }).exec();
+        });
+        Promise.all([p1, p2]).then((resAll: number[]) => {
+            this.searchHeight = resAll[0];
+            this.selectionHeight = resAll[1];
+            this.listPaddingTop = this.searchHeight + this.selectionHeight;
+            this.setData({
+                listPaddingTop: this.listPaddingTop,
+            });
+        });
+
         // 初始化添加一次数据
         this.addListItem();
     }
@@ -272,7 +264,7 @@ class BusinessPage extends BasePage {
 
     }
     private onUnload() { }
-    private onPullDownRefresh() {
+    private onPullDownRefresh(e) {
         // 下拉刷新
         this.addListItem(true, true);
     }
