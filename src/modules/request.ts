@@ -1,3 +1,4 @@
+import toast from './toast';
 /*
  * 网络请求库
  * @Author: Cphayim
@@ -29,7 +30,7 @@ export function request({
             },
             fail(res) {
                 console.log(res);
-                reject(res);
+                toast.showError('网络请求失败!');
             }
         });
     });
