@@ -67,7 +67,7 @@
                 <view class="bd">
                     <!--<view class="text">添加备注信息</view>-->
                      <view class="textarea">
-                        <textarea name="Remark" style="height:80px;" value="{{modal2.textareaVal}}" placeholder="请输入备注信息" />
+                        <textarea fixed name="Remark" style="height:80px;" value="{{modal2.textareaVal}}" placeholder="请输入备注信息" />
                      </view>
                 </view>
             </view>
