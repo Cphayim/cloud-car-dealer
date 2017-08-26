@@ -68,10 +68,9 @@ class WelcomePage extends BasePage {
             toast.showLoading('正在登录...');
 
             request({
-                url: `${domain}/pages/applogin`,
+                url: `${domain}/ApiEmployee/APPLogin`,
                 data: formData
             }).then(res => {
-                console.log(res);
                 resolve(res);
             }).catch(err => {
                 toast.showError('连接失败，请检查网络');
@@ -94,7 +93,7 @@ class WelcomePage extends BasePage {
             });
         }).then((data: any) => {
             // 登录成功
-            toast.showSuccess('登录成功', 1000);
+            toast.showSuccess('登录成功');
             // 缓存登录凭证
             wx.setStorageSync('ticket', data.ticket);
             // 缓存员工信息
@@ -136,21 +135,13 @@ class WelcomePage extends BasePage {
                 }
             });
         }).then(() => {
-            console.log(1)
             // 已登录 转到首页
             setTimeout(() => {
                 wx.switchTab({
-                    url: pagePath.home,
-                    success(e) {
-                        console.log(e);
-                    },
-                    fail(err) {
-                        console.log(err);
-                    }
+                    url: pagePath.home
                 });
             }, 2000);
         }).catch(() => {
-            console.log(2)
             // 未登录 调出登录框
             setTimeout(() => {
                 this.setData({
