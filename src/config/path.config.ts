@@ -3,7 +3,7 @@
  * @Author: 云程科技 
  * @Date: 2017-06-28 16:56:25 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-08-26 23:43:04
+ * @Last Modified time: 2017-08-27 01:48:15
  */
 
 interface Path {
@@ -30,14 +30,16 @@ const pathArr: Path[] = [
     { name: 'home', pre: 'tabs' },
     // 月度统计
     { name: 'monthly', pre: 'detail' },
+    // 活跃客户
+    { name: 'active-client', pre: 'detail' },
     // 任务
     { name: 'task', pre: 'detail' },
     // 二维码
     { name: 'qrcode', pre: 'detail' },
     // 待建档
-    { name: 'record-list', pre: 'detail/record'}, // 建档列表
-    { name: 'record-info', pre: 'detail/record'}, // 建档信息
-    { name: 'record-edit', pre: 'detail/record'}, // 建档编辑
+    { name: 'record-list', pre: 'detail/record' }, // 建档列表
+    { name: 'record-info', pre: 'detail/record' }, // 建档信息
+    { name: 'record-edit', pre: 'detail/record' }, // 建档编辑
 
 
     /**

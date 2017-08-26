@@ -45,7 +45,7 @@
         <view class="count">累计总数 {{homeData.model.MyMessage || '0'}}
         </view>
     </navigator>
-    <navigator url="{{pagePath.client}}" open-type="switchTab" class="card icon-card">
+    <navigator url="{{pagePath['active-client']}}" class="card icon-card">
         <view class="title">活跃客户</view>
         <view class="new">{{homeData.model.MyActiveCustomerUndeal || '0'}}</view>
         <view class="count">累计总数 {{homeData.model.MyActiveCustomer?homeData.model.MyActiveCustomer+homeData.model.MyActiveCustomerUndeal:'0'}}
