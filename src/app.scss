@@ -10,6 +10,13 @@ view {
     background-color: #fff;
 }
 
+navigator{
+    transition: transform 0.3s;
+    &.hover{
+        transform: scale(1.1);
+    }
+}
+
 // 暂无内容
 .nocontent {
     min-height: 700rpx;

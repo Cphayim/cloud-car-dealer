@@ -36,13 +36,9 @@ class Application {
 
         // 基础库版本号提示
         if (SDKVersion > '1.4.0') {
-            toast
-                .showSuccess(`基础库版本: ${SDKVersion} 检测通过`)
-                .then(_ => toast.hide(1000));
+            toast.showSuccess(`基础库版本: ${SDKVersion} 检测通过`)
         } else {
-            toast
-                .showError(`基础库版本: ${SDKVersion} 版本过低，请更新微信`)
-                .then(_ => toast.hide(1000));
+            toast.showError(`基础库版本: ${SDKVersion} 版本过低，请更新微信`)
         }
 
         this.getUserInfo(function (userInfo) {

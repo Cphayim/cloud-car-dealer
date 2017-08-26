@@ -5,7 +5,9 @@
         "pages/search/search",
 
         "pages/tabs/home/home",
+        "pages/detail/monthly/monthly",
         "pages/detail/task/task",
+        "pages/detail/qrcode/qrcode",
         
         "pages/tabs/client/client",
         "pages/detail/customer/customer",
@@ -65,6 +67,5 @@
                 "selectedIconPath": "assets/tab-icons/tab-me-active.png"
             }
         ]
-    },
-    "debug": true
+    }
 }
