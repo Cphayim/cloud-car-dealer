@@ -1,5 +1,5 @@
 <!-- 待建档客户列表页 -->
-<view class="m-active-client animation-box {{loaded?'loaded':''}}">
+<view class="m-record-list animation-box {{loaded?'loaded':''}}">
     <view class="cy-list-count">总数：87</view>
     <view class="cy-list cy-client-list">
         <!-- <block wx:for="{{listData}}" wx:key="item.Id"> -->
