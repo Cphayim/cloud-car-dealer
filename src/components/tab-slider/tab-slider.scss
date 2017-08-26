@@ -7,6 +7,16 @@
  */
 
 @import '../../dev-resource/config.dev.scss';
+/*!@import '../list/list.scss';!*/
+
+
+.cy-tab-slider{
+    .cy-list{
+        margin-top: 20rpx;
+    }
+}
+
+
 // 带 tab 栏的滑动组件
 .cy-tab-slider {
     // Tab 选项卡
@@ -17,7 +27,7 @@
             display: flex;
             .title {
                 flex: 1;
-                padding: 30rpx 0 22rpx;
+                padding: 22rpx 0;
                 @include font(14px, $thirdFont);
                 transition: all 0.4s;
                 &.active {

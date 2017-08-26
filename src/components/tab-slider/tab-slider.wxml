@@ -26,13 +26,17 @@
                         text: 文字列表 渲染 si-text 模板
                         graphic: 图文列表 渲染 si-graphic 模板
                         ticket: 票券列表 渲染 si-ticket 模板
+                        axis: 时间轴列表 渲染 si-axis 模板
+                        client: 客户列表 渲染 si-client 模板
                     -->
                     <!-- 图文列表 -->
                     <template wx:if="{{list.listType == 'graphic'}}" is="si-graphic" data="{{items:list.items, listType:'graphic'}}"></template>
                     <!-- 票券列表 -->
                     <template wx:elif="{{list.listType == 'ticket'}}" is="si-ticket" data="{{items:list.items, listType:'ticket'}}"></template>
                     <!-- 时间轴列表 -->
-                    <template wx:elif="{{list.listType == 'axis'}}" is="si-axis" data="{{items:list.items, listType:'axis'}}" ></template>
+                    <template wx:elif="{{list.listType == 'axis'}}" is="si-axis" data="{{items:list.items, listType:'axis'}}"></template>
+                    <!-- 客户列表  -->
+                    <template wx:elif="{{list.listType == 'client'}}" is="si-client" data="{{items:list.items, listType:'client'}}"></template>
                     <!-- 文本列表 -->
                     <template wx:else is="si-text" data="{{items:list.items, listType:'text'}}"></template>
                 </block>
@@ -50,13 +54,13 @@
                 <view bindtap="sliderItemTap" id="{{item.id}}" class="item" data-send-msg="{{item.sendMsg}}">
                     <!-- 条件渲染 -->
                     <!-- 标题 -->
-                    <view wx:if="{{!!item.title}}" class="title">{{item.title}}</view>
+                    <view wx:if="{{item.title}}" class="title">{{item.title}}</view>
                     <!-- 内容缩略 -->
-                    <view wx:if="{{!!item.content}}" class="content">{{item.content}}</view>
+                    <view wx:if="{{item.content}}" class="content">{{item.content}}</view>
                     <!-- 标注 -->
-                    <view wx:if="{{!!item.label}}" class="label">{{item.label}}</view>
+                    <view wx:if="{{item.label}}" class="label">{{item.label}}</view>
                     <!-- 时间 -->
-                    <view wx:if="{{!!item.time}}" class="label">时间：{{item.time}}</view>
+                    <view wx:if="{{item.time}}" class="label">时间：{{item.time}}</view>
                 </view>
             </block>
         </scroll-view>
@@ -134,8 +138,47 @@
                     </block>
                 </view>
             </view>
-            
+
         </scroll-view>
     </swiper-item>
 </template>
 <!-- /时间轴模板 -->
+
+<!-- 客户列表模板 -->
+<template name="si-client">
+    <swiper-item class="list">
+        <scroll-view class="basic" data-list-type="{{listType}}" scroll-y style="height:100%;">
+            <view class="cy-list cy-client-list">
+                <block wx:for="{{items}}" wx:key="item.Id">
+                    <view bindtap="itemToEnter" class="item" data-id="{{item.CustomerId}}">
+                        <view class="l">
+                            <!-- 客户头像 -->
+                            <view class="avatar-wrap">
+                                <image class="avatar" src="{{item.HeadImgUrl}}"></image>
+                            </view>
+                        </view>
+                        <view class="c">
+                            <!-- 客户名 -->
+                            <view class="namewrap">
+                                <view class="realname">{{item.CustomerName || '无'}}</view>
+                                <view class="username">{{item.CustomerNickname || '无'}}</view>
+                            </view>
+                            <view class="content">{{item.DefeatCarBrand || '未知'}}</view>
+                        </view>
+                        <view class="r">
+                            <!-- 时间/状态 -->
+                            <view class="time">{{item.time}}</view>
+                            <view wx:if="{{item.status === 1}}" class="status status-finished">
+                                {{item.statusText}}
+                            </view>
+                            <view wx:elif="{{item.status === 0}}" class="status status-untreated">
+                                {{item.statusText}}
+                            </view>
+                        </view>
+                    </view>
+                </block>
+            </view>
+        </scroll-view>
+    </swiper-item>
+</template>
+<!-- /客户列表模板 -->
