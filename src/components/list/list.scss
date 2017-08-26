@@ -2,10 +2,18 @@
  * @Author: Cphayim
  * @Date: 2017-07-31 09:47:25 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-08-17 15:11:25
+ * @Last Modified time: 2017-08-27 02:04:32
  */
 
 @import '../../dev-resource/config.dev.scss';
+
+// 列表信息
+.cy-list-count{
+    padding: 10rpx 30rpx;
+    @include font(12px,$firstFont);
+    background-color: #eaeaea;
+}
+
 // 基本列表
 .cy-list {
     .item {
