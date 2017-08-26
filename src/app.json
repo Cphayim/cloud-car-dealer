@@ -8,7 +8,10 @@
         "pages/detail/monthly/monthly",
         "pages/detail/task/task",
         "pages/detail/qrcode/qrcode",
-        
+        "pages/detail/record/record-list/record-list",
+        "pages/detail/record/record-info/record-info",
+        "pages/detail/record/record-edit/record-edit",
+
         "pages/tabs/client/client",
         "pages/detail/customer/customer",
         "pages/detail/customer/customer-edit/customer-edit",

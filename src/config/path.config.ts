@@ -3,88 +3,89 @@
  * @Author: 云程科技 
  * @Date: 2017-06-28 16:56:25 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-08-13 20:25:00
+ * @Last Modified time: 2017-08-26 23:43:04
  */
+
+interface Path {
+    name: string, // 页面名称
+    pre: string // 前置路径
+}
+
 // 页面基本路径
 const baseUrl = '/pages';
 
 // 路径数组
-const pathArr: any[] = [
-  /**
-   * 独立页
-   */
-  {
-    name: 'welcome', // 启动兼登录页
-    pre: ''
-  },
-  {
-    name: 'search', // 搜索
-    pre: ''
-  },
-  /**
-   * tab 页
-   */
-  {
-    name: 'home', // 首页
-    pre: 'tabs'
-  },
-  {
-    name: 'business', // 业务
-    pre: 'tabs'
-  },
-  {
-    name: 'client', // 客户
-    pre: 'tabs'
-  },
-  {
-    name: 'message', // 对话
-    pre: 'tabs'
-  },
-  {
-    name: 'me', //我
-    pre: 'tabs'
-  },
+const pathArr: Path[] = [
+    /**
+     * 独立页
+     */
+    { name: 'welcome', pre: '' },
+    { name: 'search', pre: '' },
 
-  /**
-   * 二级页
-   */
-  {
-    name: 'dialogue', // 聊天界面
-    pre: 'detail'
-  },
-  // 扩展
-  {
-    name: 'extend', // 聊天界面-扩展工具
-    pre: 'detail/dialogue'
-  },
-  {
-    name: 'remind', // 聊天界面-提醒
-    pre: 'detail/dialogue'
-  },
-  {
-    name: 'opportunity',// 业务详情
-    pre: 'detail'
-  },
-  {
-    name: 'customer',// 客户详情
-    pre: 'detail'
-  },
-  {
-    name: 'customer-edit', // 客户详情编辑
-    pre: 'detail/customer'
-  },
-  {
-    name: 'task', // 任务
-    pr: 'detail'
-  }
+
+    /**
+     * Tab 首页 及 相关子页
+     */
+    // Tab 首页
+    { name: 'home', pre: 'tabs' },
+    // 月度统计
+    { name: 'monthly', pre: 'detail' },
+    // 任务
+    { name: 'task', pre: 'detail' },
+    // 二维码
+    { name: 'qrcode', pre: 'detail' },
+    // 待建档
+    { name: 'record-list', pre: 'detail/record'}, // 建档列表
+    { name: 'record-info', pre: 'detail/record'}, // 建档信息
+    { name: 'record-edit', pre: 'detail/record'}, // 建档编辑
+
+
+    /**
+     * Tab 业务 及 相关子页
+     */
+    // Tab 业务
+    { name: 'business', pre: 'tabs' },
+    // 业务详情
+    { name: 'opportunity', pre: 'detail' },
+
+
+    /**
+     * Tab 客户 及 相关子页
+     */
+    // Tab 客户
+    { name: 'client', pre: 'tabs' },
+    // 客户详情
+    { name: 'customer', pre: 'detail' },
+    // 客户详情编辑
+    { name: 'customer-edit', pre: 'detail/customer' },
+
+
+    /**
+     * Tab 对话 及 相关子页
+     */
+    // Tab 对话
+    { name: 'message', pre: 'tabs' },
+    // 聊天界面
+    { name: 'dialogue', pre: 'detail' },
+    // 聊天界面-扩展工具
+    { name: 'extend', pre: 'detail/dialogue' },
+    // 聊天界面-提醒
+    { name: 'remind', pre: 'detail/dialogue' },
+
+
+    /**
+     * Tab 我 及 相关子页
+     */
+    // Tab 我
+    { name: 'me', pre: 'tabs' }
 ];
 
 // 生成路径对象
-const pagePath:any = {};
+const pagePath: any = {};
 for (let obj of pathArr) {
-  let pre = !!obj.pre ? `/${obj.pre}` : ``;
-  let page = `/${obj.name}`;
-  pagePath[obj.name] = `${baseUrl}${pre}${page + page}`;
+    let pre = !!obj.pre ? `/${obj.pre}` : ``;
+    let page = `/${obj.name}`;
+    pagePath[obj.name] = `${baseUrl}${pre}${page + page}`;
 }
 
 // 导出配置
