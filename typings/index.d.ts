@@ -35,10 +35,11 @@ declare namespace wx {
   // 元素
   export function createSelectorQuery(): any;
 
-  export function setNavigationBarTitle(arg: any): void;
+  export function setNavigationBarTitle(opt: { title: string }): void;
 
   // 调用系统
   export function makePhoneCall(arg: { phoneNumber: Number }): void;
+  export function scanCode(arg:any):void;
 }
 
 declare interface Application {
