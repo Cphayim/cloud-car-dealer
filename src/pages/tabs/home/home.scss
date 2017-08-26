@@ -48,7 +48,7 @@
             }
             &:nth-child(2) {
                 margin-top: 10px;
-                @include font($largeFont, $secondFont, bold);
+                @include font($largeFont, $firstFont);
             }
         }
     }
@@ -87,11 +87,11 @@
     .title {
         @include font($smallFont, $firstFont);
     }
-    .count {
-        @include font($bigFont);
+    .new{
+        @include font($bigFont,$redColor);
     }
-    .red {
-        @extend %red-ib;
+    .count {
+        @include font(12px, $secondFont);
     }
 }
 
@@ -116,8 +116,13 @@
         white-space: nowrap;
         text-overflow: ellipsis;
         @include font($smallFont);
-        &:before {
+        &.unread:before {
             content: '⦁';
+            @include font($bigFont, $redColor);
+            vertical-align: middle;
+        }
+        &.read:before {
+            content: ' ';
             @include font($bigFont, $redColor);
             vertical-align: middle;
         }
