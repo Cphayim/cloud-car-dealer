@@ -1,0 +1,31 @@
+<!-- 待建档客户列表页 -->
+<view class="m-active-client animation-box {{loaded?'loaded':''}}">
+    <view class="cy-list-count">总数：87</view>
+    <view class="cy-list cy-client-list">
+        <!-- <block wx:for="{{listData}}" wx:key="item.Id"> -->
+        <block wx:for="{{[1,2,3,4,5,6]}}" wx:key="item.Id">
+            <view bindtap="itemToEnter" class="item" data-id="{{item.Id}}">
+                <view class="l">
+                    <!-- 客户头像 -->
+                    <view class="avatar-wrap">
+                        <image class="avatar" src="https://cphayim.me/wp-content/uploads/2017/05/cphayim-avatar-2017.jpg"></image>
+                    </view>
+                </view>
+                <view class="c">
+                    <!-- 客户名 -->
+                    <view class="namewrap">
+                        <view class="realname">Cphayim</view>
+                        <view class="username">Cphayim</view>
+                    </view>
+                    <view class="content">无</view>
+                </view>
+                <view class="r">
+                    <!-- 时间/状态 -->
+                    <view class="time">01:50</view>
+                    <!-- <view class="text">{{CustomerPreFrom[item.PreFrom]}}</view> -->
+                </view>
+            </view>
+        </block>
+        <!-- </block> -->
+    </view>
+</view>
