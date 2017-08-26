@@ -128,7 +128,7 @@ class CustomerPage extends BasePage {
             // ...
             const tabSliderData = [{
                 // 渲染到 顶部 Tab
-                tabTitle: '推荐模板',
+                tabTitle: '跟进记录',
                 // 列表类型，决定了渲染出来的样式布局
                 // 可选值 'text':文字列表、'graphic':图文列表、'tickt':票券列表
                 listType: 'axis',
@@ -154,7 +154,7 @@ class CustomerPage extends BasePage {
                 }
                 ]
             }, {
-                tabTitle: '对话模板',
+                tabTitle: '客户轨迹',
                 listType: 'axis',
                 items: [{
                     id: 101,
