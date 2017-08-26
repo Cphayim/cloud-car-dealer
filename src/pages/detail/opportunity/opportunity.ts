@@ -11,7 +11,7 @@ import { resCodeCheck } from '../../../modules/auth';
  * @Author: 云程科技 
  * @Date: 2017-07-20 16:58:49 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-08-27 00:34:09
+ * @Last Modified time: 2017-08-15 16:51:31
  */
 
 class OpportunityPage extends BasePage {
@@ -412,7 +412,7 @@ class OpportunityPage extends BasePage {
     /**
      * 提交备注
      */
-    private remarkSubmit(e) {
+    remarkSubmit(e) {
         const Remark = e.detail.value.Remark;
         if (!Remark) {
             toast.showWarning('无法提交空的备注');
@@ -478,9 +478,9 @@ class OpportunityPage extends BasePage {
 
     }
     private onHide() {
-        // this.setData({
-        //     loaded: false
-        // });
+        this.setData({
+            loaded: false
+        });
     }
     private onUnload() {
 

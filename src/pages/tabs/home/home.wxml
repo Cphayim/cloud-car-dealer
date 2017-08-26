@@ -3,169 +3,162 @@
 
 <!-- 战报 -->
 <view class="m-report section">
-    <!-- 潜在客户 -->
-    <view class="l">
-        <view>潜客总数</view>
-        <view>
-            <navigator url="{{pagePath.client}}" hover-class="hover">{{homeData.model.MyCustomerPre || '0'}}</navigator>
-        </view>
+  <!-- 潜在客户 -->
+  <view class="l">
+    <view>潜客</view>
+    <view>{{homeData.model.MyCustomerPre || '0'}}</view>
+  </view>
+  <!-- 统计 -->
+  <view class="r">
+    <view>
+      新增
+      <view class="red">{{homeData.model.MyCustomerPreIncreased || '0'}}</view>
     </view>
-    <!-- 统计 -->
-    <view class="r">
-        <view>
-            <navigator url="{{pagePath.monthly + '?type=1'}}" hover-class="hover">新增
-                <view class="red">{{homeData.model.MyCustomerPreIncreased || '0'}}</view>
-            </navigator>
-        </view>
-        <view>
-            <navigator url="{{pagePath.monthly + '?type=2'}}" hover-class="hover">交车
-                <view class="red">{{homeData.model.MyDeliverCarMonthCount || '0'}}</view>
-            </navigator>
-        </view>
-        <view>
-            <navigator url="{{pagePath.monthly + '?type=3'}}" hover-class="hover">战败
-                <view class="red">{{homeData.model.MyDefeatCount || '0'}}</view>
-            </navigator>
-        </view>
+    <view>
+      交车
+      <view class="red">{{homeData.model.MyDeliverCarMonthCount || '0'}}</view>
     </view>
+    <view>
+      战败
+      <view class="red">{{homeData.model.MyDefeatCount || '0'}}</view>
+    </view>
+  </view>
 </view>
 
 <!-- 卡片组 -->
 <view class="m-card section">
-    <!-- 卡片 -->
-    <navigator url="{{pagePath.business}}" open-type="switchTab" class="card icon-card">
-        <view class="title">在线报名</view>
-        <view class="new">{{homeData.model.MyBusinessPreUndeal || '0'}}</view>
-        <view class="count">累计总数 {{homeData.model.MyBusinessPre || '0'}}
-        </view>
-    </navigator>
-    <navigator url="{{pagePath.message}}" open-type="switchTab" class="card icon-card">
-        <view class="title">微信对话</view>
-        <view class="new">{{homeData.model.MyMessageUnreply || '0'}}</view>
-        <view class="count">累计总数 {{homeData.model.MyMessage || '0'}}
-        </view>
-    </navigator>
-    <navigator url="{{pagePath.client}}" open-type="switchTab" class="card icon-card">
-        <view class="title">活跃客户</view>
-        <view class="new">{{homeData.model.MyActiveCustomerUndeal || '0'}}</view>
-        <view class="count">累计总数 {{homeData.model.MyActiveCustomer?homeData.model.MyActiveCustomer+homeData.model.MyActiveCustomerUndeal:'0'}}
-        </view>
-    </navigator>
+  <!-- 卡片 -->
+  <view class="card icon-card">
+    <view class="title">在线报名</view>
+    <view class="count">{{homeData.model.MyBusinessPre || '0'}}</view>
+    <view class="new">今日新增
+      <view class="red">{{homeData.model.MyBusinessPreUndeal || '0'}}</view>
+    </view>
+  </view>
+  <view class="card icon-card">
+    <view class="title">微信对话</view>
+    <view class="count">{{homeData.model.MyMessage || '0'}}</view>
+    <view class="new">待处理
+      <view class="red">{{homeData.model.MyMessageUnreply || '0'}}</view>
+    </view>
+  </view>
+  <view class="card icon-card">
+    <view class="title">活跃客户</view>
+    <view class="count">{{homeData.model.MyActiveCustomer?homeData.model.MyActiveCustomer+homeData.model.MyActiveCustomerUndeal:'0'}}</view>
+    <view class="new">今日新增
+      <view class="red">{{homeData.model.MyActiveCustomerUndeal || '0'}}</view>
+    </view>
+  </view>
 </view>
 
 <!-- 站内信 -->
 <view class="m-letter section">
-    <view class="l">
-        <view class="title">站内信
-            <!-- <view class="badge">{{homeData.model.EmployeeMessageTotal || '0'}}</view> -->
-        </view>
-        <!--最新的一条-->
-        <view class="top {{homeData.IsRead?'read':'unread'}}">
-            {{homeData.FromEmployeeName?'['+homeData.FromEmployeeName+']':''}} 
-            {{homeData.Title?homeData.Title:'无'}}
-        </view>
+  <view class="l">
+    <view class="title">站内信
+      <view class="badge">{{homeData.EmployeeMessageTotal || '0'}}</view>
     </view>
-    <!--右侧图标-->
-    <view class="r icon-znxbg"></view>
+    <!--最新的一条-->
+    <view class="top" hidden="{{!homeData.FromEmployeeName}}">
+      [{{homeData.FromEmployeeName}}] {{homeData.Title}}
+    </view>
+  </view>
+  <!--右侧图标-->
+  <view class="r icon-znxbg"></view>
 </view>
 
 <!-- 任务 -->
 <view class="m-task section">
-    <!-- 行 -->
-    <navigator url="{{pagePath.task}}?title=回访&type=1" class="item">
-        <!-- 图标与标题 -->
-        <view class="l">
-            <view class="icon-home-progress icon-progress-0"></view>
-            <view class="title">回访</view>
+  <!-- 行 -->
+  <navigator url="/pages/detail/task/task?title=回访" class="item">
+    <!-- 图标与标题 -->
+    <view class="l">
+      <view class="icon-home-progress icon-progress-0"></view>
+      <view class="title">回访</view>
+    </view>
+    <!-- 进度条与比例 -->
+    <view class="r">
+      <view class="progress-box">
+        <view class="progress">
+          <progress percent="{{homeData.model.MyVisitTotal/homeData.model.MyNoVisitTotal*100}}" color="#54b4ef" stroke-width="8" active/>
         </view>
-        <!-- 进度条与比例 -->
-        <view class="r">
-            <view class="progress-box">
-                <view class="progress">
-                    <progress percent="{{homeData.model.MyVisitTotal/homeData.model.MyNoVisitTotal*100}}" color="#54b4ef" stroke-width="8" active/>
-                </view>
-                <view>
-                    {{homeData.model? homeData.model.MyVisitTotal+'/'+homeData.model.MyNoVisitTotal:'0/0'}}
-                </view>
-            </view>
+        <view>
+          {{homeData.model?
+            homeData.model.MyVisitTotal+'/'+homeData.model.MyNoVisitTotal:'0/0'}}
         </view>
-    </navigator>
+      </view>
+    </view>
+  </navigator>
 
-    <navigator url="{{pagePath.task}}?title=邀约&type=2" class="item">
-        <view class="l">
-            <view class="icon-home-progress icon-progress-1"></view>
-            <view class="title">邀约</view>
+  <navigator url="/pages/detail/task/task?title=邀约" class="item">
+    <view class="l">
+      <view class="icon-home-progress icon-progress-1"></view>
+      <view class="title">邀约</view>
+    </view>
+    <view class="r">
+      <view class="icon-home-progress progress-box">
+        <view class="progress">
+          <progress percent="{{homeData.model.MyInvitatCount/omeData.model.MyNoInvitatCount*100}}" color="#54b4ef" stroke-width="8" active/>
         </view>
-        <view class="r">
-            <view class="icon-home-progress progress-box">
-                <view class="progress">
-                    <progress percent="{{homeData.model.MyInvitatTotal/homeData.model.MyNoInvitatTotal*100}}" color="#54b4ef" stroke-width="8"
-                        active/>
-                </view>
-                <view>
-                    {{homeData.model? homeData.model.MyInvitatTotal+'/'+homeData.model.MyNoInvitatTotal:'0/0'}}
-                </view>
-            </view>
+        <view>
+        {{homeData.model?
+            homeData.model.MyInvitatCount+'/'+homeData.model.MyNoInvitatCount:'0/0'}}
         </view>
-    </navigator>
+      </view>
+    </view>
+  </navigator>
 
-    <navigator url="{{pagePath.task}}?title=到店&type=3" class="item">
-        <view class="l">
-            <view class="icon-home-progress icon-progress-2"></view>
-            <view class="title">到店</view>
+  <navigator url="/pages/detail/task/task?title=到店" class="item">
+    <view class="l">
+      <view class="icon-home-progress icon-progress-2"></view>
+      <view class="title">到店</view>
+    </view>
+    <view class="r">
+      <view class="progress-box">
+        <view class="progress">
+          <progress percent="{{15/100*100}}" color="#54b4ef" stroke-width="8" active/>
         </view>
-        <view class="r">
-            <view class="progress-box">
-                <view class="progress">
-                    <progress percent="{{homeData.model.MyStoreTotal/homeData.model.MyNoStoreTotal*100}}" color="#54b4ef" stroke-width="8" active/>
-                </view>
-                <view>
-                    {{homeData.model? homeData.model.MyStoreTotal+'/'+homeData.model.MyNoStoreTotal:'0/0'}}
-                </view>
-            </view>
-        </view>
-    </navigator>
+        <view>15/100</view>
+      </view>
+    </view>
+  </navigator>
 
-    <navigator url="{{pagePath.task}}?title=交车&type=4" class="item">
-        <view class="l">
-            <view class="icon-home-progress icon-progress-3"></view>
-            <view class="title">交车</view>
+  <navigator url="/pages/detail/task/task?title=交车" class="item">
+    <view class="l">
+      <view class="icon-home-progress icon-progress-3"></view>
+      <view class="title">交车</view>
+    </view>
+    <view class="r">
+      <view class="progress-box">
+        <view class="progress">
+          <progress percent="{{15/80*100}}" color="#54b4ef" stroke-width="8" active/>
         </view>
-        <view class="r">
-            <view class="progress-box">
-                <view class="progress">
-                    <progress percent="{{homeData.model.MyDeliverCarCount/homeData.model.MyDeliverAllCount*100}}" color="#54b4ef" stroke-width="8"
-                        active/>
-                </view>
-                <view>
-                    {{homeData.model? homeData.model.MyDeliverCarCount+'/'+homeData.model.MyDeliverAllCount:'0/0'}}
-                </view>
-            </view>
-        </view>
-    </navigator>
+        <view>15/80</view>
+      </view>
+    </view>
+  </navigator>
 
 </view>
 
 <!-- 工具 -->
 <view class="m-tool section">
-    <view catchtap="openScan" class="item">
-        <view class="icon-home-tool icon-scanning"></view>
-        <view class="tool-name">扫一扫</view>
-    </view>
-    <navigator url="{{pagePath.qrcode}}" class="item">
-        <view class="icon-home-tool icon-qrcode"></view>
-        <view class="tool-name">二维码</view>
-    </navigator>
-    <!-- <navigator class="item">
-        <view class="icon-home-tool icon-newclient"></view>
-        <view class="tool-name">新增客户</view>
-    </navigator> -->
-    <!-- <navigator class="item">
-        <view class="icon-home-tool icon-groupsend"></view>
-        <view class="tool-name">群发消息</view>
-    </navigator> -->
-    <navigator url="{{pagePath['record-list']}}" class="item">
-        <view class="icon-home-tool icon-waitdocument"></view>
-        <view class="tool-name">待建档</view>
-    </navigator>
+<view class="item">
+    <view class="icon-home-tool icon-scanning"></view>
+    <view class="tool-name">扫一扫</view>
+  </view>
+  <view class="item">
+    <view class="icon-home-tool icon-qrcode"></view>
+    <view class="tool-name">二维码</view>
+  </view>
+  <view class="item">
+    <view class="icon-home-tool icon-newclient"></view>
+    <view class="tool-name">新增客户</view>
+  </view>
+  <view class="item">
+    <view class="icon-home-tool icon-groupsend"></view>
+    <view class="tool-name">群发消息</view>
+  </view>
+  <view class="item">
+    <view class="icon-home-tool icon-waitdocument"></view>
+    <view class="tool-name">待建档</view>
+  </view>
 </view>

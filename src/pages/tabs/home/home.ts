@@ -3,13 +3,12 @@ import { request } from '../../../modules/request';
 import { domain } from '../../../config/url.config';
 import toast from '../../../modules/toast';
 import { resCodeCheck } from '../../../modules/auth';
-import pagePath from '../../../config/path.config';
 /*
  * Tab 首页逻辑
  * @Author: 云程科技 
  * @Date: 2017-06-30 10:11:47 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-08-26 17:42:28
+ * @Last Modified time: 2017-08-14 01:13:40
  */
 
 class HomePage extends BasePage {
@@ -17,7 +16,6 @@ class HomePage extends BasePage {
         super();
     }
     public data: any = {
-        pagePath: pagePath,
         homeData: {}
     }
     /**
@@ -56,10 +54,10 @@ class HomePage extends BasePage {
                     this.setData({
                         homeData: res.data
                     });
-                    if (isRefresh) {
+                    if(isRefresh){
                         toast.showSuccess('刷新成功');
                         wx.stopPullDownRefresh();
-                    } else {
+                    }else{
                         toast.hide();
                     }
                 }, delay);
@@ -69,20 +67,6 @@ class HomePage extends BasePage {
                 console.log(err);
                 toast.showError('网络请求失败');
             });
-    }
-    /**
-     * 打开相机扫码
-     */
-    private openScan() {
-        wx.scanCode({
-            onlyFromCamera: true,
-            success(e){
-                console.log(e);
-            },
-            fail(e){
-                console.log(e);
-            }
-        });
     }
     /**
      * 生命周期函数--监听页面加载
@@ -97,7 +81,7 @@ class HomePage extends BasePage {
     private onPullDownRefresh() {
         this.loadData(true);
     }
-    private onReachBottom() { }
+    private onReachBottom() {}
     private onShareAppMessage() { }
 }
 
