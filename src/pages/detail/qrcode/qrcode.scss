@@ -1,0 +1,34 @@
+
+@import '../../../dev-resource/config.dev.scss';
+/*!@import '../../../components/list/list.scss';!*/
+
+
+
+.m-qrcode{
+    margin-top: 20rpx;
+    padding: 100rpx;
+    background-color: #fff;
+    .qrcode{
+        display: block;
+        width: 550rpx;
+        height: 550rpx;
+        image{
+            width: 100%;height: 100%;
+        }
+    }
+    .ad{
+        padding-top: 50rpx;
+        @include font($normalFont,$secondFont);
+        text-align: center;
+    }
+}
+
+.cy-list{
+    margin-top: 20rpx;
+    .bindother{
+        width: 110rpx;
+        height: 90rpx;
+        $url: '../../../dev-resource/image-min/bindother.png';
+        @include image($url);
+    }
+}

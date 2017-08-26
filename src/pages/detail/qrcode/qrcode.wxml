@@ -1,0 +1,35 @@
+<!-- 顾问二维码 -->
+<view class="container animation-box {{loaded?'loaded':''}}">
+    <!-- 二维码 -->
+    <view class="m-qrcode">
+        <view class="qrcode">
+            <image src="/assets/image/qrcode.png" />
+        </view>
+        <view class="ad">扫描二维码，及时获取店内优惠</view>
+    </view>
+
+    <view class="cy-list cy-client-list {{businessList.length === 0?'nocontent':''}}">
+        <!-- <block wx:for="{{businessList}}" wx:key="item.Id"> -->
+        <view bindtap="toDetail" class="item" data-business-id="{{item.Id}}">
+            <view class="l">
+                <!-- 客户头像 -->
+                <view class="avatar-wrap">
+                    <image class="avatar" src="https://cphayim.me/wp-content/uploads/2017/05/cphayim-avatar-2017.jpg"></image>
+                </view>
+            </view>
+            <view class="c">
+                <!-- 客户名 -->
+                <view class="namewrap">
+                    <view class="realname">Cphayim</view>
+                    <view class="username">Cphayim</view>
+                </view>
+                <!-- 业务内容 -->
+                <view class="content">2017.08.24 20:23</view>
+            </view>
+            <view class="r">
+                <view class="bindother"></view>
+            </view>
+        </view>
+        <!-- </block> -->
+    </view>
+</view>
