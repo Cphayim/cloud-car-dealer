@@ -1,0 +1,89 @@
+<!-- 本月统计(新增/交车/战败) -->
+<view class="m-monthly animation-box {{loaded?'loaded':''}}">
+    <view class="cy-list cy-client-list">
+        <template wx:if="{{type === 1}}" is="add" data="{{listData:listData,CustomerPreFrom:CustomerPreFrom}}"></template>
+        <template wx:if="{{type === 2}}" is="deliver-car" data="{{listData:listData,CustomerPreFrom:CustomerPreFrom}}"></template>
+        <template wx:if="{{type === 3}}" is="fail" data="{{listData:listData,CustomerPreFrom:CustomerPreFrom}}"></template>
+    </view>
+</view>
+
+<!-- 本月新增 -->
+<template name="add">
+    <block wx:for="{{listData}}" wx:key="item.Id">
+        <view bindtap="itemToEnter" class="item" data-id="{{item.Id}}">
+            <view class="l">
+                <!-- 客户头像 -->
+                <view class="avatar-wrap">
+                    <image class="avatar" src="{{item.HeadImgUrl}}"></image>
+                </view>
+            </view>
+            <view class="c">
+                <!-- 客户名 -->
+                <view class="namewrap">
+                    <view class="realname">{{item.Name || '无'}}</view>
+                    <view class="username">{{item.Nickname || '无'}}</view>
+                </view>
+                <view class="content">{{item.CarBrandName || '未知'}}</view>
+            </view>
+            <view class="r">
+                <!-- 时间/状态 -->
+                <view class="time">{{item.time}}</view>
+                <view class="text">{{CustomerPreFrom[item.PreFrom]}}</view>
+            </view>
+        </view>
+    </block>
+</template>
+
+<!-- 本月交车 -->
+<template name="deliver-car">
+    <block wx:for="{{listData}}" wx:key="item.Id">
+        <view bindtap="itemToEnter" class="item" data-id="{{item.CustomerId}}">
+            <view class="l">
+                <!-- 客户头像 -->
+                <view class="avatar-wrap">
+                    <image class="avatar" src="{{item.HeadImgUrl}}"></image>
+                </view>
+            </view>
+            <view class="c">
+                <!-- 客户名 -->
+                <view class="namewrap">
+                    <view class="realname">{{item.CustomerName || '无'}}</view>
+                    <view class="username">{{item.CustomerNickname || '无'}}</view>
+                </view>
+                <view class="content">{{item.DefeatCarBrand || '未知'}}</view>
+            </view>
+            <view class="r">
+                <!-- 时间/状态 -->
+                <view class="time">{{item.time}}</view>
+                <!-- <view class="text">{{CustomerPreFrom[item.PreFrom]}}</view> -->
+            </view>
+        </view>
+    </block>
+</template>
+
+<!-- 本月战败 -->
+<template name="fail">
+    <block wx:for="{{listData}}" wx:key="item.Id">
+        <view bindtap="itemToEnter" class="item" data-id="{{item.CustomerId}}">
+            <view class="l">
+                <!-- 客户头像 -->
+                <view class="avatar-wrap">
+                    <image class="avatar" src="{{item.CustomerHeadImgUrl}}"></image>
+                </view>
+            </view>
+            <view class="c">
+                <!-- 客户名 -->
+                <view class="namewrap">
+                    <view class="realname">{{item.CustomerName || '无'}}</view>
+                    <view class="username">{{item.CustomerNickname || '无'}}</view>
+                </view>
+                <view class="content">{{item.DefeatCarBrand || '未知'}}</view>
+            </view>
+            <view class="r">
+                <!-- 时间/状态 -->
+                <view class="time">{{item.time}}</view>
+                <!-- <view class="text">{{CustomerPreFrom[item.PreFrom]}}</view> -->
+            </view>
+        </view>
+    </block>
+</template>
