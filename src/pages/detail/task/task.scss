@@ -7,54 +7,10 @@
  */
 
 @import '../../../dev-resource/config.dev.scss';
-// 审核(当前任务总进度)
-.m-review {
-    padding: 30rpx;
-    @include font($smallFont, $firstFont);
-    .progress {
-        margin-top: 15rpx;
-        @include font($normalFont, $secondFont, bold);
-        .strong {
-            display: inline;
-            @include font($bigFont, $secondFont, bold);
-        }
-    }
-    progress {
-        color: $secondFont;
-    }
-}
 
-// 任务列表
-.m-task-list {
-    .title {
-        padding: 15rpx 30rpx;
-        @include font($smallFont, $firstFont);
-    }
-    .item {
-        display: flex;
-        padding: 30rpx;
-        border-bottom: $border;
-        background-color: #fff;
-        @include font($normalFont);
-        &:last-child {
-            border: none;
-        }
-        .name,
-        .progress {
-            flex: 1;
-        }
-        .name{
-            color: $firstFont;
-        }
-        .progress {
-            padding-top: 2px;
-            padding-right: 25px;
-            @include font(14px,$thirdFont);
-            text-align: right;
-            .strong {
-                display: inline;
-                color: $secondFont;
-            }
-        }
-    }
-}
+/*!@import '../../../components/tab-slider/tab-slider.scss';!*/
+/*!@import '../../../components/list/list.scss';!*/
+
+
+
+
