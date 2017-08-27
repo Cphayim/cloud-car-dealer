@@ -1,0 +1,87 @@
+@import '../../../../dev-resource/config.dev.scss';
+
+/*!@import '../../../../components/intro/intro.scss';!*/
+
+
+/*!@import '../../../../components/list/list.scss';!*/
+
+.m-record-info {
+    .clues-list {
+        .item {
+            border-bottom: $border;
+            padding: 20rpx 30rpx;
+            background-color: #fff;
+            .activity {
+                @extend %text-clip;
+                >view {
+                    display: inline-block;
+                }
+                .activity-type {
+                    @include font($smallFont, $secondFont);
+                }
+                .activity-name {
+                    @include font($normalFont, $firstFont);
+                }
+            }
+            .time {
+                margin-top: 15rpx;
+                padding-left: 10rpx;
+                @include font(12px, $thirdFont);
+            }
+        }
+    }
+}
+
+.m-operation {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    .btn-group {
+        display: flex;
+        padding: 10rpx 20rpx;
+        background-color: #fff;
+        >view {
+            flex: 1;
+            padding: 20rpx;
+            border: 1px solid $blueColor;
+            border-radius: 5px;
+            margin: 0 10rpx;
+            @include font(15px, $blueColor);
+            text-align: center;
+            &.blue {
+                color: #fff;
+                background-color: $blueColor;
+            }
+            &.hover {
+                background-color: #eee;
+            }
+            &.blue.hover {
+                background-color: #6699cc;
+            }
+        }
+    }
+}
+
+.animation-box {
+    .m-operation {
+        transition: all 0.4s 0.6s;
+        transform: translateY(100%);
+        opacity: 0.5;
+    }
+    .clues-list{
+        transition: all 0.6s;
+        transform: translateY(200rpx);
+        opacity: 0;   
+    }
+}
+
+.animation-box.loaded {
+    .m-operation {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    .clues-list{
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
