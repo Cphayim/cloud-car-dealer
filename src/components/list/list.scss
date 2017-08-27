@@ -2,7 +2,7 @@
  * @Author: Cphayim
  * @Date: 2017-07-31 09:47:25 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-08-27 02:04:32
+ * @Last Modified time: 2017-08-27 03:19:23
  */
 
 @import '../../dev-resource/config.dev.scss';
@@ -264,7 +264,7 @@
 
 // 列表动画控制
 .animation-box {
-    .cy-list {
+    .cy-list,.cy-list-count {
         transition: all 0.6s;
         transform: translateY(200rpx);
         opacity: 0;
@@ -272,7 +272,7 @@
 }
 
 .animation-box.loaded {
-    .cy-list {
+    .cy-list,.cy-list-count {
         transform: translateY(0);
         opacity: 1;
     }

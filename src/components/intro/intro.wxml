@@ -76,16 +76,16 @@
             <view class="username">{{username}}</view>
         </view>
         <!-- 来源 -->
-        <view class="text">
+        <view hidden="{{!time}}" class="text">
             关注：{{time}}
         </view>
         <!-- 按钮组 -->
         <view class="btn-group">
-            <view class="btn" hover-class="hover">
+            <view class="btn" hover-class="hover" data-phone="{{phone}}" bindtap="callPhone">
                 <view class="bg"></view>
                 <view class="icon-phone"></view>
             </view>
-            <view class="btn" hover-class="hover">
+            <view class="btn" hover-class="hover" data-customer-id="{{customerId}}">
                 <view class="bg"></view>
                 <view class="icon-wechat"></view>
             </view>
