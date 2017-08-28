@@ -3,7 +3,7 @@
  * @Author: 云程科技 
  * @Date: 2017-06-28 16:56:25 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-08-27 01:48:15
+ * @Last Modified time: 2017-08-28 14:13:38
  */
 
 interface Path {
@@ -34,6 +34,8 @@ const pathArr: Path[] = [
     { name: 'active-client', pre: 'detail' },
     // 任务
     { name: 'task', pre: 'detail' },
+    // 扣款信息
+    { name: 'charge', pre: 'detail' },
     // 二维码
     { name: 'qrcode', pre: 'detail' },
     // 待建档
