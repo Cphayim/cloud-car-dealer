@@ -15,7 +15,7 @@ import { resCodeCheck } from '../../../modules/auth';
  * @Author: 云程科技 
  * @Date: 2017-07-03 10:45:33 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-08-14 15:28:12
+ * @Last Modified time: 2017-08-28 18:08:50
  */
 
 
@@ -38,7 +38,10 @@ class BusinessPage extends BasePage {
 
     public data: any = {
         pagePath: pagePath,
-        listPaddingTop: this.listPaddingTop, // 列表顶部填充层高度
+        // 列表顶部填充层高度
+        listPaddingTop: this.listPaddingTop, 
+        // selection 对象挂载
+        selection: this.selection,
         /**
          * 请求相关
          */
@@ -59,10 +62,6 @@ class BusinessPage extends BasePage {
          */
         businessTotal: 0, // 业务总数
         businessList: [], // 业务列表
-    }
-    constructor() {
-        super();
-        this.data.selection = selection;
     }
     /**
      * 搜索框 tap 事件
@@ -109,14 +108,15 @@ class BusinessPage extends BasePage {
 
     // 跳转到详情
     public toDetail(e) {
-        const businessId = e.currentTarget.dataset.businessId;
+        const businessId = e.currentTarget.dataset.id;
         wx.navigateTo({
-            url: `${pagePath.opportunity}?businessId=${businessId}`
+            url: `${pagePath.opportunity}?id=${businessId}`
         });
     }
     /**
-     * 添加列表数据(追加到原businessList中)
+     * 添加列表数据
      * @param {boolean} isReset 是否重置数据列表
+     * @param {boolean} isRefresh 是否来自下拉刷新
      * @returns 
      */
     private addListItem(isReset = false, isRefresh = false) {
@@ -151,7 +151,6 @@ class BusinessPage extends BasePage {
                     return;
                 }
                 // console.log(res.data);
-
 
                 // 时间字段处理 
                 res.data.map(item => {
@@ -242,6 +241,7 @@ class BusinessPage extends BasePage {
                 resolve(rect.height);
             }).exec();
         });
+        // 设置 listPaddingTop
         Promise.all([p1, p2]).then((resAll: number[]) => {
             this.searchHeight = resAll[0];
             this.selectionHeight = resAll[1];

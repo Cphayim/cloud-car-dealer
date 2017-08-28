@@ -15,11 +15,11 @@
 <!-- 内容区 -->
 <view style="padding-top:{{listPaddingTop}}px" class="m-business">
   <!-- 列表项统计 -->
-  <view class="cy-list-count">总共：{{businessTotal}}</view>
+  <view class="cy-list-count">总数：{{businessTotal}}</view>
   <!-- 列表 -->
-  <view class="cy-list cy-client-list {{businessList.length === 0?'nocontent':''}}">
+  <view class="cy-list cy-client-list {{!businessList.length?'nocontent':''}}">
     <block wx:for="{{businessList}}" wx:key="item.Id">
-      <view bindtap="toDetail" class="item" data-business-id="{{item.Id}}">
+      <view bindtap="toDetail" class="item" data-id="{{item.Id}}">
         <view class="l">
           <!-- 客户头像 -->
           <view class="avatar-wrap">

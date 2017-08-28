@@ -11,7 +11,7 @@ import { resCodeCheck } from '../../../modules/auth';
  * @Author: 云程科技 
  * @Date: 2017-07-20 16:58:49 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-08-27 00:34:09
+ * @Last Modified time: 2017-08-28 18:09:38
  */
 
 class OpportunityPage extends BasePage {
@@ -461,7 +461,7 @@ class OpportunityPage extends BasePage {
             title: '报名详情'
         });
         // 获取请求 id
-        this.data.Id = options.businessId;
+        this.data.Id = options.id;
 
         // 加载数据
         this.loadData();
@@ -478,9 +478,6 @@ class OpportunityPage extends BasePage {
 
     }
     private onHide() {
-        // this.setData({
-        //     loaded: false
-        // });
     }
     private onUnload() {
 
