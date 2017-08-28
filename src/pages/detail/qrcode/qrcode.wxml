@@ -3,33 +3,34 @@
     <!-- 二维码 -->
     <view class="m-qrcode">
         <view class="qrcode">
-            <image src="/assets/image/qrcode.png" />
+            <image src="{{qrCodeImage}}" />
         </view>
         <view class="ad">扫描二维码，及时获取店内优惠</view>
     </view>
 
-    <view class="cy-list cy-client-list {{businessList.length === 0?'nocontent':''}}">
-        <!-- <block wx:for="{{businessList}}" wx:key="item.Id"> -->
-        <view bindtap="toDetail" class="item" data-business-id="{{item.Id}}">
-            <view class="l">
-                <!-- 客户头像 -->
-                <view class="avatar-wrap">
-                    <image class="avatar" src="https://cphayim.me/wp-content/uploads/2017/05/cphayim-avatar-2017.jpg"></image>
+    <view class="cy-list cy-client-list">
+        <block wx:for="{{scanList}}" wx:key="item.Id">
+            <view bindtap="toDetail" class="item"
+             data-id="{{item.CustomerId}}" data-link-type="{{item.LinkType}}">
+                <view class="l">
+                    <!-- 客户头像 -->
+                    <view class="avatar-wrap">
+                        <image class="avatar" src="{{item.HeadImgUrl}}" />
+                    </view>
+                </view>
+                <view class="c">
+                    <!-- 客户名 -->
+                    <view class="namewrap">
+                        <view class="realname">{{item.CustomerName}}</view>
+                        <view class="username">{{item.Nickname}}</view>
+                    </view>
+                    <!-- 业务内容 -->
+                    <view class="content">{{item.time}}</view>
+                </view>
+                <view class="r">
+                     <view hidden="{{!item.IsBindOther}}" class="bindother"></view> 
                 </view>
             </view>
-            <view class="c">
-                <!-- 客户名 -->
-                <view class="namewrap">
-                    <view class="realname">Cphayim</view>
-                    <view class="username">Cphayim</view>
-                </view>
-                <!-- 业务内容 -->
-                <view class="content">2017.08.24 20:23</view>
-            </view>
-            <view class="r">
-                <view class="bindother"></view>
-            </view>
-        </view>
-        <!-- </block> -->
+        </block>
     </view>
 </view>

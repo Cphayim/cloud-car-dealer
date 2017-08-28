@@ -32,3 +32,21 @@
         @include image($url);
     }
 }
+
+.animation-box{
+    .m-qrcode{
+        .qrcode{
+            opacity: 0;
+            transform: scale(0.4);
+            transition: all 0.6s;
+        }
+    }
+}
+.animation-box.loaded{
+    .m-qrcode{
+        .qrcode{
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+}
