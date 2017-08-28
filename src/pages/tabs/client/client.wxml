@@ -5,50 +5,55 @@
 <import src="../../../components/search/search.wxml" />
 <import src="../../../components/selection/selection.wxml" />
 
-<!-- 搜索入口 -->
-<template is="search-outer" data="{{type:'client',url:'/pages/search/search'}}"></template>
-
-<!-- 选项盒子组件 -->
-<template wx:if="{{selection}}" is="selection" data="{{...selection}}"></template>
+<!-- 顶部双组件 -->
+<view class="top-component">
+  <!-- 搜索入口 -->
+  <template is="search-outer" data="{{type:'client',url:'/pages/search/search'}}"></template>
+  <!-- 选项盒子组件 -->
+  <template wx:if="{{selection}}" is="selection" data="{{...selection}}"></template>
+</view>
 
 <!-- 滚动容器 -->
-<scroll-view
-  class=".m-client-scroll-view" style="height:{{clientScrollViewHeight}}px" 
-  scroll-y scroll-into-view="{{scrollToId}}" scroll-top="1000" scroll-with-animation enable-back-to-top
-  bindscroll="clientListScroll" >
-  <!-- 客户列表 -->
-  <view class="m-client section">
-    <!-- 分级列表(列表循环) -->
-    <block wx:for="{{clientData}}" wx:for-item="listObj" wx:key="level">
-      <view id="{{listObj.level}}" class="client-list" data-client-level="{{listObj.level}}">
-        <view class="title">{{listObj.level}}级：{{listObj.clientList.length}}</view>
-        <!-- 客户（列表循环） -->
-        <block wx:for="{{listObj.clientList}}" wx:for-item="client" wx:key="id">
-          <navigator url="{{pagePath.customer}}" class="item" data-client-id="client.id">
-            <view class="l">
-              <image class="avatar" src="{{client.avatarUrl}}"></image>
-            </view>
-            <view class="c">
-              <view class="namewrap">
-                <view class="realname">{{client.realname}}</view>
-                <view class="username">{{client.username}}</view>
-              </view>
-              <!-- 签名 -->
-              <view class="signature">{{client.signature}}</view>
-            </view>
-            <view class="r">
-              <view class="time">{{client.time}}</view>
-            </view>
-          </navigator>
-        </block>
+<!-- 内容区 -->
+<view style="padding-top:{{listPaddingTop}}px" class="m-client">
+  <!-- 列表项统计 -->
+  <view class="cy-list-count">总数：{{businessTotal}}</view>
+  <!-- 列表 -->
+  <view class="cy-list cy-client-list {{businessList.length === 0?'nocontent':''}}">
+    <block wx:for="{{businessList}}" wx:key="item.Id">
+      <view bindtap="toDetail" class="item" data-business-id="{{item.Id}}">
+        <view class="l">
+          <!-- 客户头像 -->
+          <view class="avatar-wrap">
+            <image class="avatar" src="{{item.HeadImgUrl}}"></image>
+          </view>
+        </view>
+        <view class="c">
+          <!-- 客户名 -->
+          <view class="namewrap">
+            <view class="realname">{{item.Name}}</view>
+            <view class="username">{{item.Nickname}}</view>
+          </view>
+          <!-- 业务内容 -->
+          <view class="content">{{OpportunityPreFrom[item.PreFrom]}} | {{item.FromTitle}}</view>
+        </view>
+        <view class="r">
+          <!-- 时间/状态 -->
+          <view class="time">{{item.time}}</view>
+          <view wx:if="{{item.Status == 11}}" class="status status-finished">
+            {{OpportunityStatus[item.Status]}}
+          </view>
+          <view wx:elif="{{item.Status == 9}}" class="status status-progressed">
+            {{OpportunityStatus[item.Status]}}
+          </view>
+          <view wx:elif="{{item.Status == 2}}" class="status status-untreated">
+            {{OpportunityStatus[item.Status]}}
+          </view>
+          <view wx:elif="{{item.Status == 10}}" class="status status-null">
+            {{OpportunityStatus[item.Status]}}
+          </view>
+        </view>
       </view>
     </block>
   </view>
-</scroll-view>
-
-<!-- 侧栏导航 -->
-<view catchtap="scrollToList" class="m-side-nav {{scrolling?'active':''}}">
-  <block wx:for="{{clientData}}" wx:for-item="listObj" wx:key="level">
-    <view class="item" data-level-id="{{listObj.level}}">{{listObj.level}}</view>
-  </block>
 </view>
