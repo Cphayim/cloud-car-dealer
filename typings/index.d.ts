@@ -39,7 +39,7 @@ declare namespace wx {
 
   // 调用系统
   export function makePhoneCall(arg: { phoneNumber: Number }): void;
-  export function scanCode(arg:any):void;
+  export function scanCode(arg: any): void;
 }
 
 declare interface Application {
@@ -56,6 +56,8 @@ declare function Page(page: Base): void;
 
 declare function getApp(): Application;
 declare function getCurrentPages(): Base[];
+
+declare function require(str: string): any;
 
 declare var global: {
   global: any,
