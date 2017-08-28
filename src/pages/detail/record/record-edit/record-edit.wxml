@@ -1,0 +1,54 @@
+<view class="animation-box {{loaded?'loaded':''}}">
+    <!-- 微信基本信息 -->
+    <view class="m-wechat-info">
+        <view class="l">
+            <view class="avatar">
+                <image src="https://avatars1.githubusercontent.com/u/19202036?v=4&s=460" />
+            </view>
+        </view>
+        <view class="r">
+            <view class="username">Cphayim</view>
+        </view>
+    </view>
+
+    <!-- 建档编辑区 -->
+    <view class="m-record-edit">
+        <view class="cy-edit-list cy-list">
+            <view class="head">
+                <view class="head-key">
+                    建档信息
+                </view>
+            </view>
+            <view class="item-wrap">
+                <!-- 姓名 -->
+                <view class="item">
+                    <view class="item-key">姓名</view>
+                    <view class="item-val">
+                        <input type="text" value="" placeholder="请输入姓名" placeholder-class="placeholder" />
+                    </view>
+                </view>
+                <!-- 性别 -->
+                <view class="item">
+                    <view class="item-key">性别</view>
+                    <view class="item-val">
+                        <input type="number" value="" placeholder="请输入性别" placeholder-class="placeholder" />
+                    </view>
+                </view>
+                <!-- 手机号 -->
+                <view class="item">
+                    <view class="item-key">手机号</view>
+                    <view class="item-val">
+                        <input type="number" value="" placeholder="请输入手机号" placeholder-class="placeholder" />
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view>{{address}}</view>
+    <view class="m-operation">
+        <!-- 按钮组 -->
+        <view class="btn-group">
+            <view catchtap="saveRecord" class="blue" hover-class="hover">保存</view>
+        </view>
+    </view>
+</view>
