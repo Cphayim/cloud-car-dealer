@@ -69,6 +69,7 @@ export const listTimeFormat = (function () {
      * @param timeName 
      */
     return function (oldTimeStr: string): string {
+        if(!oldTimeStr) return '';
         const date: Date = new Date(oldTimeStr);
         const year: number = date.getFullYear();
         const month: number = date.getMonth() + 1;
