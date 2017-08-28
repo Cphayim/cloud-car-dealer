@@ -2,7 +2,7 @@
  * @Author: Cphayim
  * @Date: 2017-07-31 09:47:25 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-08-28 10:09:39
+ * @Last Modified time: 2017-08-28 15:52:31
  */
 
 @import '../../dev-resource/config.dev.scss';
@@ -279,4 +279,13 @@
         transform: translateY(0);
         opacity: 1;
     }
+}
+
+// 暂无内容
+.nocontent {
+    min-height: 700rpx;
+    background-image: url('../../dev-resource/image-min/nocontent.png');
+    background-repeat: no-repeat;
+    background-position: 50% 20%;
+    background-size: 320rpx 400rpx;
 }
