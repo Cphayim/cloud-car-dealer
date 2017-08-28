@@ -2,7 +2,7 @@
  * @Author: Cphayim
  * @Date: 2017-07-31 09:47:25 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-08-27 03:19:23
+ * @Last Modified time: 2017-08-28 10:09:39
  */
 
 @import '../../dev-resource/config.dev.scss';
@@ -22,6 +22,9 @@
         border-bottom: $border;
         @include font(14px);
         background-color: #fff;
+        &:last-child{
+            border-bottom: none;
+        }
         .item-key {
             flex: 0 0 200rpx;
             display: flex;
