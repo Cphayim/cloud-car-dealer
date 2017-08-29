@@ -16,6 +16,12 @@ export const resCodeCheck = (res: any): boolean => {
         });
         return true;
     }
-    toast.showWarning(res.errormsg);
+
+    if(res.errormsg){
+        toast.showWarning(res.errormsg);
+    }else{
+        toast.showError('未返回数据');
+    }
+    
     return true;
 }
