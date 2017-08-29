@@ -3,7 +3,7 @@
  * @Author: Cphayim
  * @Date: 2017-07-26 09:44:52 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-08-16 14:25:36
+ * @Last Modified time: 2017-08-29 11:10:41
  */
 
 class Toast {
@@ -61,7 +61,7 @@ class Toast {
      * @param {boolean} [mask=false] 是否遮罩(透明层)
      * @returns 返回 promise 对象
      */
-    public showError(title: string = '', duration: number = 10000, mask: boolean = false) {
+    public showError(title: string = '', duration: number = 4000, mask: boolean = false) {
         const image: string = '/assets/toast-icons/toast-error.png';
         return this.show({
             title, duration, mask, image
