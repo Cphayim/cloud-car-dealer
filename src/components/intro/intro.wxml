@@ -48,12 +48,14 @@
                 <view class="icon-edit"></view>
             </view>
             <!-- 拨打手机 -->
-            <view class="btn" hover-class="hover" data-phone="{{phone}}" bindtap="callPhone">
+            <view class="btn" hover-class="hover" 
+             bindtap="callPhone" data-phone="{{phone}}">
                 <view class="bg"></view>
                 <view class="icon-phone"></view>
             </view>
             <!-- 微信对话 -->
-            <view class="btn" hover-class="hover" data-customer-id="{{customerId}}">
+            <view class="btn" hover-class="hover" 
+             bindtap="openChat" data-customer-id="{{customerId}}">
                 <view class="bg"></view>
                 <view class="icon-wechat"></view>
             </view>
@@ -81,11 +83,13 @@
         </view>
         <!-- 按钮组 -->
         <view class="btn-group">
-            <view class="btn" hover-class="hover" data-phone="{{phone}}" bindtap="callPhone">
+            <view class="btn" hover-class="hover" 
+            bindtap="callPhone" data-phone="{{phone}}">
                 <view class="bg"></view>
                 <view class="icon-phone"></view>
             </view>
-            <view class="btn" hover-class="hover" data-customer-id="{{customerId}}">
+            <view class="btn" hover-class="hover"
+             bindtap="openChat" data-customer-id="{{customerId}}">
                 <view class="bg"></view>
                 <view class="icon-wechat"></view>
             </view>
