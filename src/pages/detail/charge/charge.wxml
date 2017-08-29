@@ -1,0 +1,56 @@
+<!-- 扣款信息 -->
+<view class="m-charge">
+    <view class="cy-edit-list cy-list">
+        <view class="head">
+            <view class="head-key">
+                从客户***会员卡中扣款
+            </view>
+        </view>
+        <view class="item-wrap">
+            <!-- 消费金额 -->
+            <view class="item">
+                <view class="item-key">消费金额</view>
+                <view class="item-val">
+                    <input type="text" value="￥100.00" />
+                </view>
+            </view>
+            <!-- 账户余额 -->
+            <view class="item">
+                <view class="item-key">账户余额</view>
+                <view class="item-val">
+                    <input type="text" value="￥1000.00" disabled />
+                </view>
+            </view>
+            <!-- 消费项目 -->
+            <view class="item">
+                <view class="item-key">消费项目</view>
+                <view class="item-val">
+                    <input type="text" value="" placeholder="请填写客户消费项目" placeholder-class="placeholder" />
+                </view>
+            </view>
+            <!-- 订单号 -->
+            <view class="item">
+                <view class="item-key">订单号</view>
+                <view class="item-val">
+                    <input type="text" value="" placeholder="请填写店铺订单号" placeholder-class="placeholder" />
+                </view>
+            </view>
+            <!-- 备注 -->
+            <view class="item">
+                <view class="item-key">备注</view>
+                <view class="item-val">
+                    <input type="text" value="" placeholder="请填写备注" placeholder-class="placeholder" />
+                </view>
+            </view>
+        </view>
+    </view>
+
+    <view class="confirm">
+        <view class="wrap">
+            <view class="money">
+                100.00
+            </view>
+        </view>
+        <view class="charge-btn" hover-class="hover">确认扣款</view>
+    </view>
+</view>

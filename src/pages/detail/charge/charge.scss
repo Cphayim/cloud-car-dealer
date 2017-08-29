@@ -1,0 +1,67 @@
+@import '../../../dev-resource/config.dev.scss';
+
+/*!@import '../../../components/list/list.scss';!*/
+
+.m-charge {
+    margin: 25rpx 30rpx;
+    padding: 15rpx;
+    border-radius: 15rpx;
+    background-color: #fff;
+    .confirm {
+        position: relative;
+        border-top: 1px dashed $grayColor;
+        padding: 15rpx;
+        &:before,
+        &:after {
+            position: absolute;
+            display: block;content: '';
+            width: 50rpx;
+            height: 50rpx;
+            border-radius: 50%;
+            background-color: #eaeaea;
+        }
+        &:before{
+            top: -25rpx;left: -33rpx;
+        }
+        &:after{
+            top: -25rpx;right: -33rpx;
+        }
+        .wrap{
+            height: 100px;
+            text-align: center;
+            .money{
+                @include font(40px,$firstFont);
+                line-height: 100px;
+                vertical-align: bottom;
+                &:before{
+                    content: '￥';
+                    @include font(20px,$firstFont);
+                }
+            }
+        }
+        .charge-btn{
+            padding: 20rpx;
+            border: 1px solid $blueColor;
+            border-radius: 5px;
+            margin: 0 10rpx;
+            @include font(15px, #fff);
+            background-color: $blueColor;
+            text-align: center;
+            &.hover{
+                background-color: #6699cc;
+            }
+        }
+    }
+}
+
+.cy-edit-list {
+    .head {
+        padding-left: 15rpx;
+    }
+    .item-wrap {
+        padding-left: 0;
+        .item {
+            padding-left: 30rpx;
+        }
+    }
+}
