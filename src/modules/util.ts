@@ -107,3 +107,24 @@ export const listTimeFormat = (function () {
         return newTimeStr;
     }
 })();
+
+
+/**
+ * 枚举转为选项数组
+ * {                        [                
+ *    "0": "未知",               {key:'0', val:'未知'},
+ *    "1": "男",     =>          {key:'1', val:'男'},
+ *    "2": "女"                  {key:'2', val:'女'}
+ * }                        ]
+ * @param obj 
+ */
+export function enumToOptions(obj: object = {}) {
+    const options = [];
+    // 拿到所有的 key
+    const keys: string[] = Object.keys(obj);
+
+    for (let i = 0; i < keys.length; i++) {
+        options.push({ key: keys[i], val: obj[keys[i]] });
+    }
+    return options;
+}
