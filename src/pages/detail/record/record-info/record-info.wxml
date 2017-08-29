@@ -1,22 +1,29 @@
 <!-- 待建档客户 线索详情 -->
+<!-- intro 组件模板 -->
 <import src="../../../../components/intro/intro.wxml" />
+
 <view class="m-record-info animation-box {{loaded?'loaded':''}}">
+
     <template is="intro" data="{{introData:introData,tplNum:2}}"></template>
 
     <view class="cy-list-count">
         线索详情
     </view>
     <view class="clues-list">
-        <block wx:for="{{[1,2,3,4,5]}}" wx:key="*this">
-            <view class="item">
+        <block wx:for="{{clueList}}" wx:key="item.ClueId">
+            <view class="item" bindtap="itemToEnter"
+             data-link-type="{{item.LinkType}}"
+             data-customer-id="{{item.CustomerId}}"
+             data-clue-id="{{item.ClueId}}" >
                 <view class="activity">
-                    <view class="activity-type">【活动类型】</view>
-                    <view class="activity-name">活动标题活动标题活动标题活动标题</view>
+                    <view class="activity-type">{{item.clueType}}</view>
+                    <view class="activity-name">{{item.clueTitle}}</view> 
                 </view>
-                <view class="time">2017-08-27 13:11</view>
+                <view class="time">{{item.CreateTime}}</view>
             </view>
         </block>
     </view>
+    <view class="paddinglayer" style="height:{{paddingLayerHeight}}px" ></view>
 
     <view class="m-operation">
         <!-- 按钮组 -->
