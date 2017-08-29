@@ -17,7 +17,7 @@
              data-clue-id="{{item.ClueId}}" >
                 <view class="activity">
                     <view class="activity-type">{{item.clueType}}</view>
-                    <view class="activity-name">{{item.clueTitle}}</view> 
+                    <view class="activity-name">{{item.clueTitle}}</view>
                 </view>
                 <view class="time">{{item.CreateTime}}</view>
             </view>

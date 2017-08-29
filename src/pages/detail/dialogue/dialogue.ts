@@ -3,7 +3,7 @@
  * @Author: 云程科技 
  * @Date: 2017-07-07 13:56:52 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-08-14 13:16:11
+ * @Last Modified time: 2017-08-29 11:29:00
  */
 
 import pagePath from '../../../config/path.config'
@@ -139,10 +139,10 @@ class dialoguePage extends BasePage {
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad(urlQuery) {
+    onLoad(options) {
         // 更新导航栏标题
         this.setData({
-            clientId: decodeURI(urlQuery.id)
+            clientId: decodeURI(options.id)
         });
         wx.setNavigationBarTitle({
             title: this.data.clientId

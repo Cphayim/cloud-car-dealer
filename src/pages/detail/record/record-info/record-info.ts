@@ -3,7 +3,7 @@
  * @Author: Cphayim 
  * @Date: 2017-08-27 02:40:05 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-08-29 11:41:52
+ * @Last Modified time: 2017-08-29 16:35:12
  */
 
 import BasePage from '../../../basepage';
@@ -23,8 +23,8 @@ interface Data {
         time?: string,
         phone?: string,
         customerId: number,
-    },
-    clueList: any[]
+    };
+    clueList: any[];
 }
 
 class RecordInfoPage extends BasePage {
@@ -38,8 +38,9 @@ class RecordInfoPage extends BasePage {
             realname: '',
             username: '',
         },
-        clueList: []
+        clueList: [],
     }
+
     private onLoad(options) {
         const id: number = ~~options.id;
         this.id = id;
@@ -80,10 +81,14 @@ class RecordInfoPage extends BasePage {
 
 
                     // 如果是图片 把 img 标签过滤掉，只显示链接
-                    const reg = /<img.*src=["'](.*)['"].*\/>/;
-                    if (reg.test(strs[1])) {
-                        strs[1] = strs[1].match(reg)[1];
+                    const reg1 = /<img.*src=["'](.*)['"].*\/>/;
+                    if (reg1.test(strs[1])) {
+                        strs[1] = strs[1].match(reg1)[1];
                     }
+                    // 过滤 a 标签
+                    const reg2 = /(.*)<a .*>(.*)<\/a>/g;
+
+                    strs[1] = strs[1].replace(reg2, '$1$2');
 
                     item.clueTitle = strs[1];
                     return item;

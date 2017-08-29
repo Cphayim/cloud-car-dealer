@@ -12,15 +12,21 @@
             padding: 20rpx 30rpx;
             background-color: #fff;
             .activity {
+                display: flex;
+                align-items: center;
                 @extend %text-clip;
                 >view {
                     display: inline-block;
                 }
                 .activity-type {
+                    flex: 0 0 auto;
                     @include font($smallFont, $secondFont);
                 }
                 .activity-name {
+                    flex: 1 0 auto;
+                    width: 70%;
                     @include font($normalFont, $firstFont);
+                    @extend %text-clip;
                 }
             }
             .time {

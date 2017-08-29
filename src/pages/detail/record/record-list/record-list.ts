@@ -3,7 +3,7 @@
  * @Author: 云程科技
  * @Date: 2017-08-27 02:19:42 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-08-29 10:51:58
+ * @Last Modified time: 2017-08-29 17:04:20
  */
 
 import BasePage from '../../../basepage';
@@ -30,6 +30,10 @@ class RecordListPage extends BasePage {
         clientTotal: 0,
         clientList: []
     }
+
+    // 跳转控制属性
+    // 跳转到 customer 值为 customerId，由子页面传递
+    public goToCustomer: number = 0;
 
     private onLoad(options) {
         this.loadData();
@@ -73,6 +77,21 @@ class RecordListPage extends BasePage {
         wx.navigateTo({
             url: `${pagePath['record-info']}?id=${id}`
         });
+    }
+
+    public onShow() {
+        this.loadData();
+        // console.log(this.goToCustomer);
+        // 如果有跳转值跳转到 customer
+        if (this.goToCustomer) {
+            const id = this.goToCustomer;
+            this.goToCustomer = 0;
+            setTimeout(() => {
+                wx.navigateTo({
+                    url: `${pagePath.customer}?id=${id}`
+                });
+            }, 400);
+        }
     }
 }
 
