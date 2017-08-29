@@ -148,7 +148,7 @@
 <template name="si-client">
     <swiper-item class="list">
         <scroll-view class="basic" data-list-type="{{listType}}" scroll-y style="height:100%;">
-            <view class="cy-list cy-client-list">
+            <view class="cy-list cy-client-list {{!items.length?'nocontent':''}}">
                 <block wx:for="{{items}}" wx:key="item.Id">
                     <view bindtap="itemToEnter" class="item" data-id="{{item.CustomerId}}">
                         <view class="l">

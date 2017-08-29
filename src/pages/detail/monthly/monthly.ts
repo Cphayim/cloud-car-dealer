@@ -2,7 +2,7 @@
  * @Author: Cphayim 
  * @Date: 2017-08-17 14:03:34 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-08-17 14:37:07
+ * @Last Modified time: 2017-08-29 16:54:33
  */
 import BasePage from '../../basepage';
 import toast from '../../../modules/toast';
@@ -11,6 +11,7 @@ import { request } from '../../../modules/request';
 import { domain } from '../../../config/url.config';
 import { enumConfig } from '../../../config/enum.config';
 import { resCodeCheck } from '../../../modules/auth';
+import pagePath from '../../../config/path.config';
 
 interface Data {
     loaded: boolean;
@@ -140,6 +141,9 @@ class Monthly extends BasePage {
     private itemToEnter(e) {
         const id = e.currentTarget.dataset.id;
         console.log(id);
+        wx.navigateTo({
+            url: `${pagePath.customer}?id=${id}`
+        });
     }
     constructor() {
         super();

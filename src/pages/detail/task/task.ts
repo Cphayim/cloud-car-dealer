@@ -5,12 +5,13 @@ import { domain } from '../../../config/url.config';
 import { dateFormat, listTimeFormat } from '../../../modules/util';
 import { resCodeCheck } from '../../../modules/auth';
 import toast from '../../../modules/toast';
+import pagePath from '../../../config/path.config';
 /*
  * 任务页逻辑
  * @Author: 云程科技 
  * @Date: 2017-07-11 15:49:45 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-08-24 22:18:48
+ * @Last Modified time: 2017-08-29 16:52:20
  */
 
 interface Data {
@@ -135,6 +136,13 @@ class TaskPage extends BasePage {
     }
     public changeSlider(e) {
         tabSlider.changeSlider(e);
+    }
+
+    private itemToEnter(e){
+        const id = e.currentTarget.dataset.id;
+        wx.navigateTo({
+            url: `${pagePath.customer}?id=${id}`
+        });
     }
     private onReady() { }
 }

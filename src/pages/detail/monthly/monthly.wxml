@@ -1,6 +1,6 @@
 <!-- 本月统计(新增/交车/战败) -->
 <view class="m-monthly animation-box {{loaded?'loaded':''}}">
-    <view class="cy-list cy-client-list">
+    <view class="cy-list cy-client-list {{!listData.length?'nocontent':''}}">
         <template wx:if="{{type === 1}}" is="add" data="{{listData:listData,CustomerPreFrom:CustomerPreFrom}}"></template>
         <template wx:if="{{type === 2}}" is="deliver-car" data="{{listData:listData,CustomerPreFrom:CustomerPreFrom}}"></template>
         <template wx:if="{{type === 3}}" is="fail" data="{{listData:listData,CustomerPreFrom:CustomerPreFrom}}"></template>
