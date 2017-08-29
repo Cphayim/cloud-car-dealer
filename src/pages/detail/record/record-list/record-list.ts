@@ -3,7 +3,7 @@
  * @Author: 云程科技
  * @Date: 2017-08-27 02:19:42 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-08-28 17:40:41
+ * @Last Modified time: 2017-08-29 10:51:58
  */
 
 import BasePage from '../../../basepage';
@@ -12,6 +12,7 @@ import { request } from '../../../../modules/request';
 import { domain } from '../../../../config/url.config';
 import { resCodeCheck } from '../../../../modules/auth';
 import { listTimeFormat } from '../../../../modules/util';
+import toast from '../../../../modules/toast';
 
 interface Data {
     loaded: boolean;
@@ -35,6 +36,7 @@ class RecordListPage extends BasePage {
     }
 
     private loadData() {
+        toast.showLoading('正在加载...');
         this.requestData()
             .then((res: any) => {
                 if (resCodeCheck(res)) return;
@@ -45,7 +47,7 @@ class RecordListPage extends BasePage {
                 this.data.clientList.forEach(item => {
                     item.time = listTimeFormat(item.SubscribeTime);
                 })
-
+                toast.hide();
                 this.setData({
                     clientList: this.data.clientList,
                     clientTotal: this.data.clientTotal,
