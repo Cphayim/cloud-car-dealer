@@ -55,7 +55,7 @@ declare function App(app: Application): void;
 declare function Page(page: Base): void;
 
 declare function getApp(): Application;
-declare function getCurrentPages(): Base[];
+declare function getCurrentPages(): any[];
 
 declare function require(str: string): any;
 
