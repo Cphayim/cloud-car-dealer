@@ -6,7 +6,8 @@
 
         "pages/tabs/home/home",
         "pages/detail/monthly/monthly",
-        "pages/detail/active-client/active-client",
+        "pages/detail/active-client/active-list/active-list",
+        "pages/detail/active-client/active-info/active-info",
         "pages/detail/task/task",
         "pages/detail/charge/charge",
         "pages/detail/qrcode/qrcode",
