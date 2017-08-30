@@ -4,6 +4,7 @@ import { domain } from '../../../config/url.config';
 import toast from '../../../modules/toast';
 import { resCodeCheck } from '../../../modules/auth';
 import pagePath from '../../../config/path.config';
+import { refreshDelay } from '../../../config/config';
 /*
  * Tab 首页逻辑
  * @Author: 云程科技 
@@ -45,12 +46,11 @@ class HomePage extends BasePage {
         toast.showLoading(isRefresh ? '正在刷新...' : '正在加载...');
         this.requestData()
             .then((res: any) => {
-
-                console.log(res.data);
+                // console.log(res.data);
                 // 检查是否请求失败
                 if (resCodeCheck(res)) return;
 
-                const delay = isRefresh ? 600 : 200;
+                const delay = isRefresh ? refreshDelay : 0;
                 // 请求成功，渲染视图
                 setTimeout(() => {
                     this.setData({

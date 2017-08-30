@@ -45,7 +45,7 @@
         <view class="count">累计总数 {{homeData.model.MyMessage || '0'}}
         </view>
     </navigator>
-    <navigator url="{{pagePath['active-client']}}" class="card icon-card">
+    <navigator url="{{pagePath['active-list']}}" class="card icon-card">
         <view class="title">活跃客户</view>
         <view class="new">{{homeData.model.MyActiveCustomerUndeal || '0'}}</view>
         <view class="count">累计总数 {{homeData.model.MyActiveCustomer?homeData.model.MyActiveCustomer+homeData.model.MyActiveCustomerUndeal:'0'}}
@@ -54,20 +54,18 @@
 </view>
 
 <!-- 站内信 -->
-<view class="m-letter section">
+ <!-- <view class="m-letter section">
     <view class="l">
         <view class="title">站内信
-            <!-- <view class="badge">{{homeData.model.EmployeeMessageTotal || '0'}}</view> -->
+             <view class="badge">{{homeData.model.EmployeeMessageTotal || '0'}}</view> 
         </view>
-        <!--最新的一条-->
         <view class="top {{homeData.IsRead?'read':'unread'}}">
             {{homeData.FromEmployeeName?'['+homeData.FromEmployeeName+']':''}} 
             {{homeData.Title?homeData.Title:'无'}}
         </view>
     </view>
-    <!--右侧图标-->
     <view class="r icon-znxbg"></view>
-</view>
+</view>  -->
 
 <!-- 任务 -->
 <view class="m-task section">
