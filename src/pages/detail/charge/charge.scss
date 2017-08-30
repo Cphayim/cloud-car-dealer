@@ -14,32 +14,35 @@
         &:before,
         &:after {
             position: absolute;
-            display: block;content: '';
+            display: block;
+            content: '';
             width: 50rpx;
             height: 50rpx;
             border-radius: 50%;
             background-color: #eaeaea;
         }
-        &:before{
-            top: -25rpx;left: -33rpx;
+        &:before {
+            top: -25rpx;
+            left: -33rpx;
         }
-        &:after{
-            top: -25rpx;right: -33rpx;
+        &:after {
+            top: -25rpx;
+            right: -33rpx;
         }
-        .wrap{
+        .wrap {
             height: 100px;
             text-align: center;
-            .money{
-                @include font(40px,$firstFont);
+            .money {
+                @include font(40px, $firstFont);
                 line-height: 100px;
                 vertical-align: bottom;
-                &:before{
+                &:before {
                     content: '￥';
-                    @include font(20px,$firstFont);
+                    @include font(20px, $firstFont);
                 }
             }
         }
-        .charge-btn{
+        .charge-btn {
             padding: 20rpx;
             border: 1px solid $blueColor;
             border-radius: 5px;
@@ -47,7 +50,7 @@
             @include font(15px, #fff);
             background-color: $blueColor;
             text-align: center;
-            &.hover{
+            &.hover {
                 background-color: #6699cc;
             }
         }
@@ -63,5 +66,24 @@
         .item {
             padding-left: 30rpx;
         }
+    }
+}
+
+.animation-box {
+    // 覆盖 list.scss 组件样式
+    .cy-list {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    .m-charge{
+        transition: all 0.6s;
+        transform: translateY(200px);
+        opacity: 0;
+    }
+}
+.animation-box.loaded{
+    .m-charge{
+        transform: translateY(0);
+        opacity: 1;
     }
 }
