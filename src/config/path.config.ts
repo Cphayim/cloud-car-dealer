@@ -32,7 +32,7 @@ const pathArr: Path[] = [
     { name: 'monthly', pre: 'detail' },
     // 活跃客户
     { name: 'active-list', pre: 'detail/active-client' }, // 活跃客户列表
-    { name: 'active-trajectory', pre: 'detail/active-client' }, // 活跃客户轨迹
+    { name: 'active-info', pre: 'detail/active-client' }, // 活跃客户轨迹
     // 任务
     { name: 'task', pre: 'detail' },
     // 扣款信息
