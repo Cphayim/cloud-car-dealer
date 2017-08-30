@@ -76,11 +76,21 @@ class HomePage extends BasePage {
     private openScan() {
         wx.scanCode({
             onlyFromCamera: true,
-            success(e){
-                console.log(e);
+            success(res) {
+                const result: string = res.result,
+                    reg: RegExp = /^.*?rand=(.*)&?.*$/;
+
+                const matchResult = result.match(reg);
+                // 判断 扫描结果是否有效，有效则携带参数
+                if (matchResult) {
+                    const rand: string = matchResult[1];
+                    wx.navigateTo({
+                        url: pagePath.charge + '?rand=' + rand
+                    });
+                }
             },
-            fail(e){
-                console.log(e);
+            fail(err) {
+                console.log(err);
             }
         });
     }
