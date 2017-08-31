@@ -1,8 +1,8 @@
-import BasePage from '../../basepage';
-import pagePath from '../../../config/path.config';
-import TabSlider from '../../../components/tab-slider/tab-slider';
-import toast from '../../../modules/toast';
-import { request } from '../../../modules/request';
+import BasePage from '../../../basepage';
+import pagePath from '../../../../config/path.config';
+import TabSlider from '../../../../components/tab-slider/tab-slider';
+import toast from '../../../../modules/toast';
+import { request } from '../../../../modules/request';
 /*
  * 客户详情 逻辑
  * @Author: 云程科技 

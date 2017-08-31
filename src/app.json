@@ -16,7 +16,7 @@
         "pages/detail/record/record-edit/record-edit",
 
         "pages/tabs/client/client",
-        "pages/detail/customer/customer",
+        "pages/detail/customer/customer-info/customer-info",
         "pages/detail/customer/customer-edit/customer-edit",
 
         "pages/tabs/business/business",

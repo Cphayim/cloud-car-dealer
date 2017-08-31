@@ -60,7 +60,7 @@ const pathArr: Path[] = [
     // Tab 客户
     { name: 'client', pre: 'tabs' },
     // 客户详情
-    { name: 'customer', pre: 'detail' },
+    { name: 'customer-info', pre: 'detail/customer' },
     // 客户详情编辑
     { name: 'customer-edit', pre: 'detail/customer' },
 
