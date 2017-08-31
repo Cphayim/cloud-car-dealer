@@ -121,8 +121,10 @@ class ClientPage extends BasePage {
      */
     public chooseOption(e) {
         const query = this.selection.chooseOption(e);
-        this.setRequestDataByQuery(query);
-        this.addListItem(true);
+        if (query) {
+            this.setRequestDataByQuery(query);
+            this.addListItem(true);
+        }
     }
     /**
      * 显示筛选盒子
@@ -159,7 +161,9 @@ class ClientPage extends BasePage {
      */
     public chooseScreeningOption(e) {
         const query = this.selection.chooseScreeningOption(e);
-        this.setRequestDataByQuery(query);
+        if (query) {
+            this.setRequestDataByQuery(query);
+        }
     }
     /**
      * 关闭遮罩层
@@ -173,7 +177,9 @@ class ClientPage extends BasePage {
      */
     public resetQuery(e) {
         const query = this.selection.resetQuery();
-        this.setRequestDataByQuery(query);
+        if (query) {
+            this.setRequestDataByQuery(query);
+        }
     }
     /**
      * 通过 query 设置 请求参数
@@ -353,9 +359,9 @@ class ClientPage extends BasePage {
      * @param e 
      */
     public toDetail(e) {
-        const id: string = e.currentTarget.dataset.id;
+        const { id, name } = e.currentTarget.dataset;
         wx.navigateTo({
-            url: pagePath['customer-info'] + '?id=' + id
+            url: pagePath['customer-info'] + '?id=' + id + '&name=' + name
         });
     }
 
