@@ -9,7 +9,7 @@
     <view class="m-options-box section">
 
         <!-- 选项遮罩层 -->
-        <view bindtap="closeMask" class="mask" hidden="{{!isShowMask}}"></view>
+        <view catchtap="closeMask" class="mask" hidden="{{!isShowMask}}"></view>
 
         <!-- 选项标题组 -->
         <view class="select-title-group">
@@ -17,23 +17,23 @@
             <block wx:for="{{selectionData}}" wx:key="title">
                 <!-- 条件渲染: item.type 为 'select' 或 'all' -->
                 <view wx:if="{{item.type === 'select' || item.type === 'all'}}" class="select {{selectActiveIndex===index?'active':''}}"
-                    bindtap="showSelect" data-name="{{item.name}}" data-index="{{index}}">
+                    catchtap="showSelect" data-name="{{item.name}}" data-index="{{index}}">
                     <view>{{item.title}}</view>
                 </view>
             </block>
             <!-- 筛选头(条件渲染 isExistScreening) -->
-            <view wx:if="{{isExistScreening}}" bindtap="showScreening" class="screening">
+            <view wx:if="{{isExistScreening}}" catchtap="showScreening" class="screening">
                 <view class="icon-sreening">筛选</view>
             </view>
         </view>
 
         <!-- 选项列表组 -->
         <view class="option-list-group">
-            <scroll-view scroll-y style="height:800rpx">
+            <scroll-view scroll-y style="height:700rpx">
                 <!-- 循环列表 -->
                 <block wx:for="{{selectionData}}" wx:for-item="selectionItem" wx:for-index="selectionIndex" wx:key="title">
                     <!-- 条件渲染: item.type 为 'select' 或 'all' -->
-                    <view wx:if="{{selectionItem.type === 'select' || selectionItem.type === 'all'}}" bindtap="chooseOption" data-selection-index="{{selectionIndex}}"
+                    <view wx:if="{{selectionItem.type === 'select' || selectionItem.type === 'all'}}" catchtap="chooseOption" data-selection-index="{{selectionIndex}}"
                         data-selection-name="{{selectionItem.name}}" class="option-list {{selectActiveIndex === selectionIndex?'active':''}} {{selectAnimationIndex === selectionIndex?'animation':''}}">
                         <!-- 循环选项 -->
                         <block wx:for="{{selectionItem.opts}}" wx:for-item="optionItem" wx:for-index="optionIndex" wx:key="title">
@@ -57,27 +57,32 @@
                     <view class="screening-h">
                         <block wx:for="{{selectionData}}" wx:key="item.name">
                             <!-- 条件渲染: item.type 为 'screening' 或 'all' -->
-                            <view wx:if="{{item.type ==='screening'||item.type === 'all'}}" bindtap="switchScreening" class="item {{screeningActiveListIndex===index?'active':''}}"
+                            <view wx:if="{{item.type ==='screening'||item.type === 'all'}}" catchtap="switchScreening" class="item {{screeningActiveListIndex===index?'active':''}}"
                                 data-name="{{item.name}}" data-index="{{index}}">
                                 {{item.title}}
                             </view>
                         </block>
                     </view>
                 </scroll-view>
-                <scroll-view scroll-y style="height:800rpx">
+                <scroll-view scroll-y style="height:700rpx">
                     <!-- 筛选列表体 -->
                     <!-- 外层循环 -->
                     <block wx:for="{{selectionData}}" wx:key="name" wx:for-index="selectionIndex" wx:for-item="selectionItem">
                         <!-- 条件渲染: item.type 为 'screening' 或 'all' -->
-                        <view wx:if="{{selectionItem.type ==='screening'||selectionItem.type === 'all'}}" class="screening-option" bindtap="chooseScreeningOption"
-                            hidden="{{screeningActiveListIndex !== selectionIndex}}" data-selection-name="{{selectionItem.name}}"
+                        <view wx:if="{{selectionItem.type ==='screening'||selectionItem.type === 'all'}}" class="screening-option" 
+                            catchtap="chooseScreeningOption"
+                            hidden="{{screeningActiveListIndex !== selectionIndex}}" 
+                            data-selection-name="{{selectionItem.name}}" 
                             data-selection-index="{{selectionIndex}}">
                             <!-- 内层循环 -->
                             <block wx:for="{{selectionItem.opts}}" wx:for-index="optionIndex" wx:for-item="optionItem" wx:key="title">
-                                <view class="item {{optionIndex === query[selectionItem.name].idx?'active':''}}" data-screening-index="{{screeningIndex}}"
-                                    data-option-val="{{optionItem.val}}" data-option-index="{{optionIndex}}">
+                                <view class="item {{optionIndex === query[selectionItem.name].idx?'active':''}}" 
+                                    data-screening-index="{{screeningIndex}}"
+                                    data-option-val="{{optionItem.val}}" 
+                                    data-option-index="{{optionIndex}}">
                                     {{optionItem.title}}
-                                    <icon type="success" color="{{optionIndex === query[selectionItem.name].idx?'#54b4ef':'#e0e0e0'}}" size="20" />
+                                    <icon type="success" color="{{optionIndex === query[selectionItem.name].idx?'#54b4ef':'#e0e0e0'}}" size="20" 
+                                        data-option-index="{{optionIndex}}"/>
                                 </view>
                             </block>
                         </view>
@@ -85,8 +90,8 @@
                 </scroll-view>
             </view>
             <view class="btn-group">
-                <view bindtap="resetQuery" class="item">重置</view>
-                <view bindtap="finishScreening" class="item blue">完成</view>
+                <view catchtap="resetQuery" class="item">重置</view>
+                <view catchtap="finishScreening" class="item blue">完成</view>
             </view>
         </view>
     </view>

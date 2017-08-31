@@ -194,7 +194,7 @@ class Selection {
      */
     public switchScreening(e): void {
         // 获取事件目标携带的索引值
-        const index = e.target.dataset.index;
+        const index = e.currentTarget.dataset.index;
         // 没取到值不进行操作
         if (index == undefined) return console.log('没有取到事件目标的 index');
         // 和当前 active 的索引相同不进行操作
@@ -263,6 +263,7 @@ class Selection {
             }
         });
         this.syncSelectionToView();
+        return this.query;
     }
     /**
      * 初始化
@@ -271,7 +272,7 @@ class Selection {
         // 设置 screeningActiveListIndex 的初值为selectData 数组中
         // 第一个 type 为 screening 或 all 的 对象
         for (let i = 0, length = this.selectionData.length; i < length; i++) {
-            console.log(this.selectionData[i]);
+            // console.log(this.selectionData[i]);
             if (this.selectionData[i].type === 'screening' || this.selectionData[i].type === 'all') {
                 this.screeningActiveListIndex = i;
                 break;
@@ -280,6 +281,20 @@ class Selection {
         // 重置一次 query 对象
         this.resetQuery();
         this.syncSelectionToView();
+    }
+    /**
+     * 更新 selectionData 并重启组件
+     * @param selectionData 
+     */
+    public update(selectionData) {
+        if (!selectionData || !(selectionData instanceof Array)){
+            return;
+        }
+        if(!selectionData.length){
+            return;
+        }
+        this.selectionData = selectionData;
+        this.init();
     }
 }
 
