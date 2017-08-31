@@ -353,7 +353,7 @@ class ClientPage extends BasePage {
      * @param e 
      */
     public toDetail(e) {
-        const id: string = e.currentTarget.id;
+        const id: string = e.currentTarget.dataset.id;
         wx.navigateTo({
             url: pagePath['customer-info'] + '?id=' + id
         });
