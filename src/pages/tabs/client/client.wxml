@@ -17,11 +17,11 @@
 <!-- 内容区 -->
 <view style="padding-top:{{listPaddingTop}}px" class="m-client">
   <!-- 列表项统计 -->
-  <view class="cy-list-count">总数：{{businessTotal}}</view>
+  <view class="cy-list-count">总数：{{clientTotal}}</view>
   <!-- 列表 -->
-  <view class="cy-list cy-client-list {{businessList.length === 0?'nocontent':''}}">
-    <block wx:for="{{businessList}}" wx:key="item.Id">
-      <view bindtap="toDetail" class="item" data-business-id="{{item.Id}}">
+  <view class="cy-list cy-client-list {{clientList.length === 0?'nocontent':''}}">
+    <block wx:for="{{clientList}}" wx:key="item.Id">
+      <view bindtap="toDetail" class="item" data-id="{{item.Id}}">
         <view class="l">
           <!-- 客户头像 -->
           <view class="avatar-wrap">
@@ -31,27 +31,15 @@
         <view class="c">
           <!-- 客户名 -->
           <view class="namewrap">
-            <view class="realname">{{item.Name}}</view>
-            <view class="username">{{item.Nickname}}</view>
+            <view class="realname">{{item.Name || ''}}</view>
+            <view class="username">{{item.Nickname || ''}}</view>
           </view>
-          <!-- 业务内容 -->
-          <view class="content">{{OpportunityPreFrom[item.PreFrom]}} | {{item.FromTitle}}</view>
+          <!-- 车型车系 -->
+          <view class="content">{{item.CarBrandName}}</view>
         </view>
         <view class="r">
           <!-- 时间/状态 -->
           <view class="time">{{item.time}}</view>
-          <view wx:if="{{item.Status == 11}}" class="status status-finished">
-            {{OpportunityStatus[item.Status]}}
-          </view>
-          <view wx:elif="{{item.Status == 9}}" class="status status-progressed">
-            {{OpportunityStatus[item.Status]}}
-          </view>
-          <view wx:elif="{{item.Status == 2}}" class="status status-untreated">
-            {{OpportunityStatus[item.Status]}}
-          </view>
-          <view wx:elif="{{item.Status == 10}}" class="status status-null">
-            {{OpportunityStatus[item.Status]}}
-          </view>
         </view>
       </view>
     </block>
