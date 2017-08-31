@@ -21,7 +21,8 @@
   <!-- 列表 -->
   <view class="cy-list cy-client-list {{clientList.length === 0?'nocontent':''}}">
     <block wx:for="{{clientList}}" wx:key="item.Id">
-      <view bindtap="toDetail" class="item" data-id="{{item.Id}}">
+      <view bindtap="toDetail" class="item"
+         data-id="{{item.Id}}" data-name="{{item.Name}}">
         <view class="l">
           <!-- 客户头像 -->
           <view class="avatar-wrap">
