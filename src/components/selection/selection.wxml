@@ -28,7 +28,7 @@
         </view>
 
         <!-- 选项列表组 -->
-        <view class="option-list-group">
+        <view hidden="{{!isShowSelectBox}}" class="option-list-group">
             <scroll-view scroll-y style="height:700rpx">
                 <!-- 循环列表 -->
                 <block wx:for="{{selectionData}}" wx:for-item="selectionItem" wx:for-index="selectionIndex" wx:key="title">
