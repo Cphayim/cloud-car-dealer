@@ -27,7 +27,15 @@ declare namespace wx {
   export function showToast(args: Object): void;
   export function hideToast(): void;
   export function showLoading(args: Object): void;
+
   export function showModal(args: Object): void;
+
+  export function showActionSheet(args: {
+    itemList?: string[],
+    itemColor?: string,
+    success?: any,
+    fail?:any
+  }): void;
 
   // 下拉刷新 
   export function stopPullDownRefresh(): void;
@@ -38,7 +46,7 @@ declare namespace wx {
   export function setNavigationBarTitle(opt: { title: string }): void;
 
   // 调用系统
-  export function makePhoneCall(arg: { phoneNumber: Number }): void;
+  export function makePhoneCall(arg: { phoneNumber: string }): void;
   export function scanCode(arg: any): void;
 }
 
