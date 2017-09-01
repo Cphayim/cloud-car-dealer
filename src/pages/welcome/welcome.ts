@@ -28,7 +28,7 @@ class WelcomePage extends BasePage {
         let key: string = e.target.dataset.name;
         let val: string = e.detail.value;
         this.data.formData[key] = val;
-        console.log(this.data.formData);
+        // console.log(this.data.formData);
     }
     /**
      * 输入框确认事件(手机端有效)
@@ -99,7 +99,7 @@ class WelcomePage extends BasePage {
             // 缓存员工信息
             wx.setStorageSync('employee', data.employee);
             // 缓存经销商信息
-            wx.setStorageSync('tenant',data.Tenant);
+            wx.setStorageSync('tenant', data.Tenant);
 
             // 跳转到首页
             setTimeout(_ => {
@@ -118,6 +118,13 @@ class WelcomePage extends BasePage {
      * @memberof WelcomePage
      */
     private onLoad(options): void {
+
+        const overdue: boolean = !!options.overdue;
+
+        if(overdue){
+            toast.showWarning('登录凭证过期，请重新登录');
+        }
+
         const p1 = new Promise((resolve, reject) => {
             // 动画
             setTimeout(_ => {
