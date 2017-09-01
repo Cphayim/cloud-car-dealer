@@ -98,6 +98,8 @@ class WelcomePage extends BasePage {
             wx.setStorageSync('ticket', data.ticket);
             // 缓存员工信息
             wx.setStorageSync('employee', data.employee);
+            // 缓存经销商信息
+            wx.setStorageSync('tenant',data.Tenant);
 
             // 跳转到首页
             setTimeout(_ => {
