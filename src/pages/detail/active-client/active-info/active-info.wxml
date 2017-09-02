@@ -1,0 +1,5 @@
+<import src="../../../../components/intro/intro.wxml" />
+
+<view class="m-active-info">
+    <template is="intro" data="{{introData:introData,tplNum:2}}"></template>
+</view>

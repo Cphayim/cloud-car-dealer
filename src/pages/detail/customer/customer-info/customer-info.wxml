@@ -1,23 +1,129 @@
-<!--customer.wxml-->
 <!-- 客户详情 -->
-
 <!-- Intro 组件模板 -->
 <import src="/components/intro/intro.wxml"></import>
-
 <!-- List 组件模板 -->
 <import src="/components/list/list.wxml"></import>
-
 <!-- Tab-slider 组件模板 -->
 <import src="/components/tab-slider/tab-slider.wxml" />
 
 <!-- 容器 -->
-<view class="animation-box {{loaded?'loaded':''}}" >
+<!--  -->
+<view class="animation-box {{loaded?'loaded':''}}">
     <!-- Intro -->
-    <template is="intro" data="{{introData:pageData.userInfo,tplNum:2}}"></template>
+    <template is="intro" data="{{introData:introData,tplNum:2}}"></template>
+
     <!-- 跟进信息 -->
-    <template is="list" data="{{listData:pageData.follow,tplNum:2}}"></template>
+    <view class="cy-headlink-list cy-list">
+        <view class="head">
+            <view class="head-key">跟进信息</view>
+            <view class="head-val" hover-class="hover"></view>
+        </view>
+        <view class="item-wrap">
+            <!-- 潜客等级 -->
+            <view class="item">
+                <view class="item-key">潜客等级</view>
+                <view class="item-val" 
+                    catchtap="setLevel"
+                    data-islose="{{discuss.IsLose}}" 
+                    data-prelevel="{{discuss.PreLevel}}" 
+                    data-losetype="{{discuss.LoseType}}">
+                    {{discuss.PreLevelStr}}
+                </view>
+            </view>
+            <!-- 计划XX -->
+            <!-- 条件渲染: 不处于流失审核状态 -->
+            <block wx:if="{{!discuss.IsLose}}">
+                <!-- 条件渲染: 当经销商开启回访 && 客户等级不为L(流失) && 客户等级不为S(线索) -->
+                <block wx:if="{{ discuss.IsOpenReVisit && discuss.PreLevel != 7 && discuss.PreLevel != 8 }}">
+
+                    <!-- 计划回访 -->
+                    <!-- 条件渲染: 大类为回访 && 小类为邀约 && 客户等级不为O(订单) && 客户等级不为0(成交) && 客户等级不为L(流失) -->
+                    <block wx:if="{{discuss.VisitType == 1 && discuss.ItemType == 1  && discuss.PreLevel != 5 && discuss.PreLevel != 9 && discuss.PreLevel != 7 }}">
+                        <view class="item">
+                            <view class="item-key">计划回访</view>
+                            <view class="item-val">{{discuss.NextTime}}</view>
+                        </view>
+                    </block>
+
+                    <!-- 计划邀约  -->
+                    <!-- 条件渲染: 大类为回访 && 小类为邀约 && 客户等级不为O(订单) && 客户等级不为0(成交) && 客户等级不为L(流失) -->
+                    <block wx:elif="{{discuss.VisitType == 1 && discuss.ItemType == 2 && discuss.PreLevel != 5 && discuss.PreLevel != 9 && discuss.PreLevel != 7 }}">
+                        <view class="item">
+                            <view class="item-key">计划邀约</view>
+                            <view class="item-val">{{discuss.NextTime}}</view>
+                        </view>
+                    </block> 
+
+                    <!-- 计划到店 -->
+                    <!-- 条件渲染: 大类为回访 && 小类为邀约 && 客户等级不为O(订单) && 客户等级不为0(成交) && 客户等级不为L(流失) -->
+                    <block wx:elif="{{discuss.VisitType == 2}}">
+                        <view class="item">
+                            <view class="item-key">计划到店</view>
+                            <view class="item-val">{{discuss.NextTime}}</view>
+                        </view>
+                    </block> 
+
+                    <!-- 计划交车 -->
+                    <!-- 条件渲染: 客户等级为 O(订单) && 没有成功交车时间  -->
+                    <block wx:elif="{{discuss.PreLevel == 5 && !discuss.DealTime}}">
+                        <view class="item">
+                            <view class="item-key">计划交车</view>
+                            <view class="item-val">{{discuss.DeliverDate}}</view>
+                        </view>
+                    </block> 
+
+                </block>
+                <block wx:else>
+                    <!-- 计划交车 -->
+                    <!-- 条件渲染: 客户等级为 O(订单)  -->
+                    <block wx:if="{{discuss.PreLevel == 5}}">
+                        <view class="item">
+                            <view class="item-key">计划交车</view>
+                            <view class="item-val">{{discuss.DeliverDate}}</view>
+                        </view>
+                    </block>
+                </block>
+            </block>
+
+
+        </view>
+    </view>
+
     <!-- 基本信息 -->
-     <template is="list" data="{{listData:pageData.base,tplNum:2}}"></template>  
+    <view class="cy-headlink-list cy-list">
+        <view class="head">
+            <view class="head-key">基本信息</view>
+            <view class="head-val" hover-class="hover">编辑</view>
+        </view>
+        <view class="item-wrap">
+            <!-- 手机号 -->
+            <view class="item">
+                <view class="item-key">手机号</view>
+                <view class="item-val">{{item.val}}</view>
+            </view>
+            <!-- 意向车型 -->
+            <view class="item">
+                <view class="item-key">意向车型</view>
+                <view class="item-val">{{item.val}}</view>
+            </view>
+            <!-- 对比车型 -->
+            <view class="item">
+                <view class="item-key">对比车型</view>
+                <view class="item-val">{{item.val}}</view>
+            </view>
+            <!-- 购车方式 -->
+            <view class="item">
+                <view class="item-key">购车方式</view>
+                <view class="item-val">{{item.val}}</view>
+            </view>
+            <!-- 购车预算 -->
+            <view class="item">
+                <view class="item-key">购车预算</view>
+                <view class="item-val">{{item.val}}</view>
+            </view>
+        </view>
+    </view>
+
     <!-- 跟踪记录 -->
     <template is="tab-slider" data="{{...tabSlider}}"></template>
 </view>
