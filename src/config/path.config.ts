@@ -63,6 +63,8 @@ const pathArr: Path[] = [
     { name: 'customer-info', pre: 'detail/customer' },
     // 客户详情编辑
     { name: 'customer-edit', pre: 'detail/customer' },
+    // 客户订单信息
+    { name: 'customer-order', pre: 'detail/customer' },
 
 
     /**

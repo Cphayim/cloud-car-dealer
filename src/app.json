@@ -18,6 +18,7 @@
         "pages/tabs/client/client",
         "pages/detail/customer/customer-info/customer-info",
         "pages/detail/customer/customer-edit/customer-edit",
+        "pages/detail/customer/customer-order/customer-order",
 
         "pages/tabs/business/business",
         "pages/detail/opportunity/opportunity",
