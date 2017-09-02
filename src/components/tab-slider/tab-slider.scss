@@ -224,7 +224,7 @@
                     text-align: center;
                     @include font($nanoFont,$thirdFont);
                     .date,.time{
-                        padding: 10rpx 0 5rpx;
+                        // padding: 10rpx 0 5rpx;
                         background-color: #fff;
                     }
                 }
