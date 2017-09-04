@@ -7,6 +7,7 @@ import { domain } from '../../../../config/url.config';
 import { resCodeCheck, reLogin } from '../../../../modules/auth';
 import { dateFormat } from '../../../../modules/util';
 import { enumConfig } from '../../../../config/enum.config';
+import { refreshDelay } from '../../../../config/config';
 /*
  * 客户详情 逻辑
  * @Author: 云程科技 
@@ -87,6 +88,8 @@ const discussBase = {
 }
 
 class CustomerPage extends BasePage {
+    // 是否在 onShow 时 重新调用 loadData 方法，通过子页面设置
+    private refreshFlag: boolean = false; 
     private id: number = 0;
     private res: any;
     private tabSlider: TabSlider = tabSlider;
@@ -277,6 +280,13 @@ class CustomerPage extends BasePage {
         });
 
         this.loadData();
+    }
+
+    private onShow(){
+        if(this.refreshFlag){
+            this.loadData();
+            this.refreshFlag = false;
+        }
     }
     /**
      * 加载数据
