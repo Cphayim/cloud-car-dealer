@@ -9,7 +9,10 @@
 export const actionSheet = {
     show({
         itemList = [],
-        itemColor = '#333',
+        itemColor = '#54b4ef',
+    }:{
+        itemList: string[],
+        itemColor?: string
     }) {
         return new Promise((resolve, reject) => {
             wx.showActionSheet({
@@ -18,7 +21,7 @@ export const actionSheet = {
                     resolve(res.tapIndex);
                 },
                 fail(err){
-                    console.log(err);
+                    // console.log(err);
                 }
             })
         })
