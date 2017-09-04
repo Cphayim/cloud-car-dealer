@@ -37,6 +37,13 @@
             justify-content: flex-end;
             align-items: center; // text-align: right;
             color: $secondFont;
+            &.arrow{
+                padding-right: 40rpx;
+                background-image: url('../../dev-resource/image-min/right_arrow.png');
+                background-repeat: no-repeat;
+                background-size: auto 28rpx;
+                background-position: 100% 50%;
+            }
         }
     }
 }
