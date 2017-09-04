@@ -33,11 +33,11 @@ const selection = new Selection({
  */
 
 interface Data {
-    pagePath: any,
+    pagePath: any;
     // 列表顶部填充层高度
-    listPaddingTop: number,
+    listPaddingTop: number;
     // selection 对象挂载
-    selection: Selection,
+    selection: Selection;
 
     /**
      * 请求相关
@@ -47,12 +47,12 @@ interface Data {
     /*
      * 枚举相关
      */
-
+    PreLevel: any;
     /**
      * 数据
      */
-    clientTotal: number, // 客户总数
-    clientList: any[], // 客户列表
+    clientTotal: number; // 客户总数
+    clientList: any[]; // 客户列表
 }
 
 
@@ -97,7 +97,7 @@ class ClientPage extends BasePage {
         /*
          * 枚举相关
          */
-
+        PreLevel: enumConfig.PreLevel,
         /**
          * 数据
          */

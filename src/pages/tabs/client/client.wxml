@@ -36,7 +36,7 @@
             <view class="username">{{item.Nickname || ''}}</view>
           </view>
           <!-- 车型车系 -->
-          <view class="content">{{item.CarBrandName}}</view>
+          <view class="content">{{PreLevel[item.PreLevel || 0 ]}} | {{item.CarBrandName || '无意向车型'}}</view>
         </view>
         <view class="r">
           <!-- 时间/状态 -->
