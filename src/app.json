@@ -15,13 +15,15 @@
         "pages/detail/record/record-info/record-info",
         "pages/detail/record/record-edit/record-edit",
 
+        "pages/tabs/business/business",
+        "pages/detail/opportunity/opportunity",
+
         "pages/tabs/client/client",
         "pages/detail/customer/customer-info/customer-info",
         "pages/detail/customer/customer-edit/customer-edit",
         "pages/detail/customer/customer-order/customer-order",
+        "pages/detail/customer/customer-lose/customer-lose",
 
-        "pages/tabs/business/business",
-        "pages/detail/opportunity/opportunity",
 
         "pages/tabs/message/message",
         "pages/detail/dialogue/dialogue",
