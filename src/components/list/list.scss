@@ -6,11 +6,10 @@
  */
 
 @import '../../dev-resource/config.dev.scss';
-
 // 列表信息
-.cy-list-count{
+.cy-list-count {
     padding: 10rpx 30rpx;
-    @include font(12px,$firstFont);
+    @include font(12px, $firstFont);
     background-color: #eaeaea;
 }
 
@@ -22,7 +21,7 @@
         border-bottom: $border;
         @include font(14px);
         background-color: #fff;
-        &:last-child{
+        &:last-child {
             border-bottom: none;
         }
         .item-key {
@@ -30,6 +29,9 @@
             display: flex;
             align-items: center;
             color: $firstFont;
+            >view {
+                text-align: center;
+            }
         }
         .item-val {
             flex: 1 1 auto;
@@ -37,7 +39,7 @@
             justify-content: flex-end;
             align-items: center; // text-align: right;
             color: $secondFont;
-            &.arrow{
+            &.arrow {
                 padding-right: 40rpx;
                 background-image: url('../../dev-resource/image-min/right_arrow.png');
                 background-repeat: no-repeat;
@@ -53,7 +55,8 @@
     //列表
     .title {
         padding: 15rpx 30rpx;
-        @include font($smallFont, $firstFont);
+        @include font($smallFont,
+        $firstFont);
         background-color: #eaeaea;
     }
 }
@@ -103,12 +106,25 @@
             input {
                 display: inline-block;
                 width: 100%;
-                @include font(14px, $thirdFont);
+                @include font(14px,
+                $thirdFont);
                 text-align: right;
                 .placeholder {
-                    @include font(14px, #aaa);
+                    @include font(14px,
+                    #aaa);
                 }
-            } // 选项盒子
+            }
+            textarea{
+                width: 100%;
+                border-radius: 15rpx;
+                padding: 20rpx;
+                border:$border;
+                .placeholder {
+                    @include font(14px,
+                    #aaa);
+                }
+            } 
+            // 选项盒子
             .checkbox {
                 display: flex;
                 flex-wrap: wrap;
@@ -141,7 +157,8 @@
             .arrow {
                 position: relative;
                 padding-right: 17.5px;
-                @include font(14px, $thirdFont);
+                @include font(14px,
+                $thirdFont);
                 &:after {
                     position: absolute;
                     right: -7.5px;
@@ -181,7 +198,7 @@
             flex: 0 0 auto;
         }
         .c {
-            flex: 1 1 auto; 
+            flex: 1 1 auto;
             width: 50%;
             padding: 0 16rpx;
             margin: 10rpx 0;
@@ -203,7 +220,7 @@
             height: 100%; // padding: 5px;
             border-radius: 50%; // box-shadow: 0 0 0 1px #eee;
         }
-        .namewrap{
+        .namewrap {
             display: flex;
             align-items: center;
         }
@@ -215,10 +232,12 @@
             @extend %text-clip;
         } // 真实姓名
         .realname {
-            @include font($normalFont, $firstFont);
+            @include font($normalFont,
+            $firstFont);
         } // 用户名
         .username {
-            @include font($smallFont, $secondFont);
+            @include font($smallFont,
+            $secondFont);
             margin-left: 8rpx;
             &:before {
                 content: ' [ ';
@@ -228,7 +247,8 @@
             }
         }
         .content {
-            @include font($smallFont, $thirdFont);
+            @include font($smallFont,
+            $thirdFont);
             margin-top: 10rpx;
             width: 100%;
             @extend %text-clip;
@@ -236,7 +256,8 @@
         .time,
         .status,
         .text {
-            @include font($smallFont, $thirdFont);
+            @include font($smallFont,
+            $thirdFont);
             display: inline-block;
             width: 100%;
         }
@@ -247,17 +268,18 @@
     }
 }
 
-
-.status:before{
+.status:before {
     display: inline-block;
-    width: 14px;height: 14px;
+    width: 14px;
+    height: 14px;
     margin-right: 2px;
-    content:'';
+    content: '';
     background-size: 100% 100%;
     background-repeat: no-repeat;
     vertical-align: middle;
 }
-.status-progressed:before{
+
+.status-progressed:before {
     background-image: url('../../dev-resource/image-min/status-progress.png');
 }
 
@@ -268,13 +290,15 @@
 .status-finished:before {
     background-image: url('../../dev-resource/image-min/status-finished.png');
 }
-.status-null:before{
+
+.status-null:before {
     background-image: url('../../dev-resource/image-min/status-null.png');
 }
 
 // 列表动画控制
 .animation-box {
-    .cy-list,.cy-list-count {
+    .cy-list,
+    .cy-list-count {
         transition: all 0.6s;
         transform: translateY(200rpx);
         opacity: 0;
@@ -282,7 +306,8 @@
 }
 
 .animation-box.loaded {
-    .cy-list,.cy-list-count {
+    .cy-list,
+    .cy-list-count {
         transform: translateY(0);
         opacity: 1;
     }
@@ -296,8 +321,6 @@
     background-position: 50% 20%;
     background-size: 320rpx 400rpx;
 }
-
-
 
 // 底部保存按钮
 .m-operation {
@@ -314,7 +337,8 @@
             border: 1px solid $blueColor;
             border-radius: 5px;
             margin: 0 10rpx;
-            @include font(15px, $blueColor);
+            @include font(15px,
+            $blueColor);
             text-align: center;
             &.blue {
                 color: #fff;
