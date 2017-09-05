@@ -23,7 +23,6 @@
         "pages/detail/customer/customer-edit/customer-edit",
         "pages/detail/customer/customer-order/customer-order",
         "pages/detail/customer/customer-lose/customer-lose",
-        "pages/detail/customer/customer-deal/customer-deal",
 
 
         "pages/tabs/message/message",
