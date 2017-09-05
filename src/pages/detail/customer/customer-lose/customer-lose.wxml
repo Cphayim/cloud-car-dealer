@@ -1,1 +1,72 @@
 <!-- 客户流失登记 -->
+<view class="animation-box {{loaded?'loaded':''}}">
+    <view class="m-customer-lose">
+        <template wx:if="{{tplType == 0}}" is="fail" data="{{reason:reason,reasonOptions:reasonOptions}}"></template>
+        <template wx:else is="miss" ></template>
+
+    </view>
+
+    <template name="fail">
+        <view class="cy-edit-list cy-list">
+            <view class="item-wrap">
+                <!-- 战败品牌 -->
+                <view class="item">
+                    <view class="item-key">战败品牌</view>
+                    <view class="item-val">
+                        <input type="text" bindinput="changeInput" data-name="DefeatCarBrand" value="" placeholder="请输入战败品牌" placeholder-class="placeholder"
+                        />
+                    </view>
+                </view>
+                <!-- 战败原因 -->
+                <view class="item">
+                    <view class="item-key">
+                        <view>
+                            <view>战败原因</view>
+                            <view>(多选)</view>
+                        </view>
+                    </view>
+                    <view class="item-val">
+                        <view class="checkbox" catchtap="setReason">
+                            <block wx:for="{{reasonOptions}}" wx:for-item="option" wx:key="*this">
+                                <view class="option {{reason[index]?'active':''}}" hover-class="hover" data-index="{{index}}" data-option-name="{{option}}">
+                                    {{option}}
+                                </view>
+                            </block>
+                        </view>
+                    </view>
+                </view>
+                <!-- 战败说明 -->
+                <view class="item">
+                    <view class="item-key">战败说明</view>
+                    <view class="item-val">
+                        <textarea bindinput="changeInput" data-name="Remark" auto-height maxlength="300" placeholder="在此输入备注（可选，限300字）" placeholder-class="placeholder">
+                    </textarea>
+                    </view>
+                </view>
+            </view>
+        </view>
+
+    </template>
+
+    <template name="miss">
+        <view class="cy-edit-list cy-list">
+            <view class="item-wrap">
+                <!-- 备注说明 -->
+                <view class="item">
+                    <view class="item-key">备注信息</view>
+                    <view class="item-val">
+                        <textarea bindinput="changeInput" data-name="Remark" auto-height maxlength="300" placeholder="在此输入备注（可选，限300字）" placeholder-class="placeholder">
+                    </textarea>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </template>
+
+    <view class="m-operation">
+        <!-- 按钮组 -->
+        <view class="btn-group">
+            <view catchtap="save" class="blue" hover-class="hover">提交</view>
+        </view>
+    </view>
+</view>
