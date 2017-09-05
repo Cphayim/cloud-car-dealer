@@ -1,4 +1,4 @@
-import modal from '../../../modules/modal';
+import {modal} from '../../../modules/modal';
 import pagePath from '../../../config/path.config';
 import toast from '../../../modules/toast';
 import { domain } from '../../../config/url.config';
