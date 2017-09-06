@@ -43,7 +43,7 @@
                 <view class="item">
                     <view class="item-key">价格</view>
                     <view class="item-val">
-                        <input type="digit" bindinput="changeMoney" data-name="Price" value="" placeholder="0.00" placeholder-class="placeholder"
+                        <input type="digit" bindinput="changeMoney" data-name="Price" value="{{Price}}" placeholder="0.00" placeholder-class="placeholder"
                         />
                     </view>
                 </view>
@@ -51,7 +51,7 @@
                 <view class="item">
                     <view class="item-key">定金</view>
                     <view class="item-val">
-                        <input type="digit" bindinput="changeMoney" data-name="Deposit" value="" placeholder="0.00" placeholder-class="placeholder"
+                        <input type="digit" bindinput="changeMoney" data-name="Deposit" value="{{Deposit}}" placeholder="0.00" placeholder-class="placeholder"
                         />
                     </view>
                 </view>

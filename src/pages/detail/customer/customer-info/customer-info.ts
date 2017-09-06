@@ -114,9 +114,206 @@ class CustomerPage extends BasePage {
         discuss: JSON.parse(JSON.stringify(discussBase))
     }
 
+    private onLoad(options) {
+        const id = ~~options.id,
+            // name = options.name;
+            name = '';
+        this.id = id;
+        wx.setNavigationBarTitle({
+            title: name || '客户详情'
+        });
+
+        this.loadData();
+    }
+
+    private onShow() {
+        if (this.refreshFlag) {
+            this.loadData();
+            this.refreshFlag = false;
+        }
+    }
+
+
+    /**
+     * 加载数据
+     * @private
+     * @param {boolean} [isRefresh=false] 是否是下拉刷新触发
+     * @memberof CustomerPage
+     */
+    private loadData(isRefresh = false) {
+        toast.showLoading();
+        request({
+            url: domain + '/ApiCustomerPre/ReadForPreDetail',
+            data: {
+                ticket: wx.getStorageSync('ticket'),
+                id: this.id
+            }
+        }).then((res: any) => {
+            if (resCodeCheck(res)) {
+                return;
+            }
+            const data = res.data;
+            // 生成 intro 组件数据
+            this.data.introData = {
+                avatar: data.customer.HeadImgUrl,
+                realname: data.customer.Name,
+                username: data.customer.Nickname,
+                source: data.customer.CustomerFrom,
+                time: dateFormat('yyyy.MM.dd', new Date(data.customer.BecomeTime)),
+                customerId: data.customer.Id,
+                phone: data.customer.MobilePhone
+            }
+
+            // 保存响应数据
+            this.res = data;
+
+            // 跟进记录与客户轨迹
+            const tabSliderData = [{
+                // 渲染到 顶部 Tab
+                tabTitle: '跟进记录',
+                // 列表类型
+                listType: 'axis',
+                // 列表项
+                items: []
+            }, {
+                tabTitle: '客户轨迹',
+                listType: 'axis',
+                items: []
+            }];
+
+            const items1 = data.discussRecord.map(item => {
+                const reg = /^(\d{4}\/\d{2}\/\d{2}).*(\d{2}:\d{2}:\d{2})$/;
+                const datearr = item.CreateTime.match(reg);
+                return {
+                    date: datearr[1],
+                    time: datearr[2],
+                    content: (item.Title == '微信' ? '微信对话' : item.Title) + ' ' + item.Content
+                }
+            });
+
+            const items2 = data.track.map(item => {
+                const reg = /^(\d{4}\/\d{2}\/\d{2}).*(\d{2}:\d{2}:\d{2})$/;
+                const datearr = item.Date.match(reg);
+                return {
+                    date: datearr[1],
+                    time: datearr[2],
+                    content: item.Title + ' 浏览次数: ' + item.Count
+                }
+            });
+            tabSliderData[0].items = items1;
+            tabSliderData[1].items = items2;
+
+            this.tabSlider.update(tabSliderData);
+
+            // 设置跟进信息
+            this.loadDiscuss();
+
+            toast.hide();
+            const delay = isRefresh ? refreshDelay : 0;
+            setTimeout(() => {
+                this.setData({
+                    loaded: true,
+                    introData: this.data.introData
+                });
+                isRefresh && toast.showSuccess('刷新成功');
+            }, delay);
+
+        });
+    }
+
+    /**
+     * 加载跟进信息
+     * @param data request => res.data
+     */
+    private loadDiscuss() {
+        // 容器是否有响应数据
+        if (!this.res) {
+            return;
+        }
+        // 重置 discuss
+        this.data.discuss = JSON.parse(JSON.stringify(discussBase));
+
+        /**
+         * 本地缓存中获取经销商数据，若没有经销商信息则强制重新登录
+         */
+        const tenant: any = wx.getStorageSync('tenant');
+        if (!tenant) { reLogin(); return; }
+        // 经销商是否开启回访
+        this.data.discuss.IsOpenReVisit = tenant.IsOpenReVisit;
+
+        /**
+         * 是否是正在流失审核状态
+         * 通过返回 data 的实体 customerLose 中 Id 是否有值判断
+         */
+        const isLose: boolean = !!this.res.customerLose.Id;
+        this.data.discuss.IsLose = isLose;
+
+        /**
+         * 潜客等级
+         */
+        // 潜客等级枚举值
+        this.data.discuss.PreLevel = this.res.customer.PreLevel;
+        // 如果不是正在审核的流失状态
+        if (!isLose) {
+            // 潜客等级字符串
+            this.data.discuss.PreLevelStr = (() => {
+                // 将 潜客等级枚举值 对应的字符串 赋给 潜客等级字符串
+                let preLevelStr: string = this.enumPreLevel[this.res.customer.PreLevel];
+                // 判断 潜客等级枚举值对应的是不是 L 流失等级
+                // 如果是 L 流失等级 追加流失类型
+                if (this.res.customer.PreLevel == 7) {
+                    /**
+                     * 这里后端返回参数名有错误
+                     * data.customer 实体下为 LossType
+                     * data.customerLose 实体下为 LoseType
+                     * 注意区分
+                     */
+                    // 流失类型枚举值
+                    this.data.discuss.LoseType = this.res.customer.LossType;
+                    // 流失类型字符串
+                    this.data.discuss.LoseTypeStr = this.enumLoseType[this.data.discuss.LoseType];
+                    // 字符串 追加流失状态 (如: "L(流失) - 战败" )
+                    preLevelStr += ' - ' + this.data.discuss.LoseTypeStr;
+                    // 战败品牌
+                    this.data.discuss.DefeatCarBrand = this.res.customer.DefeatCarBrand;
+                    // 战败原因
+                    this.data.discuss.DefeatReason = this.res.customer.DefeatReason;
+                }
+                // 返回供视图显示的 潜客等级字符串
+                return preLevelStr;
+            })();
+        }
+        // 如果是正在审核的流失状态
+        else {
+            this.data.discuss.PreLevelStr = "流失审核中";
+            this.data.discuss.LoseId = this.res.customerLose.Id;
+        }
+
+        /**
+         * 计划回访、邀约、到店、交车
+         */
+        this.data.discuss.VisitType = this.res.customerVisit.VisitType;
+        this.data.discuss.ItemType = this.res.customerVisit.ItemType;
+        if (!isLose) {
+            // 计划时间
+            this.data.discuss.NextTime = this.res.customerVisit.NextTimeStr;
+            // 计划交车时间
+            this.data.discuss.DeliverDate = this.res.customer.DeliverDateStr || '';
+            // 成交时间
+            this.data.discuss.DealTime = this.res.customer.DealTime || '';
+        }
+
+        // 同步数据到视图层
+        this.setData({
+            discuss: this.data.discuss
+        });
+    }
+
+
     /**
      * 设置等级
-     * @param e 
+     * @param {any} e 
+     * @memberof CustomerPage
      */
     public setLevel(e) {
         if (!this.res) {
@@ -247,113 +444,6 @@ class CustomerPage extends BasePage {
     }
 
     /**
-     * 设置跟进信息
-     * @param data request => res.data
-     */
-    private loadDiscuss() {
-        // 容器是否有响应数据
-        if (!this.res) {
-            return;
-        }
-        // 重置 discuss
-        this.data.discuss = JSON.parse(JSON.stringify(discussBase));
-
-        /**
-         * 本地缓存中获取经销商数据，若没有经销商信息则强制重新登录
-         */
-        const tenant: any = wx.getStorageSync('tenant');
-        if (!tenant) { reLogin(); return; }
-        // 经销商是否开启回访
-        this.data.discuss.IsOpenReVisit = tenant.IsOpenReVisit;
-
-        /**
-         * 是否是正在流失审核状态
-         * 通过返回 data 的实体 customerLose 中 Id 是否有值判断
-         */
-        const isLose: boolean = !!this.res.customerLose.Id;
-        this.data.discuss.IsLose = isLose;
-
-        /**
-         * 潜客等级
-         */
-        // 潜客等级枚举值
-        this.data.discuss.PreLevel = this.res.customer.PreLevel;
-        // 如果不是正在审核的流失状态
-        if (!isLose) {
-            // 潜客等级字符串
-            this.data.discuss.PreLevelStr = (() => {
-                // 将 潜客等级枚举值 对应的字符串 赋给 潜客等级字符串
-                let preLevelStr: string = this.enumPreLevel[this.res.customer.PreLevel];
-                // 判断 潜客等级枚举值对应的是不是 L 流失等级
-                // 如果是 L 流失等级 追加流失类型
-                if (this.res.customer.PreLevel == 7) {
-                    /**
-                     * 这里后端返回参数名有错误
-                     * data.customer 实体下为 LossType
-                     * data.customerLose 实体下为 LoseType
-                     * 注意区分
-                     */
-                    // 流失类型枚举值
-                    this.data.discuss.LoseType = this.res.customer.LossType;
-                    // 流失类型字符串
-                    this.data.discuss.LoseTypeStr = this.enumLoseType[this.data.discuss.LoseType];
-                    // 字符串 追加流失状态 (如: "L(流失) - 战败" )
-                    preLevelStr += ' - ' + this.data.discuss.LoseTypeStr;
-                    // 战败品牌
-                    this.data.discuss.DefeatCarBrand = this.res.customer.DefeatCarBrand;
-                    // 战败原因
-                    this.data.discuss.DefeatReason = this.res.customer.DefeatReason;
-                }
-                // 返回供视图显示的 潜客等级字符串
-                return preLevelStr;
-            })();
-        }
-        // 如果是正在审核的流失状态
-        else {
-            this.data.discuss.PreLevelStr = "流失审核中";
-            this.data.discuss.LoseId = this.res.customerLose.Id;
-        }
-
-        /**
-         * 计划回访、邀约、到店、交车
-         */
-        this.data.discuss.VisitType = this.res.customerVisit.VisitType;
-        this.data.discuss.ItemType = this.res.customerVisit.ItemType;
-        if (!isLose) {
-            // 计划时间
-            this.data.discuss.NextTime = this.res.customerVisit.NextTimeStr;
-            // 计划交车时间
-            this.data.discuss.DeliverDate = this.res.customer.DeliverDateStr || '';
-            // 成交时间
-            this.data.discuss.DealTime = this.res.customer.DealTime || '';
-        }
-
-        // 同步数据到视图层
-        this.setData({
-            discuss: this.data.discuss
-        });
-    }
-
-    private onLoad(options) {
-        const id = ~~options.id,
-            // name = options.name;
-            name = '';
-        this.id = id;
-        wx.setNavigationBarTitle({
-            title: name || '客户详情'
-        });
-
-        this.loadData();
-    }
-
-    private onShow() {
-        if (this.refreshFlag) {
-            this.loadData();
-            this.refreshFlag = false;
-        }
-    }
-
-    /**
      * 修改 回访、邀约、到店状态
      * @param {any} e 
      * @memberof CustomerPage
@@ -469,93 +559,52 @@ class CustomerPage extends BasePage {
             });
         }
     }
+
     /**
-     * 加载数据
-     * @private
-     * @param {boolean} [isRefresh=false] 是否是下拉刷新触发
+     * 设置交车
+     * @param {any} e 
      * @memberof CustomerPage
      */
-    private loadData(isRefresh = false) {
-        toast.showLoading();
-        request({
-            url: domain + '/ApiCustomerPre/ReadForPreDetail',
-            data: {
-                ticket: wx.getStorageSync('ticket'),
-                id: this.id
+    public setDeliver(e) {
+        actionSheet.show({
+            itemList: ['已交车', '修改交车时间', '取消交车']
+        }).then(index => {
+            switch (index) {
+                case 0: // 已交车 -> 成交信息
+                    wx.navigateTo({
+                        url: `${pagePath['customer-deal']}?id=${this.id}`
+                    });
+                    break;
+                case 1: // 修改交车时间 -> 订单信息
+                    wx.navigateTo({
+                        url: `${pagePath['customer-order']}?id=${this.id}&first=0`
+                    });
+                    break;
+                case 2:
+                    modal.show({
+                        title: '',
+                        content: '是否取消交车?',
+                        cancelText: '否',
+                        confirmText: '是'
+                    }).then(flag => {
+                        if (flag) {
+                            request({
+                                url: domain + '/UC/CustomerVisit/SetCancelOrder',
+                                data: {
+                                    ticket: wx.getStorageSync('ticket'),
+                                    id: this.id
+                                }
+                            }).then(res=>{
+                                if(resCodeCheck(res)){return}
+                                toast.showSuccess('已取消交车');
+                                this.loadData();
+                            });
+                        }
+                    })
+                    break;
             }
-        }).then((res: any) => {
-            if (resCodeCheck(res)) {
-                return;
-            }
-            const data = res.data;
-            // 生成 intro 组件数据
-            this.data.introData = {
-                avatar: data.customer.HeadImgUrl,
-                realname: data.customer.Name,
-                username: data.customer.Nickname,
-                source: data.customer.CustomerFrom,
-                time: dateFormat('yyyy.MM.dd', new Date(data.customer.BecomeTime)),
-                customerId: data.customer.Id,
-                phone: data.customer.MobilePhone
-            }
-
-            // 保存响应数据
-            this.res = data;
-
-            // 跟进记录与客户轨迹
-            const tabSliderData = [{
-                // 渲染到 顶部 Tab
-                tabTitle: '跟进记录',
-                // 列表类型
-                listType: 'axis',
-                // 列表项
-                items: []
-            }, {
-                tabTitle: '客户轨迹',
-                listType: 'axis',
-                items: []
-            }];
-
-            const items1 = data.discussRecord.map(item => {
-                const reg = /^(\d{4}\/\d{2}\/\d{2}).*(\d{2}:\d{2}:\d{2})$/;
-                const datearr = item.CreateTime.match(reg);
-                return {
-                    date: datearr[1],
-                    time: datearr[2],
-                    content: (item.Title == '微信' ? '微信对话' : item.Title) + ' ' + item.Content
-                }
-            });
-
-            const items2 = data.track.map(item => {
-                const reg = /^(\d{4}\/\d{2}\/\d{2}).*(\d{2}:\d{2}:\d{2})$/;
-                const datearr = item.Date.match(reg);
-                return {
-                    date: datearr[1],
-                    time: datearr[2],
-                    content: item.Title + ' 浏览次数: ' + item.Count
-                }
-            });
-            tabSliderData[0].items = items1;
-            tabSliderData[1].items = items2;
-
-            this.tabSlider.update(tabSliderData);
-
-            // 设置跟进信息
-            this.loadDiscuss();
-
-            toast.hide();
-            const delay = isRefresh ? refreshDelay : 0;
-            setTimeout(() => {
-                this.setData({
-                    loaded: true,
-                    introData: this.data.introData
-                });
-                isRefresh && toast.showSuccess('刷新成功');
-            }, delay);
-
-        });
+        })
     }
-
     /**
      * tabSlider 切换事件
      * @param {object} e 

@@ -8,6 +8,7 @@ import { modal } from '../../../../modules/modal';
 
 interface Data {
     loaded: boolean;
+    // isFirst: boolean;
 
     id: number;
     OrderDate: string; // 订单日期
@@ -49,8 +50,8 @@ class CustomerOrderPage extends BasePage {
         LoanIndex: 0
     }
     private onLoad(options) {
-        const id: number = ~~options.id;
-        this.data.id = this.id = id;
+        this.data.id = this.id = ~~options.id;
+        // this.data.isFirst = !!~~options.isFisrt;
         this.loadData();
     }
     /**
@@ -147,6 +148,8 @@ class CustomerOrderPage extends BasePage {
                     CarBrandId: data.carBrandId,
                     CarModelId: data.carModelId,
 
+                    Price: data.Price || 0,
+                    Deposit: data.Deposit || 0,
                     IsLoan: !!data.IsLoan,
                     LoanIndex: ~~data.IsLoan,
 
@@ -213,14 +216,6 @@ class CustomerOrderPage extends BasePage {
 
         const [brandIndex, modelIndex] = this.data.CarIndexs;
 
-        // console.log('brandIndex: ' + brandIndex);
-        // console.log(this.data.CarOptions[0][brandIndex]);
-        // console.log('modelIndex: ' + modelIndex);
-        // console.log(this.data.CarOptions[1][modelIndex]);
-        // console.log('brandIndex: ' + brandIndex);
-        // console.log(this.CarBrands[brandIndex]);
-        // console.log('modelIndex: ' + modelIndex);
-        // console.log(this.CarBrands[brandIndex].Children);
         this.data.CarName =
             this.CarBrands[brandIndex].Name + ' ' + this.CarBrands[brandIndex].Children[modelIndex].Name;
 
@@ -244,13 +239,13 @@ class CustomerOrderPage extends BasePage {
             // 改变第二列
             brandIndex = e.detail.value;
             this.data.CarOptions[1] = this.CarBrands[brandIndex].Children;
-            this.setData({CarOptions: this.data.CarOptions});
+            this.setData({ CarOptions: this.data.CarOptions });
         }
         // 手动调用修改
         else if (typeof e === 'number') {
             brandIndex = e;
             this.data.CarOptions[1] = this.CarBrands[brandIndex].Children;
-            this.setData({CarOptions: this.data.CarOptions});
+            this.setData({ CarOptions: this.data.CarOptions });
         }
     }
 
@@ -297,8 +292,8 @@ class CustomerOrderPage extends BasePage {
             this.isLock = false;
             toast.hide();
             modal.show({
-                title: '保存成功',
-                content: '',
+                title: '',
+                content: '订单提交成功',
                 showCancel: false
             }).then(flag => {
                 const pages = getCurrentPages();

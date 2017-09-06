@@ -85,7 +85,8 @@
                     <block wx:elif="{{discuss.PreLevel == 5 && !discuss.DealTime}}">
                         <view class="item">
                             <view class="item-key">计划交车</view>
-                            <view class="item-val arrow">{{discuss.DeliverDate}}</view>
+                            <view class="item-val arrow"
+                                catchtap="setDeliver">{{discuss.DeliverDate}}</view>
                         </view>
                     </block>
 
@@ -96,7 +97,8 @@
                     <block wx:if="{{discuss.PreLevel == 5}}">
                         <view class="item">
                             <view class="item-key">计划交车</view>
-                            <view class="item-val arrow">{{discuss.DeliverDate}}</view>
+                            <view class="item-val arrow"
+                                catchtap="setDeliver">{{discuss.DeliverDate}}</view>
                         </view>
                     </block>
                 </block>
