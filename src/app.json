@@ -24,6 +24,7 @@
         "pages/detail/customer/customer-order/customer-order",
         "pages/detail/customer/customer-lose/customer-lose",
         "pages/detail/customer/customer-deal/customer-deal",
+        "pages/detail/customer/customer-discuss/customer-discuss",
 
 
         "pages/tabs/message/message",

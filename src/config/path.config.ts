@@ -60,15 +60,12 @@ const pathArr: Path[] = [
     // Tab 客户
     { name: 'client', pre: 'tabs' },
     // 客户详情
-    { name: 'customer-info', pre: 'detail/customer' },
-    // 客户详情编辑
-    { name: 'customer-edit', pre: 'detail/customer' },
-    // 客户订单信息
-    { name: 'customer-order', pre: 'detail/customer' },
-    // 客户成交信息
-    { name: 'customer-deal', pre: 'detail/customer' },
-    // 客户流失登记(三合一)
-    { name: 'customer-lose', pre: 'detail/customer' },
+    { name: 'customer-info', pre: 'detail/customer' }, // 信息
+    { name: 'customer-edit', pre: 'detail/customer' }, // 编辑
+    { name: 'customer-order', pre: 'detail/customer' }, // 订单信息
+    { name: 'customer-deal', pre: 'detail/customer' }, // 成交信息
+    { name: 'customer-lose', pre: 'detail/customer' }, // 流失登记(三合一)
+    { name: 'customer-discuss', pre: 'detail/customer' }, // 跟进信息 / 备注
 
 
     /**
