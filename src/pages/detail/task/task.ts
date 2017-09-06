@@ -141,7 +141,7 @@ class TaskPage extends BasePage {
     private itemToEnter(e){
         const id = e.currentTarget.dataset.id;
         wx.navigateTo({
-            url: `${pagePath.customer}?id=${id}`
+            url: `${pagePath['customer-info']}?id=${id}`
         });
     }
     private onReady() { }

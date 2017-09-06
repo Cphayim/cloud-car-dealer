@@ -142,7 +142,7 @@ class Monthly extends BasePage {
         const id = e.currentTarget.dataset.id;
         console.log(id);
         wx.navigateTo({
-            url: `${pagePath.customer}?id=${id}`
+            url: `${pagePath['customer-info']}?id=${id}`
         });
     }
     constructor() {
