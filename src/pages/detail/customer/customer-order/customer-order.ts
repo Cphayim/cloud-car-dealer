@@ -213,6 +213,14 @@ class CustomerOrderPage extends BasePage {
 
         const [brandIndex, modelIndex] = this.data.CarIndexs;
 
+        // console.log('brandIndex: ' + brandIndex);
+        // console.log(this.data.CarOptions[0][brandIndex]);
+        // console.log('modelIndex: ' + modelIndex);
+        // console.log(this.data.CarOptions[1][modelIndex]);
+        // console.log('brandIndex: ' + brandIndex);
+        // console.log(this.CarBrands[brandIndex]);
+        // console.log('modelIndex: ' + modelIndex);
+        // console.log(this.CarBrands[brandIndex].Children);
         this.data.CarName =
             this.CarBrands[brandIndex].Name + ' ' + this.CarBrands[brandIndex].Children[modelIndex].Name;
 
@@ -233,18 +241,17 @@ class CustomerOrderPage extends BasePage {
         let brandIndex = 0;
         // 事件触发修改
         if (typeof e === 'object' && e.detail.column === 0) {
+            // 改变第二列
             brandIndex = e.detail.value;
+            this.data.CarOptions[1] = this.CarBrands[brandIndex].Children;
+            this.setData({CarOptions: this.data.CarOptions});
         }
         // 手动调用修改
         else if (typeof e === 'number') {
             brandIndex = e;
+            this.data.CarOptions[1] = this.CarBrands[brandIndex].Children;
+            this.setData({CarOptions: this.data.CarOptions});
         }
-        // 改变第二列
-        this.data.CarOptions[1] = this.CarBrands[brandIndex].Children;
-
-        this.setData({
-            CarOptions: this.data.CarOptions
-        });
     }
 
     /**
