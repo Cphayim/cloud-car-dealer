@@ -28,16 +28,22 @@ interface Data {
 }
 
 class RecordEditPage extends BasePage {
-    private submitLock: boolean = false;
+    /**
+     * 是否来自业务详情
+     * 默认值为 false(来自待建档列表-线索详情)
+     * 表单提交时，该值为 false 返回 2 层(到建档列表)
+     * 该值若为 true 则返回1层(到业务详情)
+     */
+    private isFromOp: boolean = false;
     private id: number = 0;
     public data: Data = {
         loaded: false,
         SexOptions: enumToOptions(enumConfig.Sex)
     }
     private loadData() {
-        toast.showLoading('正在加载...');
+        toast.showLoading('');
         request({
-            url: domain + '/UC/CustomerPre/Detail',
+            url: domain + '/ApiCustomerPre/ReadCustomerClue',
             data: {
                 ticket: wx.getStorageSync('ticket'),
                 id: this.id
@@ -70,9 +76,9 @@ class RecordEditPage extends BasePage {
         });
     }
     private onLoad(options) {
-        const id: number = ~~options.id;
-        this.id = id;
-
+        const { id, fromOp } = options;
+        this.id = ~~id;
+        this.isFromOp = !!fromOp; // 是否来自业务详情
         this.loadData();
     }
 
@@ -103,27 +109,17 @@ class RecordEditPage extends BasePage {
      * 提交保存建档
      */
     public saveRecord(e) {
-        // 如果锁定状态，退出
-        if (this.submitLock) {
-            return;
-        }
         // 表单验证
         const formData = this.data.recordInfo;
-        if (!formData.MobilePhone || !formData.Name) {
+        if (/^\s*$/.test(formData.MobilePhone) || /^\s*$/.test(formData.Name)) {
             toast.showWarning('请完整填写表单');
             return;
         }
-        // if (!(/^[\u4e00-\u9fa5]{2,4}$/.test(formData.Name))) {
-        //     toast.showWarning('请输入2-4位中文姓名');
-        //     return;
-        // }
         if (!(/^1[34578]\d{9}$/.test(formData.MobilePhone))) {
             toast.showWarning('请输入11位有效手机号码');
             return;
         }
-        // 锁定
-        this.submitLock = true;
-        toast.showLoading('正在提交...');
+        toast.showLoading('', true);
         // 发送请求
         const data = {
             ticket: wx.getStorageSync('ticket'),
@@ -136,25 +132,29 @@ class RecordEditPage extends BasePage {
             url: domain + '/UC/CustomerPre/CreateForRecord',
             data: data
         }).then(res => {
-            this.submitLock = false;
             if (resCodeCheck(res)) {
                 return;
             }
-            toast.hide();
-
-            const pages = getCurrentPages();
-
-            // 修改 record-list 待建档客户列表页的属性，并返回列表
-            pages[pages.length - 3].goToCustomer = this.id;
-            // 返回父页面执行 重定向
-            wx.navigateBack({
-                delta: 2
-            });
+            toast.showSuccess('提交成功', 2000, true);
+            setTimeout(() => {
+                const pages = getCurrentPages();
+                /**
+                 * 判断是否来自业务详情
+                 * 若来自业务详情，直接返回一层，不需要触发父级刷新
+                 * 若来自常规入口(线索详情)，则返回两层至待建档客户列表，并触发父级刷新
+                 */
+                if (this.isFromOp) {
+                    wx.navigateBack();
+                } else {
+                    // 修改 record-list 待建档客户列表页的属性，并返回列表
+                    pages[pages.length - 3].goToCustomer = this.id;
+                    // 返回父页面执行 重定向
+                    wx.navigateBack({
+                        delta: 2
+                    });
+                }
+            }, 2000);
         });
-
-        setTimeout(() => {
-            this.submitLock = false;
-        }, 2000);
     }
 }
 

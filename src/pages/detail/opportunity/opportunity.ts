@@ -1,4 +1,4 @@
-import {modal} from '../../../modules/modal';
+import { modal } from '../../../modules/modal';
 import pagePath from '../../../config/path.config';
 import toast from '../../../modules/toast';
 import { domain } from '../../../config/url.config';
@@ -15,14 +15,16 @@ import { resCodeCheck } from '../../../modules/auth';
  */
 
 class OpportunityPage extends BasePage {
-    progressChangeData: {
+    private id: number = 0; // 业务 id
+    private customerId:number = 0; // 客户 id
+    private progressChangeData: {
         ticket: any;
         status: any;
         ids: any;
         name: any;
         mobilePhone: any;
         isRecord: boolean;
-    };
+    }
     public data: any = {
         loaded: false, // 页面是否加载完毕，控制动画显示
 
@@ -81,6 +83,7 @@ class OpportunityPage extends BasePage {
 
             const data = res.data;
 
+            this.customerId = data.CustomerId;
 
             // 存一份完整数据
             this.setData({
@@ -90,7 +93,6 @@ class OpportunityPage extends BasePage {
             /**
              * 组装页面数据
              */
-
             const pageData = this.data.pageData;
             const {
                     userInfo,
@@ -200,9 +202,6 @@ class OpportunityPage extends BasePage {
                     toast.hide();
                 }
             }, delay);
-        }).catch(err => {
-            console.log(err);
-            toast.showError('网络请求失败', 2000);
         });
     }
     /**
@@ -281,7 +280,7 @@ class OpportunityPage extends BasePage {
             mobilePhone: completeData.MobilePhone,
             isRecord: false
         }
-
+        toast.showLoading('', true);
         // 是否建档确认
         request({
             method: 'get', // ！这里居然是 get 
@@ -291,84 +290,37 @@ class OpportunityPage extends BasePage {
                 CustomerId: completeData.CustomerId,
             }
         }).then((res: any) => {
-            console.log(res);
-            // 错误检查
-            if (resCodeCheck(res)) return;
-
+            if (resCodeCheck(res)) { return; }
             let type = res.data;
-            console.log(type);
+            // 未建档 (1) 或客户资料有误 (2)
             if (type == 1 || type == 2) {
-                // 未建档 (1) 或客户资料有误 (2)
-                // 设置模态框数据
-                this.data.modal1.isShowModal = true;
-                this.data.modal1.modalType = res.data;
-                // 打开模态框并显示内容
-                this.setData({
-                    modal1: this.data.modal1
+                toast.hide();
+                modal.show({
+                    title: '',
+                    content: type == 1 ? '该客户未建档,是否立即建档' : '客户资料有误，是否重新填写'
+                }).then(flag => {
+                    if (flag) {
+                        wx.navigateTo({
+                            url: `${pagePath['record-edit']}?id=${this.customerId}&fromOp=1`
+                        });
+                    }
                 });
-            } else {
-                // 已建档，且客户资料无误
+            }
+            // 已建档，且客户资料无误 
+            else {
                 // 直接操作
                 this.progressChangeStatus();
             }
-        }).catch(err => {
-            toast.showError('网络请求失败');
-            console.log(err);
         });
     }
-    /**
-     *  modal 表单提交(确定按钮)
-     */
-    private statusChangeFormSubmit(e) {
-        console.log(this.data.modal1.isLock);
 
-        // 防止连续提交
-        if (this.data.modal1.isLock) return;
-        // 提交锁
-        this.data.modal1.isLock = true;
-
-        // 是否有表单错误 
-        let formErr = false;
-        // 获取表单数据
-        const formData: { Name: string, MobilePhone: string } = e.detail.value;
-        const reg1 = /^[\u4e00-\u9fa5]{2,4}$/;
-        const reg2 = /^0?1[34578]\d{9}$/;
-        if (formData.Name == '') {
-            toast.showWarning('姓名不能为空');
-            formErr = true;
-        } else if (!reg1.test(formData.Name)) {
-            toast.showWarning('请输入合法姓名');
-            formErr = true;
-        } else if (formData.MobilePhone == '') {
-            toast.showWarning('手机号不能为空');
-            formErr = true;
-        } else if (!reg2.test(formData.MobilePhone)) {
-            toast.showWarning('请输入有效手机号');
-            formErr = true;
-        }
-
-        // 如果有表单错误 解锁模态框 退出
-        if (formErr) {
-            this.data.modal1.isLock = false;
-            return;
-        }
-
-        this.data.modal1.isShowModal = false;
-        // 关闭模态框
-        this.setData({
-            modal1: this.data.modal1
-        });
-        this.progressChangeData.name = formData.Name;
-        this.progressChangeData.mobilePhone = formData.MobilePhone;
-        this.progressChangeStatus();
-    }
     /**
      * 修改状态继续操作
      * @private
      * @memberof OpportunityPage
      */
     private progressChangeStatus() {
-        toast.showLoading('正在提交...', true);
+        toast.showLoading('', true);
         request({
             url: `${domain}/Biz/OpportunityPre/Status`,
             data: this.progressChangeData,
@@ -376,72 +328,16 @@ class OpportunityPage extends BasePage {
             if (resCodeCheck(res)) return;
             // 刷新数据
             this.loadData(true);
-            this.data.modal1.isLock = false;
-        }).catch(err => {
-            console.log(err);
-            toast.showError('网络请求失败');
-            this.data.modal1.isLock = false;
-        });
-    }
-    public showModal2(e) {
-        this.data.modal2.isShowModal = true;
-        this.setData({
-            modal2: this.data.modal2
         });
     }
     /**
-     * modal 取消按钮事件
+     * 添加备注
+     * @param {any} e 
+     * @memberof CustomerPage
      */
-    public modalCancel(e) {
-        let id = e.target.dataset.modal;
-        if (id == 1) {
-            this.data.modal1.isShowModal = false;
-            this.data.modal1.isLock = false;
-            this.setData({
-                modal1: this.data.modal1
-            });
-        } else if (id == 2) {
-            this.data.modal2.isShowModal = false;
-            this.data.modal2.isLock = false;
-            this.setData({
-                modal2: this.data.modal2
-            });
-        }
-
-    }
-    /**
-     * 提交备注
-     */
-    private remarkSubmit(e) {
-        const Remark = e.detail.value.Remark;
-        if (!Remark) {
-            toast.showWarning('无法提交空的备注');
-            return;
-        }
-        toast.showLoading('正在提交...', true);
-        request({
-            url: `${domain}/UC/CustomerAfter/Remark`,
-            data: {
-                ticket: wx.getStorageSync('ticket'),
-                Id: this.data.completeData.CustomerId,
-                type: 1117,
-                Remark: Remark
-            }
-        }).then((res) => {
-            if (resCodeCheck(res)) return;
-
-            // 关闭模态框 清空 text.area
-            this.data.modal2.isShowModal = false;
-            this.data.modal2.textareaVal = '';
-            this.setData({
-                modal2: this.data.modal2
-            });
-
-            toast.showSuccess('添加备注成功');
-            
-        }).catch(err => {
-            console.log(err);
-            toast.showError('网络请求失败');
+    public addRemark(e) {
+        wx.navigateTo({
+            url: `${pagePath['customer-discuss']}?id=${this.id}&type=remark`
         });
     }
     /**
@@ -449,9 +345,13 @@ class OpportunityPage extends BasePage {
      */
     public callPhone(e) {
         const phone = e.currentTarget.dataset.phone;
-        wx.makePhoneCall({
-            phoneNumber: phone
-        });
+        if (phone) {
+            wx.makePhoneCall({
+                phoneNumber: phone
+            });
+        } else {
+            toast.showWarning('该客户未登记手机号');
+        }
     }
     /**
      * 生命周期
@@ -461,6 +361,7 @@ class OpportunityPage extends BasePage {
             title: '报名详情'
         });
         // 获取请求 id
+        this.id = ~~options.id;
         this.data.Id = options.id;
 
         // 加载数据
