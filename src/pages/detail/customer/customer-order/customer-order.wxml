@@ -4,12 +4,6 @@
 
     <view class="m-customer-order">
         <view class="cy-edit-list cy-list">
-            <!-- <view class="head">
-            <view class="head-key">
-                订单信息
-            </view>
-        </view> -->
-
             <view class="item-wrap">
                 <!-- 订单日期 -->
                 <view class="item">

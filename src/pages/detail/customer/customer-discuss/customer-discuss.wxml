@@ -27,7 +27,7 @@
             <view class="item">
                 <view class="item-key">跟进记录</view>
                 <view class="item-val">
-                    <textarea style="max-height:200px;"
+                    <textarea style="max-height:160px;"
                         bindinput="changeInput" 
                         data-name="Remark" 
                         auto-height maxlength="300" 
@@ -81,7 +81,7 @@
             <view class="item">
                 <view class="item-key">备注信息</view>
                 <view class="item-val">
-                    <textarea style="max-height:200px;"
+                    <textarea style="max-height:160px;"
                         bindinput="changeInput" 
                         data-name="Remark" 
                         auto-height maxlength="300" 
