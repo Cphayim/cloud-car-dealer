@@ -97,7 +97,7 @@ class WelcomePage extends BasePage {
             // 缓存登录凭证
             wx.setStorageSync('ticket', data.ticket);
             // 缓存员工信息
-            wx.setStorageSync('employee', data.employee);
+            wx.setStorageSync('employee', data.employeeDto);
             // 缓存经销商信息
             wx.setStorageSync('tenant', data.Tenant);
 
