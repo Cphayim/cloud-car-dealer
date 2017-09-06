@@ -1,5 +1,94 @@
-<!-- 回访、邀约到店跟进信息、备注 -->
-
-<view class="m-discuss">
-    
+<!-- 
+    添加 回访、邀约到店跟进信息 页面参数 id、type=visit、status
+    修改计划到店 页面参数 id、type=tostore、storeDate?
+    添加 备注 页面参数 id、type=remark
+-->
+<view class="animation-box {{loaded?'loaded':''}}">
+    <view class="m-customer-discuss">
+        <template wx:if="{{tplType == 1}}" is="visit"></template>
+        <template wx:elif="{{tplType == 2}}" is="tostore" 
+            data="{{StoreDate:StoreDate,ItemTypeOptions:ItemTypeOptions,ItemTypeIndex:ItemTypeIndex,isFirst:isFirst}}">
+        </template>
+        <template wx:else is="remark"></template>
+    </view>
+    <view class="m-operation">
+        <!-- 按钮组 -->
+        <view class="btn-group">
+            <view catchtap="save" class="blue" hover-class="hover">提交</view>
+        </view>
+    </view>
 </view>
+
+<!-- 添加回访、邀约、到店跟进记录 -->
+<template name="visit">
+    <view class="cy-edit-list cy-list">
+        <view class="item-wrap">
+            <!-- 跟进记录 -->
+            <view class="item">
+                <view class="item-key">跟进记录</view>
+                <view class="item-val">
+                    <textarea style="max-height:200px;"
+                        bindinput="changeInput" 
+                        data-name="Remark" 
+                        auto-height maxlength="300" 
+                        placeholder="填写跟进记录，限300字" placeholder-class="placeholder">
+                    </textarea>
+                </view>
+            </view>
+        </view>
+    </view>
+</template>
+
+
+<!-- 计划到店/修改到店时间 -->
+<template name="tostore">
+    <view class="cy-edit-list cy-list">
+        <view class="item-wrap">
+            <!-- 到店目的 -->
+            <!-- 计划到店时显示 -->
+            <view wx:if="{{isFirst}}" class="item">
+                <view class="item-key">到店目的</view>
+                <view class="item-val">
+                    <picker value="{{ItemTypeIndex}}"
+                        bindchange="changeStoreType"
+                        range="{{ItemTypeOptions}}">
+                        {{ItemTypeOptions[ItemTypeIndex]}}
+                    </picker>
+                </view>
+            </view>
+            <!-- 到店时间 -->
+            <view class="item">
+                <view class="item-key">到店时间</view>
+                <view class="item-val">
+                    <picker value="{{StoreDate}}" 
+                        bindchange="changeDate" data-name="StoreDate" 
+                        mode="date" start="2000-01-01" end="2049-12-31">
+                        <view class="picker">
+                            {{StoreDate}}
+                        </view>
+                    </picker>
+                </view>
+            </view>
+        </view>
+    </view>
+</template>
+
+<!-- 添加备注信息 -->
+<template name="remark">
+    <view class="cy-edit-list cy-list">
+        <view class="item-wrap">
+            <!-- 备注信息 -->
+            <view class="item">
+                <view class="item-key">备注信息</view>
+                <view class="item-val">
+                    <textarea style="max-height:200px;"
+                        bindinput="changeInput" 
+                        data-name="Remark" 
+                        auto-height maxlength="300" 
+                        placeholder="填写备注信息，限300字" placeholder-class="placeholder">
+                    </textarea>
+                </view>
+            </view>
+        </view>
+    </view>
+</template>

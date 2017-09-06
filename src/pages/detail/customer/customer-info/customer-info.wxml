@@ -22,11 +22,13 @@
             <!-- 潜客等级 -->
             <view class="item">
                 <view class="item-key">潜客等级</view>
-                <view class="item-val" 
-                    catchtap="setLevel"
+                <view class="item-val arrow" 
+                    catchtap="setLevel" 
                     data-islose="{{discuss.IsLose}}" 
                     data-prelevel="{{discuss.PreLevel}}" 
-                    data-losetype="{{discuss.LoseType}}">
+                    data-losetype="{{discuss.LoseType}}"
+                    data-loseid="{{discuss.LoseId}}"
+                    >
                     {{discuss.PreLevelStr}}
                 </view>
             </view>
@@ -37,11 +39,16 @@
                 <block wx:if="{{ discuss.IsOpenReVisit && discuss.PreLevel != 7 && discuss.PreLevel != 8 }}">
 
                     <!-- 计划回访 -->
-                    <!-- 条件渲染: 大类为回访 && 小类为邀约 && 客户等级不为O(订单) && 客户等级不为0(成交) && 客户等级不为L(流失) -->
+                    <!-- 条件渲染: 大类为回访 && 小类为回访 && 客户等级不为O(订单) && 客户等级不为0(成交) && 客户等级不为L(流失) -->
                     <block wx:if="{{discuss.VisitType == 1 && discuss.ItemType == 1  && discuss.PreLevel != 5 && discuss.PreLevel != 9 && discuss.PreLevel != 7 }}">
                         <view class="item">
                             <view class="item-key">计划回访</view>
-                            <view class="item-val">{{discuss.NextTime}}</view>
+                            <view class="item-val arrow"
+                                catchtap="setVisitStatus"
+                                data-visit-type="{{discuss.VisitType}}" 
+                                data-item-type="{{discuss.ItemType}}" >
+                                {{discuss.NextTime}}
+                            </view>
                         </view>
                     </block>
 
@@ -50,27 +57,37 @@
                     <block wx:elif="{{discuss.VisitType == 1 && discuss.ItemType == 2 && discuss.PreLevel != 5 && discuss.PreLevel != 9 && discuss.PreLevel != 7 }}">
                         <view class="item">
                             <view class="item-key">计划邀约</view>
-                            <view class="item-val">{{discuss.NextTime}}</view>
+                            <view class="item-val arrow"
+                                catchtap="setVisitStatus"
+                                data-visit-type="{{discuss.VisitType}}" 
+                                data-item-type="{{discuss.ItemType}}" >
+                                {{discuss.NextTime}}
+                            </view>
                         </view>
-                    </block> 
+                    </block>
 
                     <!-- 计划到店 -->
-                    <!-- 条件渲染: 大类为回访 && 小类为邀约 && 客户等级不为O(订单) && 客户等级不为0(成交) && 客户等级不为L(流失) -->
-                    <block wx:elif="{{discuss.VisitType == 2}}">
+                    <!-- 条件渲染: 大类为到店 && 客户等级不为O(订单) && 客户等级不为0(成交) && 客户等级不为L(流失) -->
+                    <block wx:elif="{{discuss.VisitType == 2 && discuss.PreLevel != 5 && discuss.PreLevel != 9 && discuss.PreLevel != 7}}">
                         <view class="item">
                             <view class="item-key">计划到店</view>
-                            <view class="item-val">{{discuss.NextTime}}</view>
+                            <view class="item-val arrow"
+                                catchtap="setVisitStatus" 
+                                data-visit-type="{{discuss.VisitType}}" 
+                                data-item-type="{{discuss.ItemType}}" >
+                                {{discuss.NextTime}} - {{enumVisitItem[discuss.ItemType]}}
+                            </view>
                         </view>
-                    </block> 
+                    </block>
 
                     <!-- 计划交车 -->
                     <!-- 条件渲染: 客户等级为 O(订单) && 没有成功交车时间  -->
                     <block wx:elif="{{discuss.PreLevel == 5 && !discuss.DealTime}}">
                         <view class="item">
                             <view class="item-key">计划交车</view>
-                            <view class="item-val">{{discuss.DeliverDate}}</view>
+                            <view class="item-val arrow">{{discuss.DeliverDate}}</view>
                         </view>
-                    </block> 
+                    </block>
 
                 </block>
                 <block wx:else>
@@ -79,13 +96,53 @@
                     <block wx:if="{{discuss.PreLevel == 5}}">
                         <view class="item">
                             <view class="item-key">计划交车</view>
-                            <view class="item-val">{{discuss.DeliverDate}}</view>
+                            <view class="item-val arrow">{{discuss.DeliverDate}}</view>
                         </view>
                     </block>
                 </block>
             </block>
 
+            <!-- 订单信息 -->
+            <!-- 条件渲染: 客户等级为 O(订单) -->
+            <block wx:if="{{discuss.PreLevel == 5}}">
+                <view class="item">
+                    <view class="item-key">订单信息</view>
+                    <view class="item-val arrow" 
+                        catchtap="navigato" data-page-path="{{pagePath['customer-order']}}" ></view>
+                </view>
+            </block>
+            <!-- 成交信息 -->
+            <!-- 条件渲染: 客户等级为 O(成交) -->
+            <block wx:if="{{discuss.PreLevel == 9}}">
+                <view class="item">
+                    <view class="item-key">成交信息</view>
+                    <view class="item-val arrow"
+                        catchtap="navigato" data-page-path="{{pagePath['customer-deal']}}" ></view>
+                </view>
+            </block>
 
+            <!-- 流失信息 -->
+            <!-- 条件渲染: 客户等级为 L(流失) -->
+            <block wx:if="{{discuss.PreLevel == 7}}">
+                <!-- 流失类型 -->
+                <view class="item">
+                    <view class="item-key">流失类型</view>
+                    <view class="item-val" >{{discuss.LoseTypeStr}}</view>
+                </view>
+                <!-- 条件渲染: 流失类型为战败 -->
+                <block wx:if="{{discuss.LoseType == 1}}">
+                    <!-- 战败品牌 -->
+                    <view class="item">
+                        <view class="item-key">战败品牌</view>
+                        <view class="item-val" >{{discuss.DefeatCarBrand}}</view>
+                    </view>
+                    <!-- 战败原因 -->
+                    <view class="item">
+                        <view class="item-key">战败原因</view>
+                        <view class="item-val" >{{discuss.DefeatReason}}</view>
+                    </view>
+                </block>
+            </block>
         </view>
     </view>
 
