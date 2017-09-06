@@ -40,10 +40,10 @@
             align-items: center; // text-align: right;
             color: $secondFont;
             &.arrow {
-                padding-right: 40rpx;
+                padding-right: 30rpx;
                 background-image: url('../../dev-resource/image-min/right_arrow.png');
                 background-repeat: no-repeat;
-                background-size: auto 28rpx;
+                background-size: auto 25rpx;
                 background-position: 100% 50%;
             }
         }
