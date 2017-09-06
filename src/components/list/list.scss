@@ -17,12 +17,15 @@
 .cy-list {
     .item {
         display: flex;
-        padding: 25rpx 30rpx;
+        padding: 0 30rpx;
         border-bottom: $border;
         @include font(14px);
         background-color: #fff;
         &:last-child {
             border-bottom: none;
+        }
+        .item-key,.item-val{
+            padding: 25rpx 0;
         }
         .item-key {
             flex: 0 0 200rpx;
