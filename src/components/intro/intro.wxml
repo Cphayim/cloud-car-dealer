@@ -43,7 +43,7 @@
                 <view class="icon-cards"></view>
             </view> -->
             <!-- 添加备注 -->
-            <view class="btn" hover-class="hover" bindtap="showModal2">
+            <view class="btn" hover-class="hover" bindtap="addRemark">
                 <view class="bg"></view>
                 <view class="icon-edit"></view>
             </view>
@@ -83,13 +83,20 @@
         </view>
         <!-- 按钮组 -->
         <view class="btn-group">
+            <!-- 添加备注 -->
+            <view class="btn" hover-class="hover" bindtap="addRemark">
+                <view class="bg"></view>
+                <view class="icon-edit"></view>
+            </view>
+            <!-- 手机 -->
             <view class="btn" hover-class="hover" 
-            bindtap="callPhone" data-phone="{{phone}}">
+                bindtap="callPhone" data-phone="{{phone}}">
                 <view class="bg"></view>
                 <view class="icon-phone"></view>
             </view>
+            <!-- 对话 -->
             <view class="btn" hover-class="hover"
-             bindtap="openChat" data-customer-id="{{customerId}}">
+                bindtap="openChat" data-customer-id="{{customerId}}">
                 <view class="bg"></view>
                 <view class="icon-wechat"></view>
             </view>
