@@ -27,7 +27,6 @@ interface Data {
     LoanIndex: number;
 }
 class CustomerOrderPage extends BasePage {
-    private isLock: boolean = false; // 提交锁
     private id: number = 0;
     private CarBrands: any[] = []; // 请求返回的车系车型数组
 
@@ -54,43 +53,11 @@ class CustomerOrderPage extends BasePage {
         // this.data.isFirst = !!~~options.isFisrt;
         this.loadData();
     }
-    /**
-     * 获取车型车系
-     */
-    private loadCar() {
-        return new Promise((resolve, reject) => {
-            // 获取车型
-            request({
-                url: domain + '/Car/CarBrand/CarSelectForSEC',
-                data: {
-                    ticket: wx.getStorageSync('ticket'),
-                    role: 'After'
-                }
-            }).then((res: any) => {
-                if (resCodeCheck(res)) {
-                    reject();
-                    return;
-                }
-                this.CarBrands = res.data.CarBrands;
 
-                // 默认车型
-                this.data.CarOptions[0] = this.CarBrands;
-                // 默认车系
-                this.data.CarOptions[1] = this.CarBrands[0].Children;
-                // 设置默认 picker
-                this.data.CarIndexs = [0, 0];
-
-                this.setData({
-                    CarIndexs: this.data.CarIndexs,
-                    CarOptions: this.data.CarOptions
-                });
-                resolve();
-            });
-        })
-
-    }
     /**
      * 加载数据
+     * @private
+     * @memberof CustomerOrderPage
      */
     private loadData() {
         toast.showLoading();
@@ -157,12 +124,50 @@ class CustomerOrderPage extends BasePage {
                 });
             });
         });
-
     }
 
+    /**
+     * 获取车型
+     * @private
+     * @returns Request Promise 
+     * @memberof CustomerOrderPage
+     */
+    private loadCar() {
+        return new Promise((resolve, reject) => {
+            // 获取车型
+            request({
+                url: domain + '/Car/CarBrand/CarSelectForSEC',
+                data: {
+                    ticket: wx.getStorageSync('ticket'),
+                    role: 'After'
+                }
+            }).then((res: any) => {
+                if (resCodeCheck(res)) {
+                    reject();
+                    return;
+                }
+                this.CarBrands = res.data.CarBrands;
+
+                // 默认车型
+                this.data.CarOptions[0] = this.CarBrands;
+                // 默认车系
+                this.data.CarOptions[1] = this.CarBrands[0].Children;
+                // 设置默认 picker
+                this.data.CarIndexs = [0, 0];
+
+                this.setData({
+                    CarIndexs: this.data.CarIndexs,
+                    CarOptions: this.data.CarOptions
+                });
+                resolve();
+            });
+        })
+    }
 
     /**
      * 改变金融类型
+     * @param {any} e 
+     * @memberof CustomerOrderPage
      */
     public changeLoan(e) {
         const index = ~~e.detail.value;
@@ -173,6 +178,13 @@ class CustomerOrderPage extends BasePage {
             LoanIndex: this.data.LoanIndex
         });
     }
+
+    /**
+     * 改变金额
+     * @param {any} e 
+     * @returns 返回映射到 input 的值
+     * @memberof CustomerOrderPage
+     */
     public changeMoney(e) {
         const name = e.currentTarget.dataset.name;
         let val = e.detail.value;
@@ -187,7 +199,8 @@ class CustomerOrderPage extends BasePage {
     /**
      * 日期组件统一处理函数
      * 改变日期
-     * @param e 
+     * @param {any} e 
+     * @memberof CustomerOrderPage
      */
     public changeDate(e) {
         // 获得 当前 picker 控件对应 name
@@ -202,7 +215,8 @@ class CustomerOrderPage extends BasePage {
     }
     /**
      * 改变车型车系
-     * @param e 
+     * @param {any} e 
+     * @memberof CustomerOrderPage
      */
     public changeCar(e) {
         // 手动触发
@@ -230,7 +244,8 @@ class CustomerOrderPage extends BasePage {
     /**
      * 根据车型改变车系数据
      * 当 第一列变化时改变第二列选项
-     * @param e 
+     * @param {any} e 
+     * @memberof CustomerOrderPage
      */
     public changeColumn(e) {
         let brandIndex = 0;
@@ -251,11 +266,9 @@ class CustomerOrderPage extends BasePage {
 
     /**
      * 提交数据
+     * @memberof CustomerOrderPage
      */
     public save() {
-        if (this.isLock) {
-            return;
-        }
         // 表单验证
         if (!this.data.CarName || !this.data.CarBrandId || !this.data.CarModelId) {
             toast.showWarning('请选择车型');
@@ -269,9 +282,7 @@ class CustomerOrderPage extends BasePage {
             toast.showWarning('交车日期不能早于订单日期');
             return;
         }
-        // 锁定提交按钮，防止重复提交
-        this.isLock = true;
-        toast.showLoading();
+        toast.showLoading('', true);
         request({
             url: domain + '/UC/CustomerVisit/ModifyForOrder',
             data: {
@@ -289,11 +300,10 @@ class CustomerOrderPage extends BasePage {
             if (resCodeCheck(res)) {
                 return;
             }
-            this.isLock = false;
             toast.hide();
             modal.show({
                 title: '',
-                content: '订单提交成功',
+                content: '提交成功',
                 showCancel: false
             }).then(flag => {
                 const pages = getCurrentPages();
@@ -302,10 +312,6 @@ class CustomerOrderPage extends BasePage {
                 wx.navigateBack();
             });
         });
-
-        setTimeout(() => {
-            this.isLock = false;
-        }, 3000);
     }
 }
 
