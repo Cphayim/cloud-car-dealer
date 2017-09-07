@@ -82,7 +82,7 @@
                     <textarea  style="max-height:160px;"
                         bindinput="changeInput" data-name="Remark" 
                         auto-height maxlength="300" 
-                        placeholder="可选，限300字" placeholder-class="placeholder">
+                        placeholder-class="placeholder">
                 </textarea>
                 </view>
             </view>
