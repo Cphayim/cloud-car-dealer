@@ -48,12 +48,17 @@
             </view>
             <!-- 战败说明 -->
             <view class="item">
-                <view class="item-key">战败说明</view>
+                <view class="item-key">
+                    <view>
+                        <view>战败说明</view>
+                        <view>(可选)</view>
+                    </view>
+                </view>
                 <view class="item-val">
                     <textarea style="max-height:160px;"
                         bindinput="changeInput" data-name="Remark" 
                         auto-height maxlength="300" 
-                        placeholder="可选，限300字" placeholder-class="placeholder">
+                        placeholder-class="placeholder">
                 </textarea>
                 </view>
             </view>
@@ -67,7 +72,12 @@
         <view class="item-wrap">
             <!-- 备注说明 -->
             <view class="item">
-                <view class="item-key">备注信息</view>
+                <view class="item-key">
+                    <view>
+                        <view>备注说明</view>
+                        <view>(可选)</view>
+                    </view>
+                </view>
                 <view class="item-val">
                     <textarea  style="max-height:160px;"
                         bindinput="changeInput" data-name="Remark" 

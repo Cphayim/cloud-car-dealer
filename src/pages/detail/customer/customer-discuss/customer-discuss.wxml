@@ -31,7 +31,7 @@
                         bindinput="changeInput" 
                         data-name="Remark" 
                         auto-height maxlength="300" 
-                        placeholder="填写跟进记录，限300字" placeholder-class="placeholder">
+                        placeholder-class="placeholder">
                     </textarea>
                 </view>
             </view>
@@ -85,7 +85,7 @@
                         bindinput="changeInput" 
                         data-name="Remark" 
                         auto-height maxlength="300" 
-                        placeholder="填写备注信息，限300字" placeholder-class="placeholder">
+                        placeholder-class="placeholder">
                     </textarea>
                 </view>
             </view>
