@@ -152,7 +152,9 @@
     <view class="cy-headlink-list cy-list">
         <view class="head">
             <view class="head-key">基本信息</view>
-            <view class="head-val" hover-class="hover">编辑</view>
+            <view class="head-val"
+                catchtap="navigato" data-page-path="{{pagePath['customer-edit']}}"
+                hover-class="hover">编辑</view>
         </view>
         <view class="item-wrap">
             <!-- 手机号 -->

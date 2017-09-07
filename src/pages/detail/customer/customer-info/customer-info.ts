@@ -15,7 +15,7 @@ import { actionSheet } from '../../../../modules/actionsheet';
  * @Author: 云程科技 
  * @Date: 2017-07-31 10:04:46 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-08-14 11:40:09
+ * @Last Modified time: 2017-09-07 16:08:54
  */
 
 // 创建 tabSlider 对象
@@ -209,7 +209,7 @@ class CustomerPage extends BasePage {
             this.loadDiscuss();
 
             toast.hide();
-            const delay = isRefresh ? refreshDelay : 0;
+            const delay = isRefresh ? refreshDelay : 100;
             setTimeout(() => {
                 this.setData({
                     loaded: true,
@@ -594,8 +594,8 @@ class CustomerPage extends BasePage {
                                     ticket: wx.getStorageSync('ticket'),
                                     id: this.id
                                 }
-                            }).then(res=>{
-                                if(resCodeCheck(res)){return}
+                            }).then(res => {
+                                if (resCodeCheck(res)) { return }
                                 toast.showSuccess('已取消交车');
                                 this.loadData();
                             });
@@ -667,7 +667,7 @@ class CustomerPage extends BasePage {
      * @memberof CustomerPage
      */
     private onPullDownRefresh() {
-        this.loadData();
+        this.loadData(true);
     }
 }
 Page(new CustomerPage());

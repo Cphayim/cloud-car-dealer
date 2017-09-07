@@ -1,1 +1,129 @@
 <!-- 客户成交信息 -->
+
+<view class="animation-box {{loaded?'loaded':''}}">
+    <view class="m-customer-deal">
+        <view class="cy-edit-list cy-list">
+            <view class="item-wrap">
+                <!-- 订单日期 -->
+                <view class="item">
+                    <view class="item-key">订单日期</view>
+                    <view class="item-val">
+                        <picker value="{{OrderDate}}" bindchange="changeDate" data-name="OrderDate" mode="date" start="2000-01-01" end="2049-12-31">
+                            <view class="picker">
+                                {{OrderDate || '请选择订单日期'}}
+                            </view>
+                        </picker>
+                    </view>
+                </view>
+                <!-- 成交车型 -->
+                <view class="item">
+                    <view class="item-key">成交车型</view>
+                    <view class="item-val">
+                        <picker mode="multiSelector" bindchange="changeCar" bindcolumnchange="changeColumn" value="{{CarIndexs}}" range="{{CarOptions}}"
+                            range-key="Name">
+                            <view class="picker">
+                                {{CarName || '请选择成交车型'}}
+                            </view>
+                        </picker>
+                    </view>
+                </view>
+                <!-- 金融类型  -->
+                <view class="item">
+                    <view class="item-key">金融类型</view>
+                    <view class="item-val">
+                        <picker bindchange="changeLoan" value="{{LoanIndex}}" range="{{LoanOptions}}">
+                            <view class="picker">
+                                {{LoanIndex ? '贷款' : '全款'}}
+                            </view>
+                        </picker>
+                    </view>
+                </view>
+                <!-- 价格 -->
+                <view class="item">
+                    <view class="item-key">价格</view>
+                    <view class="item-val">
+                        <input type="digit" bindinput="changeMoney" data-name="Price" value="{{Price}}" placeholder="0.00" placeholder-class="placeholder"
+                        />
+                    </view>
+                </view>
+                <!-- 定金 -->
+                <view class="item">
+                    <view class="item-key">定金</view>
+                    <view class="item-val">
+                        <input type="digit" bindinput="changeMoney" data-name="Deposit" value="{{Deposit}}" placeholder="0.00" placeholder-class="placeholder"
+                        />
+                    </view>
+                </view>
+                <!-- 发票日期 -->
+                <view class="item">
+                    <view class="item-key">发票日期</view>
+                    <view class="item-val">
+                        <picker value="{{BuyCarDate}}" bindchange="changeDate" data-name="BuyCarDate" mode="date" start="2000-01-01" end="2049-12-31">
+                            <view class="picker">
+                                {{BuyCarDate || '请选择发票日期'}}
+                            </view>
+                        </picker>
+                    </view>
+                </view>
+                <!-- 交车日期 -->
+                <view class="item">
+                    <view class="item-key">交车日期</view>
+                    <view class="item-val">
+                        <picker value="{{DeliverDate}}" bindchange="changeDate" data-name="DeliverDate" mode="date" start="2000-01-01" end="2049-12-31">
+                            <view class="picker">
+                                {{DeliverDate || '请选择交车日期'}}
+                            </view>
+                        </picker>
+                    </view>
+                </view>
+                <!-- 上牌日期 -->
+                <view class="item">
+                    <view class="item-key">上牌日期</view>
+                    <view class="item-val">
+                        <picker value="{{LicenseDate}}" bindchange="changeDate" data-name="LicenseDate" mode="date" start="2000-01-01" end="2049-12-31">
+                            <view class="picker">
+                                {{LicenseDate || '请选择上牌日期'}}
+                            </view>
+                        </picker>
+                    </view>
+                </view>
+                <!-- 车牌号  -->
+                <view class="item">
+                    <view class="item-key">车牌号</view>
+                    <view class="item-val">
+                        <input type="text" bindinput="changeInput" data-name="License" value="{{License}}" placeholder="请输入车牌号" placeholder-class="placeholder"
+                        />
+                    </view>
+                </view>
+                <!-- 车架号  -->
+                <view class="item">
+                    <view class="item-key">车架号</view>
+                    <view class="item-val">
+                        <input type="text" bindinput="changeInput" data-name="FrameNo" value="{{FrameNo}}" placeholder="请输入车架号" placeholder-class="placeholder"
+                        />
+                    </view>
+                </view>
+                <!-- 售后顾问 -->
+                <view class="item">
+                    <view class="item-key">售后顾问</view>
+                    <view catchtap="afterEmployeeBinded" data-dis="{{AfterEmployeeId}}" class="item-val">
+                        <!-- 如果已绑定售后顾问则禁用组件 -->
+                        <picker disabled="{{AfterEmployeeId ? true : false}}" bindchange="changeAfterEmployee" value="{{AfterEmployeeIndex}}" range="{{AfterEmployeeOptions}}"
+                            range-key="Name">
+                            <view class="picker">
+                                {{AfterEmployeeOptions[AfterEmployeeIndex].Name || '请指定售后顾问'}}
+                            </view>
+                        </picker>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="paddinglayer" style="margin-top:20rpx;height:{{paddingLayerHeight}}px"></view>
+        <view class="m-operation">
+            <!-- 按钮组 -->
+            <view class="btn-group">
+                <view catchtap="save" class="blue" hover-class="hover">保存</view>
+            </view>
+        </view>
+    </view>
+</view>
