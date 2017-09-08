@@ -3,7 +3,7 @@
  * @Author: Cphayim
  * @Date: 2017-07-13 16:57:34 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-08-14 12:52:25
+ * @Last Modified time: 2017-09-07 20:23:10
  */
 
 @import '../../dev-resource/config.dev.scss';
@@ -234,8 +234,21 @@
                     justify-content: center;
                     flex: 1 1 auto;
                     .content{
+                        display: flex;
+                        align-items: center;
                         @include font(14px,$secondFont);
                         line-height: 1.35;
+                        >view:nth-child(1){
+                            flex: 1 0 auto;
+                            max-width: 60%;
+                            @extend %text-clip;
+                            color: $blueColor;
+                        }
+                        >view:nth-child(2){
+                            flex: 0 0 80px;
+                            @include font(12px,$thirdFont);
+                            text-align: right;
+                        }
                     }
                 }
             }
