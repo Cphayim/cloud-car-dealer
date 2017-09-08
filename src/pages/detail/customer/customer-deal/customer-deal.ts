@@ -148,7 +148,7 @@ class CustomerDealPage extends BasePage {
                         }
                     }
                     this.setData({
-                        AfterEmployeeIndex: this.data.AfterEmployeeIndex = i
+                        AfterEmployeeIndex: this.data.AfterEmployeeIndex
                     });
                 }
 
