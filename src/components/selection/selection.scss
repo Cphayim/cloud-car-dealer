@@ -28,6 +28,7 @@
         display: flex;
         position: relative;
         z-index: 1000;
+        border-bottom: $border;
         background-color: #fff;
         @extend %select-title-group;
     } // 选项列表组
@@ -35,7 +36,6 @@
         position: absolute;
         z-index: 1000;
         width: 100%;
-        border-top: $border;
         @extend %option-list-group;
     } // 筛选列表组
     .screening-list-group {
