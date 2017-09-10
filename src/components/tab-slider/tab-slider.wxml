@@ -35,6 +35,7 @@
                     <template wx:elif="{{list.listType == 'ticket'}}" is="si-ticket" data="{{items:list.items, listType:'ticket'}}"></template>
                     <!-- 时间轴列表 -->
                     <template wx:elif="{{list.listType == 'axis'}}" is="si-axis" data="{{items:list.items, listType:'axis'}}"></template>
+                    <template wx:elif="{{list.listType == 'axis2'}}" is="si-axis2" data="{{items:list.items, listType:'axis2'}}"></template>
                     <!-- 客户列表  -->
                     <template wx:elif="{{list.listType == 'client'}}" is="si-client" data="{{items:list.items, listType:'client'}}"></template>
                     <!-- 文本列表 -->
@@ -133,6 +134,35 @@
                             </view>
                             <view class="r">
                                 <view class="content">{{item.content}}</view>
+                            </view>
+                        </view>
+                    </block>
+                </view>
+            </view>
+
+        </scroll-view>
+    </swiper-item>
+</template>
+<template name="si-axis2">
+    <swiper-item class="list">
+        <scroll-view class="basic axis" data-list-type="{{listType}}" scroll-y style="height:100%;">
+            <!-- 外层包裹 -->
+            <view class="wrap-outer">
+                <view class="wrap-inner">
+                    <!-- 循环渲染列表项 -->
+                    <block wx:for="{{items}}" wx:key="id">
+                        <view class="item">
+                            <view class="l">
+                                <view class="date">{{item.date}}</view>
+                                <view class="time">{{item.time}}</view>
+                            </view>
+                            <view class="r">
+                                <block wx:for="{{item.childList}}" wx:for-item="childItem" wx:key="id">
+                                <view class="content">
+                                    <view>{{childItem.title}}</view>
+                                    <view>浏览 {{childItem.count || 0}} 次</view>
+                                </view>
+                                </block>
                             </view>
                         </view>
                     </block>
