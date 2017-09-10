@@ -29,12 +29,12 @@
         </view>
         <!-- 名 -->
         <view class="namewrap">
-            <view class="realname">{{realname}}</view>
-            <view class="username">{{username}}</view>
+            <view class="realname">{{realname || '-'}}</view>
+            <view class="username">{{username || '-'}}</view>
         </view>
         <!-- 来源 -->
         <view class="text">
-            来源：{{source}} {{time}}
+            来源：{{source || '未知'}} {{time || '-'}}
         </view>
         <!-- 按钮组 -->
         <view class="btn-group">
@@ -74,12 +74,12 @@
         </view>
         <!-- 名 -->
         <view class="namewrap">
-            <view class="realname">{{realname}}</view>
-            <view class="username">{{username}}</view>
+            <view class="realname">{{realname || '-'}}</view>
+            <view class="username">{{username || '-'}}</view>
         </view>
         <!-- 来源 -->
-        <view hidden="{{!time}}" class="text">
-            关注：{{time}}
+        <view class="text">
+            {{time? '关注：' + time : '关注：--'}}
         </view>
         <!-- 按钮组 -->
         <view class="btn-group">
