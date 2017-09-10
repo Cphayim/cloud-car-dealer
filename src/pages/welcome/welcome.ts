@@ -1,7 +1,7 @@
 import BasePage from '../basepage';
 import pagePath from '../../config/path.config';
 import toast from '../../modules/toast';
-import { domain } from '../../config/url.config';
+import { domain } from '../../config/config';
 import { request } from '../../modules/request';
 
 /**

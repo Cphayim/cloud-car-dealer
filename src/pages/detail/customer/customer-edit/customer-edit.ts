@@ -2,7 +2,7 @@ import BasePage from '../../../basepage';
 import { dateFormat } from '../../../../modules/util';
 import { request } from '../../../../modules/request';
 import { resCodeCheck } from '../../../../modules/auth';
-import { domain } from '../../../../config/url.config';
+import { domain } from '../../../../config/config';
 import toast from '../../../../modules/toast';
 import { modal } from '../../../../modules/modal';
 /*
@@ -528,6 +528,7 @@ class CustomerEditPage extends BasePage {
             second: true
         }).then(res => {
             if (resCodeCheck(res)) { return }
+            toast.hide();
             modal.show({
                 title: '',
                 content: '提交成功',

@@ -1,6 +1,6 @@
 import BasePage from '../../basepage';
 import { request } from '../../../modules/request';
-import { domain } from '../../../config/url.config';
+import { domain } from '../../../config/config';
 import { resCodeCheck } from '../../../modules/auth';
 import toast from '../../../modules/toast';
 import pagePath from '../../../config/path.config';

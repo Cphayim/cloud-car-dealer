@@ -7,7 +7,7 @@ import BasePage from '../../../basepage';
  * @Last Modified time: 2017-08-14 13:01:12
  */
 
-class RemindPage extends BasePage {
+class ChatRemindPage extends BasePage {
   public data: any = {
     // 列表底部填充层高度
     paddingLayerHeight: 0,
@@ -93,4 +93,4 @@ class RemindPage extends BasePage {
 
   }
 }
-Page(new RemindPage());
+Page(new ChatRemindPage());

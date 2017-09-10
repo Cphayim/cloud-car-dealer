@@ -7,76 +7,15 @@
  */
 
 @import '../../../dev-resource/config.dev.scss';
+
 /*!@import '../../../components/search/search.scss';!*/
 
-// 通用块
-.section {
-    background-color: #fff;
-}
 
-// 对话（消息）列表
-.m-msg {
-    .item {
-        display: flex;
-        border-bottom:$border;
-        padding: 20rpx 30rpx;
-        &:last-of-type {
-            border: none;
-        }
-        .l,.r{
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        .l{
-            flex: 0 0 auto;
-        }
-        .r {
-            flex: 1 1 auto;
-            width: 50%;
-            position: relative;
-            box-sizing: border-box;
-            padding-left: 8px;
-            margin: 8px 0;
-        }
-        .avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-        }
-        .realname,
-        .username {
-            // 防止名字过长移除，修剪处理
-            display: inline-block;
-            max-width: 48%;
-            @extend %text-clip;
-        }
-        // 真实姓名
-        .realname {
-            @include font($normalFont,$firstFont);
-        } // 用户名
-        .username {
-            @include font($smallFont,$secondFont);
-            margin-left: 4px;
-            &:before {
-                content: ' [ ';
-            }
-            &:after {
-                content: ' ] ';
-            }
-        }
-        .last-msg {
-            @include font($smallFont,$thirdFont);
-            margin-top: 8px;
-            width: 100%;
-            @extend %text-clip;
-        }
-        .time {
-            @include font($smallFont,$thirdFont);
-            position: absolute;
-            top: 5px;
-            right: 0;
-            font-size: $smallFont;
-        }
-    }
+/*!@import '../../../components/list/list.scss';!*/
+
+.top-component {
+    position: fixed;
+    top: 0;
+    z-index: 999;
+    width: 100%;
 }

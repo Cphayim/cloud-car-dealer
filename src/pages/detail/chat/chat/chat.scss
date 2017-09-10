@@ -6,14 +6,14 @@
  * @Last Modified time: 2017-08-14 12:08:53
  */
 
-@import '../../../dev-resource/config.dev.scss';
+@import '../../../../dev-resource/config.dev.scss';
 // 输入框左右按钮图标
 @for $i from 0 through 3 {
     .icon-switchbtn-#{$i} {
         width: 60rpx;
         height: 60rpx;
         margin: 0 auto;
-        $url:'../../../dev-resource/image-min/dialogue-h-#{$i}.png';
+        $url:'../../../../dev-resource/image-min/dialogue-h-#{$i}.png';
         @include image($url);
     }
 }
@@ -24,7 +24,7 @@
         width: 100rpx;
         height: 100rpx;
         margin: 0 auto;
-        $url:'../../../dev-resource/image-min/dialogue-#{$i}.png';
+        $url:'../../../../dev-resource/image-min/dialogue-#{$i}.png';
         @include image($url);
     }
 }

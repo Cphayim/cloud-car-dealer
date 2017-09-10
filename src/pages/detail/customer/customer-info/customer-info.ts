@@ -3,7 +3,7 @@ import pagePath from '../../../../config/path.config';
 import TabSlider from '../../../../components/tab-slider/tab-slider';
 import toast from '../../../../modules/toast';
 import { request } from '../../../../modules/request';
-import { domain } from '../../../../config/url.config';
+import { domain } from '../../../../config/config';
 import { resCodeCheck, reLogin } from '../../../../modules/auth';
 import { dateFormat } from '../../../../modules/util';
 import { enumConfig } from '../../../../config/enum.config';
@@ -15,7 +15,7 @@ import { actionSheet } from '../../../../modules/actionsheet';
  * @Author: 云程科技 
  * @Date: 2017-07-31 10:04:46 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-09-07 20:15:21
+ * @Last Modified time: 2017-09-11 00:25:12
  */
 
 // 创建 tabSlider 对象
@@ -223,7 +223,7 @@ class CustomerPage extends BasePage {
             });
             tabSliderData[0].items = items1;
             tabSliderData[1].items = items2;
-
+            console.log(tabSliderData)
             this.tabSlider.update(tabSliderData);
 
             // 设置跟进信息

@@ -1,7 +1,7 @@
 import BasePage from '../../../basepage';
 import toast from '../../../../modules/toast';
 import { request } from '../../../../modules/request';
-import { domain } from '../../../../config/url.config';
+import { domain } from '../../../../config/config';
 import { resCodeCheck } from '../../../../modules/auth';
 import { dateFormat } from '../../../../modules/util';
 

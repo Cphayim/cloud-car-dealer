@@ -1,6 +1,6 @@
 import BasePage from '../../basepage';
 import { request } from '../../../modules/request';
-import { domain } from '../../../config/url.config';
+import { domain } from '../../../config/config';
 import toast from '../../../modules/toast';
 import { resCodeCheck } from '../../../modules/auth';
 import pagePath from '../../../config/path.config';
@@ -10,7 +10,7 @@ import { refreshDelay } from '../../../config/config';
  * @Author: 云程科技 
  * @Date: 2017-06-30 10:11:47 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-08-26 17:42:28
+ * @Last Modified time: 2017-09-11 00:25:05
  */
 
 class HomePage extends BasePage {
@@ -43,7 +43,7 @@ class HomePage extends BasePage {
      * @memberof HomePage
      */
     private loadData(isRefresh = false) {
-        toast.showLoading(isRefresh ? '正在刷新...' : '正在加载...');
+        toast.showLoading();
         this.requestData()
             .then((res: any) => {
                 // console.log(res.data);
@@ -65,9 +65,6 @@ class HomePage extends BasePage {
                 }, delay);
 
 
-            }).catch(err => {
-                console.log(err);
-                toast.showError('网络请求失败');
             });
     }
     /**

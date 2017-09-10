@@ -3,13 +3,13 @@
  * @Author: 云程科技
  * @Date: 2017-08-27 02:19:42 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-08-29 17:04:20
+ * @Last Modified time: 2017-09-11 00:25:23
  */
 
 import BasePage from '../../../basepage';
 import pagePath from '../../../../config/path.config';
 import { request } from '../../../../modules/request';
-import { domain } from '../../../../config/url.config';
+import { domain } from '../../../../config/config';
 import { resCodeCheck } from '../../../../modules/auth';
 import { listTimeFormat } from '../../../../modules/util';
 import toast from '../../../../modules/toast';
@@ -40,7 +40,7 @@ class RecordListPage extends BasePage {
     }
 
     private loadData() {
-        toast.showLoading('正在加载...');
+        toast.showLoading();
         this.requestData()
             .then((res: any) => {
                 if (resCodeCheck(res)) return;

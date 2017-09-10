@@ -3,13 +3,13 @@
  * @Author: 云程科技
  * @Date: 2017-08-27 01:58:05 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-08-28 15:51:09
+ * @Last Modified time: 2017-09-11 00:25:07
  */
 
 import BasePage from '../../../basepage';
 import toast from '../../../../modules/toast';
 import { request } from '../../../../modules/request';
-import { domain } from '../../../../config/url.config';
+import { domain } from '../../../../config/config';
 import { resCodeCheck } from '../../../../modules/auth';
 import { listTimeFormat } from '../../../../modules/util';
 import pagePath from '../../../../config/path.config';
@@ -41,7 +41,7 @@ class ActiveListPage extends BasePage {
      * @param isRefresh 是否是下拉刷新
      */
     private loadData(isRefresh: boolean = false) {
-        toast.showLoading('正在加载...');
+        toast.showLoading();
         this.requestData()
             .then((res: any) => {
                 // 错误状态检查

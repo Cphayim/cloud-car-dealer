@@ -3,7 +3,7 @@
  * @Author: 云程科技 
  * @Date: 2017-06-28 16:56:25 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-08-28 14:13:38
+ * @Last Modified time: 2017-09-11 00:20:37
  */
 
 interface Path {
@@ -74,11 +74,9 @@ const pathArr: Path[] = [
     // Tab 对话
     { name: 'message', pre: 'tabs' },
     // 聊天界面
-    { name: 'dialogue', pre: 'detail' },
-    // 聊天界面-扩展工具
-    { name: 'extend', pre: 'detail/dialogue' },
-    // 聊天界面-提醒
-    { name: 'remind', pre: 'detail/dialogue' },
+    { name: 'chat', pre: 'detail/chat' }, // 聊天界面
+    { name: 'chat-extend', pre: 'detail/chat' },// 聊天界面-扩展工具
+    { name: 'chat-remind', pre: 'detail/chat' },// 聊天界面-提醒
 
 
     /**

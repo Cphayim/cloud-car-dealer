@@ -3,7 +3,7 @@ import { dateFormat } from '../../../../modules/util';
 import { request } from '../../../../modules/request';
 import toast from '../../../../modules/toast';
 import { resCodeCheck } from '../../../../modules/auth';
-import { domain } from '../../../../config/url.config';
+import { domain } from '../../../../config/config';
 import { modal } from '../../../../modules/modal';
 
 interface Data {

@@ -8,7 +8,7 @@ import BasePage from '../../basepage';
 import toast from '../../../modules/toast';
 import { dateFormat, getFirstAndLastMonthDay, listTimeFormat } from '../../../modules/util';
 import { request } from '../../../modules/request';
-import { domain } from '../../../config/url.config';
+import { domain } from '../../../config/config';
 import { enumConfig } from '../../../config/enum.config';
 import { resCodeCheck } from '../../../modules/auth';
 import pagePath from '../../../config/path.config';
@@ -88,7 +88,7 @@ class Monthly extends BasePage {
      * 加载数据
      */
     private loadData() {
-        toast.showLoading('正在加载...');
+        toast.showLoading('');
         this.requestData()
             .then((res: any) => {
                 const data = res.data;

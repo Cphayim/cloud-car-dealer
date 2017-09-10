@@ -3,7 +3,7 @@ import pagePath from '../../../config/path.config';
 import Selection from '../../../components/selection/selection';
 import toast from '../../../modules/toast';
 import { dateFormat, listTimeFormat } from '../../../modules/util';
-import { domain } from '../../../config/url.config';
+import { domain } from '../../../config/config';
 import { enumConfig } from '../../../config/enum.config.js';
 import { openSearch } from '../../../components/search/search';
 import { request } from '../../../modules/request';
@@ -16,7 +16,7 @@ import { refreshDelay } from '../../../config/config';
  * @Author: 云程科技 
  * @Date: 2017-07-03 10:45:33 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-08-28 18:08:50
+ * @Last Modified time: 2017-09-11 00:25:05
  */
 
 

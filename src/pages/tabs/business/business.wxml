@@ -12,9 +12,9 @@
   <template wx:if="{{selection}}" is="selection" data="{{...selection}}"></template>
 </view>
 
-<view class="animation-box {{loaded?'loaded':''}}">
+<view class="animation-box {{loaded?'loaded':''}}" style="padding-top:{{listPaddingTop}}px">
   <!-- 内容区 -->
-  <view style="padding-top:{{listPaddingTop}}px" class="m-business">
+  <view class="m-business">
     <!-- 列表项统计 -->
     <view class="cy-list-count">总数：{{businessTotal}}</view>
     <!-- 列表 -->

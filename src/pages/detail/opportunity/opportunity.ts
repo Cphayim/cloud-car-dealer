@@ -1,7 +1,7 @@
 import { modal } from '../../../modules/modal';
 import pagePath from '../../../config/path.config';
 import toast from '../../../modules/toast';
-import { domain } from '../../../config/url.config';
+import { domain } from '../../../config/config';
 import { enumConfig } from '../../../config/enum.config';
 import { request } from '../../../modules/request';
 import BasePage from '../../basepage';
@@ -11,7 +11,7 @@ import { resCodeCheck } from '../../../modules/auth';
  * @Author: 云程科技 
  * @Date: 2017-07-20 16:58:49 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-08-28 18:09:38
+ * @Last Modified time: 2017-09-11 00:24:50
  */
 
 class OpportunityPage extends BasePage {
@@ -74,7 +74,7 @@ class OpportunityPage extends BasePage {
      * 加载数据
      */
     private loadData(isRefresh = false) {
-        toast.showLoading(isRefresh ? '正在刷新...' : '正在加载...', true);
+        toast.showLoading();
         // 发送请求
         this.requestData().then((res: any) => {
             console.log(res.data);

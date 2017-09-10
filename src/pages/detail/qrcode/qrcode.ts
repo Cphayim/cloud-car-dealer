@@ -3,12 +3,12 @@
  * @Author: 云程科技
  * @Date: 2017-08-24 19:28:13 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-08-28 17:19:59
+ * @Last Modified time: 2017-09-11 00:25:00
  */
 
 import BasePage from '../../basepage';
 import { request } from '../../../modules/request';
-import { domain } from '../../../config/url.config';
+import { domain } from '../../../config/config';
 import { resCodeCheck } from '../../../modules/auth';
 import toast from '../../../modules/toast';
 import { listTimeFormat } from '../../../modules/util';
@@ -38,7 +38,7 @@ class QRCodePage extends BasePage {
      * 加载数据
      */
     private loadData(isRefresh = false) {
-        toast.showLoading('正在加载...');
+        toast.showLoading();
         this.requestData()
             .then((res: any) => {
                 if (resCodeCheck(res)) return;

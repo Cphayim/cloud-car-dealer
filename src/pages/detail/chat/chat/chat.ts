@@ -6,10 +6,10 @@
  * @Last Modified time: 2017-08-29 11:29:00
  */
 
-import pagePath from '../../../config/path.config'
-import BasePage from '../../basepage';
+import pagePath from '../../../../config/path.config'
+import BasePage from '../../../basepage';
 
-class dialoguePage extends BasePage {
+class ChatPage extends BasePage {
     public data: any = {
         // 各页面路径
         pagePath,
@@ -169,4 +169,4 @@ class dialoguePage extends BasePage {
     }
 }
 
-Page(new dialoguePage());
+Page(new ChatPage());

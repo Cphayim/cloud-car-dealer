@@ -1,7 +1,7 @@
 import BasePage from '../../basepage';
 import TabSlider from '../../../components/tab-slider/tab-slider';
 import { request } from '../../../modules/request';
-import { domain } from '../../../config/url.config';
+import { domain } from '../../../config/config';
 import { dateFormat, listTimeFormat } from '../../../modules/util';
 import { resCodeCheck } from '../../../modules/auth';
 import toast from '../../../modules/toast';
@@ -11,7 +11,7 @@ import pagePath from '../../../config/path.config';
  * @Author: 云程科技 
  * @Date: 2017-07-11 15:49:45 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-08-29 16:52:20
+ * @Last Modified time: 2017-09-11 00:25:00
  */
 
 interface Data {
@@ -78,7 +78,7 @@ class TaskPage extends BasePage {
      * 加载数据
      */
     private loadData() {
-        toast.showLoading('正在加载...');
+        toast.showLoading();
         // 这里并发两次请求，当两次请求都成功返回时渲染数据
         Promise.all([this.requestData(0), this.requestData(1)])
             .then((resAll: any) => {

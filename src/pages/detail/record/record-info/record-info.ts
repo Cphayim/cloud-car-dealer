@@ -3,13 +3,13 @@
  * @Author: Cphayim 
  * @Date: 2017-08-27 02:40:05 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-08-29 16:35:12
+ * @Last Modified time: 2017-09-11 00:25:19
  */
 
 import BasePage from '../../../basepage';
 import pagePath from '../../../../config/path.config';
 import { request } from '../../../../modules/request';
-import { domain } from '../../../../config/url.config';
+import { domain } from '../../../../config/config';
 import toast from '../../../../modules/toast';
 import { resCodeCheck } from '../../../../modules/auth';
 
@@ -56,7 +56,7 @@ class RecordInfoPage extends BasePage {
         this.loadData();
     }
     private loadData() {
-        toast.showLoading('正在加载...');
+        toast.showLoading();
         this.requestData()
             .then((res: any) => {
                 if (resCodeCheck(res)) {

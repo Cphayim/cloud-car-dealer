@@ -2,7 +2,7 @@ import BasePage from '../../basepage';
 import pagePath from '../../../config/path.config';
 import Selection from '../../../components/selection/selection';
 import toast from '../../../modules/toast';
-import { domain } from '../../../config/url.config';
+import { domain } from '../../../config/config';
 import { openSearch } from '../../../components/search/search';
 import { request } from '../../../modules/request';
 import { enumConfig } from '../../../config/enum.config';
@@ -15,7 +15,7 @@ import { refreshDelay } from '../../../config/config';
  * @Author: 云程科技 
  * @Date: 2017-06-30 10:12:17 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-09-07 16:19:51
+ * @Last Modified time: 2017-09-11 00:25:01
  */
 
 
@@ -39,11 +39,6 @@ interface Data {
     listPaddingTop: number;
     // selection 对象挂载
     selection: Selection;
-
-    /**
-     * 请求相关
-     */
-    // listCount: number, // 当前列表项数
 
     /*
      * 枚举相关

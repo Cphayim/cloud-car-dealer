@@ -26,11 +26,10 @@
         "pages/detail/customer/customer-deal/customer-deal",
         "pages/detail/customer/customer-discuss/customer-discuss",
 
-
         "pages/tabs/message/message",
-        "pages/detail/dialogue/dialogue",
-        "pages/detail/dialogue/extend/extend",
-        "pages/detail/dialogue/remind/remind",
+        "pages/detail/chat/chat/chat",
+        "pages/detail/chat/chat-extend/chat-extend",
+        "pages/detail/chat/chat-remind/chat-remind",
 
         "pages/tabs/me/me"
 

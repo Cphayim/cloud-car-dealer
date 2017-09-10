@@ -14,7 +14,7 @@ import BasePage from '../../../basepage';
 import toast from '../../../../modules/toast';
 
 const tabSlider = new TabSlider({});
-class dialogueExtendPage extends BasePage {
+class ChatExtendPage extends BasePage {
     private tabSlider = tabSlider;
     public data = {
         tabSlider
@@ -83,4 +83,4 @@ class dialogueExtendPage extends BasePage {
 
     }
 }
-Page(new dialogueExtendPage());
+Page(new ChatExtendPage());
