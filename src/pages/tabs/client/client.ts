@@ -15,7 +15,7 @@ import { refreshDelay } from '../../../config/config';
  * @Author: 云程科技 
  * @Date: 2017-06-30 10:12:17 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-08-28 15:10:47
+ * @Last Modified time: 2017-09-07 16:19:51
  */
 
 
@@ -57,6 +57,8 @@ interface Data {
 
 
 class ClientPage extends BasePage {
+    private isFirst: boolean = true;
+
     private selection: Selection = selection;
     private carBrandFlag = false;
     // 视图滚动属性
