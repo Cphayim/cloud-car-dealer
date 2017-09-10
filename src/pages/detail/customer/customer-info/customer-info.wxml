@@ -160,27 +160,32 @@
             <!-- 手机号 -->
             <view class="item">
                 <view class="item-key">手机号</view>
-                <view class="item-val">{{item.val}}</view>
+                <view class="item-val">{{basic.MobilePhone}}</view>
             </view>
             <!-- 意向车型 -->
             <view class="item">
                 <view class="item-key">意向车型</view>
-                <view class="item-val">{{item.val}}</view>
+                <view class="item-val">{{basic.CarModel}}</view>
             </view>
             <!-- 对比车型 -->
             <view class="item">
                 <view class="item-key">对比车型</view>
-                <view class="item-val">{{item.val}}</view>
+                <view class="item-val">{{basic.ContrastCarModel}}</view>
+            </view>
+            <!-- 保有车型 -->
+            <view class="item">
+                <view class="item-key">保有车型</view>
+                <view class="item-val">{{basic.KeepCarModel}}</view>
             </view>
             <!-- 购车方式 -->
             <view class="item">
                 <view class="item-key">购车方式</view>
-                <view class="item-val">{{item.val}}</view>
+                <view class="item-val">{{basic.CarWay}}</view>
             </view>
             <!-- 购车预算 -->
             <view class="item">
                 <view class="item-key">购车预算</view>
-                <view class="item-val">{{item.val}}</view>
+                <view class="item-val">{{basic.BuyTimeRange}}</view>
             </view>
         </view>
     </view>

@@ -15,7 +15,7 @@ import { actionSheet } from '../../../../modules/actionsheet';
  * @Author: 云程科技 
  * @Date: 2017-07-31 10:04:46 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-09-07 16:08:54
+ * @Last Modified time: 2017-09-07 20:15:21
  */
 
 // 创建 tabSlider 对象
@@ -65,6 +65,16 @@ interface Data {
         DeliverDate?: string; // 计划交车时间
         DealTime?: string; // 成交时间
     }
+
+    // 基本信息
+    basic: {
+        MobilePhone: string, // 手机号
+        CarModel: string, // 意向车型 
+        ContrastCarModel: string, // 对比车型
+        KeepCarModel: string, // 保有车型
+        CarWay: string, // 购车方式
+        BuyTimeRange: string, // 购车预算
+    }
 }
 
 // 跟进信息默认对象，每次重新加载时还原后再修改
@@ -111,7 +121,16 @@ class CustomerPage extends BasePage {
         enumLoseType: this.enumLoseType,
         enumVisitItem: this.enumVisitItem,
 
-        discuss: JSON.parse(JSON.stringify(discussBase))
+        discuss: JSON.parse(JSON.stringify(discussBase)),
+
+        basic: {
+            MobilePhone: '', // 手机号
+            CarModel: '', // 意向车型 
+            ContrastCarModel: '', // 对比车型
+            KeepCarModel: '', // 保有车型
+            CarWay: '', // 购车方式 
+            BuyTimeRange: '', // 购车预算
+        }
     }
 
     private onLoad(options) {
@@ -177,7 +196,7 @@ class CustomerPage extends BasePage {
                 items: []
             }, {
                 tabTitle: '客户轨迹',
-                listType: 'axis',
+                listType: 'axis2',
                 items: []
             }];
 
@@ -191,14 +210,16 @@ class CustomerPage extends BasePage {
                 }
             });
 
-            const items2 = data.track.map(item => {
-                const reg = /^(\d{4}\/\d{2}\/\d{2}).*(\d{2}:\d{2}:\d{2})$/;
-                const datearr = item.Date.match(reg);
-                return {
-                    date: datearr[1],
-                    time: datearr[2],
-                    content: item.Title + ' 浏览次数: ' + item.Count
-                }
+            const items2 = data.trackGroup.map(item => {
+                const newItem:any = {};
+                newItem.date = item.Date || '猴年马月';
+                newItem.childList = item.Childs.map(childItem=>{
+                    const newChildItem:any = {};
+                    newChildItem.title = childItem.Title || '';
+                    newChildItem.count = childItem.Count || 0;
+                    return newChildItem;
+                });
+                return newItem;
             });
             tabSliderData[0].items = items1;
             tabSliderData[1].items = items2;
@@ -208,12 +229,23 @@ class CustomerPage extends BasePage {
             // 设置跟进信息
             this.loadDiscuss();
 
+            // 设置基本信息
+            this.data.basic = {
+                MobilePhone: data.customer.MobilePhone || '',
+                CarModel: data.customer.CarModel || '',
+                ContrastCarModel: data.customer.ContrastCarModel || '',
+                KeepCarModel: data.customer.KeepCarModel || '', // 保有车型
+                CarWay: data.customer.IsLoan || '', // 购车方式 
+                BuyTimeRange: data.customer.BuyTimeRange || '', // 购车预算
+            }
+
             toast.hide();
             const delay = isRefresh ? refreshDelay : 100;
             setTimeout(() => {
                 this.setData({
                     loaded: true,
-                    introData: this.data.introData
+                    introData: this.data.introData,
+                    basic: this.data.basic
                 });
                 isRefresh && toast.showSuccess('刷新成功');
             }, delay);

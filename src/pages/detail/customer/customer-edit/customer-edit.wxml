@@ -3,225 +3,296 @@
 
 <!-- 容器 -->
 <view class="animation-box {{loaded?'loaded':''}}">
-    <!-- 添加跟进记录 -->
-    <block wx:if="{{flag == 'follow'}}">
-        <view class="cy-list">
-            1
-        </view>
-    </block>
-    <!-- 完善客户资料 -->
-    <block wx:else>
-        <template is="customer-info" data="{{...customerInfo}}"></template>
-    </block>
-</view>
-
-<!-- 客户资料 -->
-<template name="customer-info">
-    <!-- 基本信息 -->
-    <view class="cy-edit-list cy-list">
-        <view class="head">
-            <view class="head-key">
-                基本信息
-            </view>
-        </view>
-        <view class="item-wrap">
-            <!-- 姓名 -->
-            <view class="item">
-                <view class="item-key">姓名</view>
-                <view class="item-val">
-                    <input type="text" value="{{Name}}" placeholder="请输入姓名" placeholder-class="placeholder" />
+    <view class="m-customer-edit">
+        <!-- 基本信息 -->
+        <view class="cy-edit-list cy-list">
+            <view class="head">
+                <view class="head-key">
+                    基本信息
                 </view>
             </view>
-            <!-- 手机号 -->
-            <view class="item">
-                <view class="item-key">手机号</view>
-                <view class="item-val">
-                    <input type="text" value="{{MobilePhone}}" placeholder="请输入手机号" placeholder-class="placeholder" />
+            <view class="item-wrap">
+                <!-- 姓名 -->
+                <view class="item">
+                    <view class="item-key">姓名</view>
+                    <view class="item-val">
+                        <input type="text" 
+                            bindinput="changeInput" data-name="Name"
+                            value="{{customer.Name}}" 
+                            placeholder="请输入姓名" placeholder-class="placeholder" />
+                    </view>
                 </view>
-            </view>
-            <!-- 其他手机  -->
-            <view class="item">
-                <view class="item-key">其他手机</view>
-                <view class="item-val">
-                    <input type="text" value="{{}}" placeholder="请输入手机号" placeholder-class="placeholder" />
+                <!-- 手机号 -->
+                <view class="item">
+                    <view class="item-key">手机号</view>
+                    <view class="item-val">
+                        <input type="text" 
+                            bindinput="changeInput" data-name="MobilePhone"
+                            value="{{customer.MobilePhone}}" 
+                            placeholder="请输入手机号" placeholder-class="placeholder" />
+                    </view>
                 </view>
-            </view>
-            <!-- 性别 -->
-            <view class="item">
-                <view class="item-key">性别</view>
-                <view class="item-val">
-                    <picker bindchange="setSex" value="{{Sex}}" range="{{SexOptions}}">
-                        <view class="picker">
-                            {{SexOptions[Sex]}}
-                        </view>
-                    </picker>
-                </view>
-            </view>
-            <!-- 生日 -->
-            <view class="item">
-                <view class="item-key">生日</view>
-                <view class="item-val">
-                    <!-- 时间选择器 -->
-                    <picker mode="date" bindchange="setBirthday" value="{{Birthday}}" start="{{'1950-01-01'}}" end="{{LastBirthday}}">
-                        <view class="picker">
-                            {{Birthday?Birthday:'请选择生日'}}
-                        </view>
-                    </picker>
-                </view>
-            </view>
-            <!-- 行业 -->
-            <view class="item">
-                <view class="item-key">行业</view>
-                <view class="item-val">
-                    <input type="text" value="{{Industry}}" placeholder="请输入行业" placeholder-class="placeholder" />
-                </view>
-            </view>
-            <!-- 职业 -->
-            <view class="item">
-                <view class="item-key">职业</view>
-                <view class="item-val">
-                    <input type="text" value="{{Profession}}" placeholder="请输入职业" placeholder-class="placeholder" />
-                </view>
-            </view>
-            <!-- 月收入 -->
-            <view class="item">
-                <view class="item-key">月收入</view>
-                <view class="item-val">
-                    <input type="text" value="{{Income}}" placeholder="请输入月收入" placeholder-class="placeholder" />
-                </view>
-            </view>
-            <!-- 家庭结构 -->
-            <view class="item">
-                <view class="item-key">家庭结构</view>
-                <view class="item-val">
-                    <input type="text" value="{{FamilyStructure}}" placeholder="请输入家庭结构" placeholder-class="placeholder" />
-                </view>
-            </view>
-            <!-- 是否购房 -->
-            <view class="item">
-                <view class="item-key">是否购房</view>
-                <view class="item-val">
-                    <picker bindchange="setFalseOrTrue" value="{{~~HasHouse}}" range="{{HasHouseOptions}}" data-name="HasHouse">
-                        <view class="picker">
-                            {{HasHouse?'已购房':'未购房'}}
-                        </view>
-                    </picker>
-                </view>
-            </view>
-            <!-- 身份证 -->
-            <view class="item">
-                <view class="item-key">身份证</view>
-                <view class="item-val">
-                    <input type="text" value="{{IDCard}}" placeholder="请输入身份证" placeholder-class="placeholder" />
-                </view>
-            </view>
-
-        </view>
-    </view>
-
-    <!-- 潜客信息 -->
-    <view class="cy-edit-list cy-list">
-        <view class="head">
-            <view class="head-key">
-                潜客信息
-            </view>
-        </view>
-        <view class="item-wrap">
-            <!-- 意向车型 -->
-            <view class="item">
-                <view class="item-key">意向车型</view>
-                <view class="item-val">
-                    <input type="text" value="{{CarModel}}" placeholder="请选择意向车型" placeholder-class="placeholder" />
-                </view>
-            </view>
-            <!-- 购车时间 -->
-            <view class="item">
-                <view class="item-key">购车时间</view>
-                <view class="item-val">
-                    <input type="text" value="{{BuyTimeRange}}" placeholder="请选择购车时间" placeholder-class="placeholder" />
-                </view>
-            </view>
-            <!-- 购车预算 -->
-            <view class="item">
-                <view class="item-key">购车预算</view>
-                <view class="item-val">
-                    <input type="text" value="{{PriceRange}}" placeholder="请输入购车预算" placeholder-class="placeholder" />
-                </view>
-            </view>
-            <!-- 购车性质 -->
-            <view class="item">
-                <view class="item-key">购车性质</view>
-                <view class="item-val">
-                    <input type="text" value="{{Purchase}}" placeholder="请输入购车性质" placeholder-class="placeholder" />
-                </view>
-            </view>
-            <!-- 保有车型 -->
-            <view class="item">
-                <view class="item-key">保有车型</view>
-                <view class="item-val">
-                    <input type="text" value="{{KeepCarModel}}" placeholder="请选择保有车型" placeholder-class="placeholder" />
-                </view>
-            </view>
-            <!-- 是否贷款购车 -->
-            <view class="item">
-                <view class="item-key">贷款购车</view>
-                <view class="item-val">
-                    <picker bindchange="setFalseOrTrue" value="{{IsLoan}}" range="{{IsLoanOptions}}" data-name="IsLoan">
-                        <view class="picker">
-                            {{IsLoan?'否':'是'}}
-                        </view>
-                    </picker>
-                </view>
-            </view>
-            <!-- 车辆用途 -->
-            <view class="item">
-                <view class="item-key">车辆用途</view>
-                <view class="item-val">
-                    <input type="text" value="{{CarUsage}}" placeholder="请输入车辆用途" placeholder-class="placeholder" />
-                </view>
-            </view>
-            <!-- 关注特点 -->
-            <view class="item">
-                <view class="item-key">关注特点</view>
-                <view class="item-val">
-                    <view class="checkbox" catchtap="setPurpose">
-                        <block wx:for="{{PurposeOptions}}" wx:for-item="option" wx:key="*this">
-                            <view class="option {{Purpose[index]?'active':''}}" hover-class="hover" 
-                                data-index="{{index}}" data-option-name="{{option}}">
-                                {{option}}
+                <!-- 其他手机 -->
+                <!-- <view class="item">
+                    <view class="item-key">其他手机</view>
+                    <view class="item-val">
+                        <input type="text" value="{{}}" placeholder="请输入手机号" placeholder-class="placeholder" />
+                    </view>
+                </view>   -->
+                <!-- 性别 -->
+                <view class="item">
+                    <view class="item-key">性别</view>
+                    <view class="item-val">
+                        <picker bindchange="changeSex" value="{{SexIndex}}" range="{{SexOptions}}">
+                            <view class="picker">
+                                {{SexOptions[SexIndex]}}
                             </view>
-                        </block>
+                        </picker>
+                    </view>
+                </view>
+                <!-- 生日 -->
+                <view class="item">
+                    <view class="item-key">生日</view>
+                    <view class="item-val">
+                        <!-- 时间选择器 -->
+                        <picker mode="date" 
+                            bindchange="changeDate" data-name="Birthday"
+                            value="{{customer.Birthday}}" start="{{'1950-01-01'}}" end="{{LastBirthday}}">
+                            <view class="picker">
+                                {{customer.Birthday || '请选择生日'}}
+                            </view>
+                        </picker>
+                    </view>
+                </view>
+                <!-- 行业 -->
+                <view class="item">
+                    <view class="item-key">行业</view>
+                    <view class="item-val">
+                        <picker 
+                            bindchange="changeConfOp" data-name="Industry"
+                            value="{{IndustryIndex}}" range="{{IndustryOptions}}" range-key="Name">
+                            <view class="picker">
+                                {{IndustryOptions[IndustryIndex].Name || '请选择行业'}}
+                            </view>
+                        </picker>
+                    </view>
+                </view>
+                <!-- 职业 -->
+                <view class="item">
+                    <view class="item-key">职业</view>
+                    <view class="item-val">
+                        <picker 
+                            bindchange="changeConfOp" data-name="Profession"
+                            value="{{ProfessionIndex}}" range="{{ProfessionOptions}}" range-key="Name">
+                            <view class="picker">
+                                {{ProfessionOptions[ProfessionIndex].Name || '请选择职业'}}
+                            </view>
+                        </picker>
+                    </view>
+                </view>
+                <!-- 月收入 -->
+                <view class="item">
+                    <view class="item-key">月收入</view>
+                    <view class="item-val">
+                        <picker 
+                            bindchange="changeConfOp" data-name="Income"
+                            value="{{IncomeIndex}}" range="{{IncomeOptions}}" range-key="Name">
+                            <view class="picker">
+                                {{IncomeOptions[IncomeIndex].Name || '请选择月收入区间'}}
+                            </view>
+                        </picker>
+                    </view>
+                </view>
+                <!-- 家庭结构 -->
+                <view class="item">
+                    <view class="item-key">家庭结构</view>
+                    <view class="item-val">
+                        <picker 
+                            bindchange="changeConfOp" data-name="FamilyStructure"
+                            value="{{FamilyStructureIndex}}" range="{{FamilyStructureOptions}}" range-key="Name">
+                            <view class="picker">
+                                {{FamilyStructureOptions[FamilyStructureIndex].Name || '请选择家庭结构'}}
+                            </view>
+                        </picker>
+                    </view>
+                </view>
+                <!-- 是否购房 -->
+                <view class="item">
+                    <view class="item-key">是否购房</view>
+                    <view class="item-val">
+                        <picker 
+                            bindchange="setFalseOrTrue" data-name="HasHouse"
+                            value="{{HasHouseIndex}}" range="{{HasHouseOptions}}">
+                            <view class="picker">
+                                {{ HasHouseOptions[HasHouseIndex] || '请选择是否购房'}}
+                            </view>
+                        </picker>
+                    </view>
+                </view>
+                <!-- 身份证 -->
+                <view class="item">
+                    <view class="item-key">身份证</view>
+                    <view class="item-val">
+                        <input type="text" 
+                            bindinput="changeInput" data-name="IdCard"
+                            value="{{customer.IdCard}}" 
+                            placeholder="请输入身份证" placeholder-class="placeholder" />
+                    </view>
+                </view>
+
+            </view>
+        </view>
+
+        <!-- 潜客信息 -->
+        <view class="cy-edit-list cy-list">
+            <view class="head">
+                <view class="head-key">
+                    潜客信息
+                </view>
+            </view>
+            <view class="item-wrap">
+                <!-- 意向车型 -->
+                <view class="item">
+                    <view class="item-key">意向车型</view>
+                    <view class="item-val">
+                        <picker mode="multiSelector" 
+                            bindchange="changeCar" bindcolumnchange="changeColumn" 
+                            value="{{CarIndexs}}" range="{{CarOptions}}"
+                            range-key="Name">
+                            <view class="picker">
+                                {{customer.CustomerPre.CarName || '请选择意向车型'}}
+                            </view>
+                        </picker>
+                    </view>
+                </view>
+                <!-- 购车时间 -->
+                <view class="item">
+                    <view class="item-key">购车时间</view>
+                    <view class="item-val">
+                        <picker 
+                            bindchange="changeConfOp" data-name="BuyTimeRange" data-fix-name="pre"
+                            value="{{BuyTimeRangeIndex}}" range="{{BuyTimeRangeOptions}}" range-key="Name">
+                            <view class="picker">
+                                {{ BuyTimeRangeOptions[BuyTimeRangeIndex].Name || '请选择购车时间'}}
+                            </view>
+                        </picker>
+                    </view>
+                </view>
+                <!-- 购车预算 -->
+                <view class="item">
+                    <view class="item-key">购车预算</view>
+                    <view class="item-val">
+                        <picker 
+                            bindchange="changeConfOp" data-name="PriceRange" data-fix-name="pre"
+                            value="{{PriceRangeIndex}}" range="{{PriceRangeOptions}}" range-key="Name">
+                            <view class="picker">
+                                {{ PriceRangeOptions[PriceRangeIndex].Name || '请选择购车预算'}}
+                            </view>
+                        </picker>
+                    </view>
+                </view>
+                <!-- 购车性质 -->
+                <view class="item">
+                    <view class="item-key">购车性质</view>
+                    <view class="item-val">
+                        <picker 
+                            bindchange="changeConfOp" data-name="Purchase" data-fix-name="pre"
+                            value="{{PurchaseIndex}}" range="{{PurchaseOptions}}" range-key="Name">
+                            <view class="picker">
+                                {{ PurchaseOptions[PurchaseIndex].Name || '请选择购车性质'}}
+                            </view>
+                        </picker>
+                    </view>
+                </view>
+                <!-- 保有车型 -->
+                <view class="item">
+                    <view class="item-key">保有车型</view>
+                    <view class="item-val">
+                        <input type="text" 
+                            bindinput="changeInput" data-name="KeepCarModel" data-fix-name="pre"
+                            value="{{customer.CustomerPre.KeepCarModel || ''}}" 
+                            placeholder="请输入保有车型" placeholder-class="placeholder" />
+                    </view>
+                </view>
+                <!-- 是否贷款购车 -->
+                <view class="item">
+                    <view class="item-key">贷款购车</view>
+                    <view class="item-val">
+                        <picker 
+                            bindchange="setFalseOrTrue" data-name="IsLoan" data-fix-name="pre"
+                            value="{{IsLoanIndex}}" range="{{IsLoanOptions}}">
+                            <view class="picker">
+                                {{ IsLoanOptions[IsLoanIndex] || '请选择是否贷款购车'}}
+                            </view>
+                        </picker>
+                    </view>
+                </view>
+                <!-- 车辆用途 -->
+                <view class="item">
+                    <view class="item-key">车辆用途</view>
+                    <view class="item-val">
+                        <picker 
+                            bindchange="changeConfOp" data-name="CarUsage" data-fix-name="pre"
+                            value="{{CarUsageIndex}}" range="{{CarUsageOptions}}" range-key="Name">
+                            <view class="picker">
+                                {{ CarUsageOptions[CarUsageIndex].Name || '请选择车辆用途'}}
+                            </view>
+                        </picker>
+                    </view>
+                </view>
+                <!-- 关注特点 -->
+                <view class="item">
+                    <view class="item-key">关注特点</view>
+                    <view class="item-val">
+                        <view class="checkbox" catchtap="setPurpose">
+                            <block wx:for="{{PurposeOptions}}" wx:for-item="option" wx:key="*this">
+                                <view class="option {{PurposeSwitchs[index]?'active':''}}" hover-class="hover" data-index="{{index}}" data-option-name="{{option}}">
+                                    {{option}}
+                                </view>
+                            </block>
+                        </view>
+                    </view>
+                </view>
+                <!-- 对比车型 -->
+                <!-- <view class="item">
+                    <view class="item-key">对比车型</view>
+                    <view class="item-val">
+                        <input type="text" value="{{ContrastCarModel}}" placeholder="请输入对比车型" placeholder-class="placeholder" />
+                    </view>
+                </view> -->
+                <!-- 订单时间 -->
+                <view class="item">
+                    <view class="item-key">订单日期</view>
+                    <view class="item-val">
+                        <picker mode="date" 
+                            bindchange="changeDate" data-name="OrderDate" data-fix-name="pre"
+                            value="{{customer.CustomerPre.OrderDate}}" start="{{'1950-01-01'}}" end="{{'2049-12-31'}}">
+                            <view class="picker">
+                                {{customer.CustomerPre.OrderDate || '请选择订单日期'}}
+                            </view>
+                        </picker>
+                    </view>
+                </view>
+                <!-- 交车时间 -->
+                <view class="item">
+                    <view class="item-key">交车日期</view>
+                    <view class="item-val">
+                        <picker mode="date" 
+                            bindchange="changeDate" data-name="DeliverDate" data-fix-name="pre"
+                            value="{{customer.CustomerPre.DeliverDate}}" start="{{'1950-01-01'}}" end="{{'2049-12-31'}}">
+                            <view class="picker">
+                                {{customer.CustomerPre.DeliverDate || '请选择交车日期'}}
+                            </view>
+                        </picker>
                     </view>
                 </view>
             </view>
-            <!-- 对比车型 -->
-            <view class="item">
-                <view class="item-key">对比车型</view>
-                <view class="item-val">
-                    <input type="text" value="{{ContrastCarModel}}" placeholder="请输入对比车型" placeholder-class="placeholder" />
-                </view>
-            </view>
-            <!-- 对比车型 -->
-            <view class="item">
-                <view class="item-key">对比车型</view>
-                <view class="item-val">
-                    <input type="text" value="{{ContrastCarModel}}" placeholder="请输入对比车型" placeholder-class="placeholder" />
-                </view>
-            </view>
-            <!-- 订单时间 -->
-            <view class="item">
-                <view class="item-key">订单时间</view>
-                <view class="item-val">
-                    <input type="text" value="{{OrderDate}}" placeholder="请输入订单时间" placeholder-class="placeholder" />
-                </view>
-            </view>
-            <!-- 交车时间 -->
-            <view class="item">
-                <view class="item-key">交车时间</view>
-                <view class="item-val">
-                    <input type="text" value="{{DeliverDate}}" placeholder="请输入交车时间" placeholder-class="placeholder" />
-                </view>
-            </view>
         </view>
     </view>
-</template>
+    <view class="m-operation">
+        <!-- 按钮组 -->
+        <view class="btn-group">
+            <view catchtap="save" class="blue" hover-class="hover">保存</view>
+        </view>
+    </view>
+</view>
