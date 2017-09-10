@@ -33,6 +33,7 @@ const selection = new Selection({
  */
 
 interface Data {
+    loaded: boolean;
     pagePath: any;
     // 列表顶部填充层高度
     listPaddingTop: number;
@@ -88,6 +89,7 @@ class ClientPage extends BasePage {
 
 
     private data: Data = {
+        loaded: false,
         pagePath: pagePath,
         // 列表顶部填充层高度
         listPaddingTop: this.listPaddingTop,
@@ -107,7 +109,9 @@ class ClientPage extends BasePage {
         clientList: [], // 客户列表
     }
     // 搜索组件 入口方法挂载
-    public openSearch = openSearch;
+    public openSearch(){
+        toast.showWarning('搜索模块正在开发');
+    }
     /**
      * 展开下拉选项卡
      * 触发条件：Select tap 事件
@@ -209,8 +213,7 @@ class ClientPage extends BasePage {
      * @returns 
      */
     private addListItem(isReset = false, isRefresh = false) {
-        let msg = isRefresh ? '正在刷新' : '正在加载';
-        toast.showLoading(msg, true);
+        toast.showLoading('',true);
         // 如果是刷新重置部分请求配置
         if (isReset) {
             this.pageNo = 0;
@@ -241,6 +244,7 @@ class ClientPage extends BasePage {
                 const delay = isRefresh ? refreshDelay : 0;
                 setTimeout(() => {
                     this.setData({
+                        loaded: true,
                         clientTotal: this.data.clientTotal,
                         clientList: this.data.clientList
                     });

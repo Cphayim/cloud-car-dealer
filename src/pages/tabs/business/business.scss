@@ -7,21 +7,24 @@
  */
 
 @import '../../../dev-resource/config.dev.scss';
+
 /*!@import '../../../components/search/search.scss';!*/
+
+
 /*!@import '../../../components/selection/selection.scss';!*/
+
+
 /*!@import '../../../components/list/list.scss';!*/
-
-
-
 
 .section {
     background-color: #fff;
 }
 
-.top-component{
-    position: fixed;top:0;
+.top-component {
+    position: fixed;
+    top: 0;
+    z-index: 999;
     width: 100%;
 }
-.m-business {
-    
-}
+
+.m-business {}

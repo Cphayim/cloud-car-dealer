@@ -12,46 +12,48 @@
   <template wx:if="{{selection}}" is="selection" data="{{...selection}}"></template>
 </view>
 
-<!-- 内容区 -->
-<view style="padding-top:{{listPaddingTop}}px" class="m-business">
-  <!-- 列表项统计 -->
-  <view class="cy-list-count">总数：{{businessTotal}}</view>
-  <!-- 列表 -->
-  <view class="cy-list cy-client-list {{!businessList.length?'nocontent':''}}">
-    <block wx:for="{{businessList}}" wx:key="item.Id">
-      <view bindtap="toDetail" class="item" data-id="{{item.Id}}">
-        <view class="l">
-          <!-- 客户头像 -->
-          <view class="avatar-wrap">
-            <image class="avatar" src="{{item.HeadImgUrl}}"></image>
+<view class="animation-box {{loaded?'loaded':''}}">
+  <!-- 内容区 -->
+  <view style="padding-top:{{listPaddingTop}}px" class="m-business">
+    <!-- 列表项统计 -->
+    <view class="cy-list-count">总数：{{businessTotal}}</view>
+    <!-- 列表 -->
+    <view class="cy-list cy-client-list {{!businessList.length?'nocontent':''}}">
+      <block wx:for="{{businessList}}" wx:key="item.Id">
+        <view bindtap="toDetail" class="item" data-id="{{item.Id}}">
+          <view class="l">
+            <!-- 客户头像 -->
+            <view class="avatar-wrap">
+              <image class="avatar" src="{{item.HeadImgUrl}}"></image>
+            </view>
+          </view>
+          <view class="c">
+            <!-- 客户名 -->
+            <view class="namewrap">
+              <view class="realname">{{item.Name}}</view>
+              <view class="username">{{item.Nickname}}</view>
+            </view>
+            <!-- 业务内容 -->
+            <view class="content">{{OpportunityPreFrom[item.PreFrom]}} | {{item.FromTitle}}</view>
+          </view>
+          <view class="r">
+            <!-- 时间/状态 -->
+            <view class="time">{{item.time}}</view>
+            <view wx:if="{{item.Status == 11}}" class="status status-finished">
+              {{OpportunityStatus[item.Status]}}
+            </view>
+            <view wx:elif="{{item.Status == 9}}" class="status status-progressed">
+              {{OpportunityStatus[item.Status]}}
+            </view>
+            <view wx:elif="{{item.Status == 2}}" class="status status-untreated">
+              {{OpportunityStatus[item.Status]}}
+            </view>
+            <view wx:elif="{{item.Status == 10}}" class="status status-null">
+              {{OpportunityStatus[item.Status]}}
+            </view>
           </view>
         </view>
-        <view class="c">
-          <!-- 客户名 -->
-          <view class="namewrap">
-            <view class="realname">{{item.Name}}</view>
-            <view class="username">{{item.Nickname}}</view>
-          </view>
-          <!-- 业务内容 -->
-          <view class="content">{{OpportunityPreFrom[item.PreFrom]}} | {{item.FromTitle}}</view>
-        </view>
-        <view class="r">
-          <!-- 时间/状态 -->
-          <view class="time">{{item.time}}</view>
-          <view wx:if="{{item.Status == 11}}" class="status status-finished">
-            {{OpportunityStatus[item.Status]}}
-          </view>
-          <view wx:elif="{{item.Status == 9}}" class="status status-progressed">
-            {{OpportunityStatus[item.Status]}}
-          </view>
-          <view wx:elif="{{item.Status == 2}}" class="status status-untreated">
-            {{OpportunityStatus[item.Status]}}
-          </view>
-          <view wx:elif="{{item.Status == 10}}" class="status status-null">
-            {{OpportunityStatus[item.Status]}}
-          </view>
-        </view>
-      </view>
-    </block>
+      </block>
+    </view>
   </view>
 </view>

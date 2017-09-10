@@ -15,34 +15,35 @@
 
 <!-- 滚动容器 -->
 <!-- 内容区 -->
-<view style="padding-top:{{listPaddingTop}}px" class="m-client">
-  <!-- 列表项统计 -->
-  <view class="cy-list-count">总数：{{clientTotal}}</view>
-  <!-- 列表 -->
-  <view class="cy-list cy-client-list {{clientList.length === 0?'nocontent':''}}">
-    <block wx:for="{{clientList}}" wx:key="item.Id">
-      <view bindtap="toDetail" class="item"
-         data-id="{{item.Id}}" data-name="{{item.Name}}">
-        <view class="l">
-          <!-- 客户头像 -->
-          <view class="avatar-wrap">
-            <image class="avatar" src="{{item.HeadImgUrl}}"></image>
+<view class="animation-box {{loaded?'loaded':''}}" style="padding-top:{{listPaddingTop}}px">
+  <view class="m-client">
+    <!-- 列表项统计 -->
+    <view class="cy-list-count">总数：{{clientTotal}}</view>
+    <!-- 列表 -->
+    <view class="cy-list cy-client-list {{clientList.length === 0?'nocontent':''}}">
+      <block wx:for="{{clientList}}" wx:key="item.Id">
+        <view bindtap="toDetail" class="item" data-id="{{item.Id}}" data-name="{{item.Name}}">
+          <view class="l">
+            <!-- 客户头像 -->
+            <view class="avatar-wrap">
+              <image class="avatar" src="{{item.HeadImgUrl}}"></image>
+            </view>
+          </view>
+          <view class="c">
+            <!-- 客户名 -->
+            <view class="namewrap">
+              <view class="realname">{{item.Name || ''}}</view>
+              <view class="username">{{item.Nickname || ''}}</view>
+            </view>
+            <!-- 车型车系 -->
+            <view class="content">{{PreLevel[item.PreLevel || 0 ]}} | {{item.CarBrandName || '无意向车型'}}</view>
+          </view>
+          <view class="r">
+            <!-- 时间/状态 -->
+            <view class="time">{{item.time}}</view>
           </view>
         </view>
-        <view class="c">
-          <!-- 客户名 -->
-          <view class="namewrap">
-            <view class="realname">{{item.Name || ''}}</view>
-            <view class="username">{{item.Nickname || ''}}</view>
-          </view>
-          <!-- 车型车系 -->
-          <view class="content">{{PreLevel[item.PreLevel || 0 ]}} | {{item.CarBrandName || '无意向车型'}}</view>
-        </view>
-        <view class="r">
-          <!-- 时间/状态 -->
-          <view class="time">{{item.time}}</view>
-        </view>
-      </view>
-    </block>
+      </block>
+    </view>
   </view>
 </view>

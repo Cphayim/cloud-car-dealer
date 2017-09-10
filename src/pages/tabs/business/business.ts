@@ -8,6 +8,7 @@ import { enumConfig } from '../../../config/enum.config.js';
 import { openSearch } from '../../../components/search/search';
 import { request } from '../../../modules/request';
 import { resCodeCheck } from '../../../modules/auth';
+import { refreshDelay } from '../../../config/config';
 
 
 /*
@@ -37,9 +38,10 @@ class BusinessPage extends BasePage {
     private listPaddingTop: number = 0;
 
     public data: any = {
+        loaded: false,
         pagePath: pagePath,
         // 列表顶部填充层高度
-        listPaddingTop: this.listPaddingTop, 
+        listPaddingTop: this.listPaddingTop,
         // selection 对象挂载
         selection: this.selection,
         /**
@@ -69,7 +71,8 @@ class BusinessPage extends BasePage {
      * @memberof BusinessPage
      */
     public openSearch(e) {
-        openSearch(e);
+        // openSearch(e);
+        toast.showWarning('搜索模块正在开发');
     }
     /**
      * 展开下拉选项卡
@@ -120,8 +123,7 @@ class BusinessPage extends BasePage {
      * @returns 
      */
     private addListItem(isReset = false, isRefresh = false) {
-        let msg = isRefresh ? '正在刷新' : '正在加载';
-        toast.showLoading(msg, true);
+        toast.showLoading('', true);
         // 如果是刷新重置部分请求配置
         if (isReset) {
             this.data.pageNo = 0;
@@ -158,34 +160,28 @@ class BusinessPage extends BasePage {
                     return item;
                 });
 
-                console.log(res.data);
-
                 // 将新数据拼接到 businessList 数组上
                 this.data.businessList.push(...res.data);
 
-                this.setData({
-                    businessTotal: res.total,
-                    businessList: this.data.businessList
-                });
+                const delay = isRefresh ? refreshDelay : 0;
+
                 // 总计数增加
                 this.data.listCount += dataLength;
 
                 // 如果是刷新，停止刷新动画
-                if (isRefresh) {
-                    setTimeout(() => {
+                setTimeout(() => {
+                    this.setData({
+                        loaded: true,
+                        businessTotal: res.total,
+                        businessList: this.data.businessList
+                    });
+                    if (isRefresh) {
                         toast.showSuccess('刷新成功');
                         wx.stopPullDownRefresh();
-                    }, 600);
-                } else {
-                    toast.hide();
-                }
-            })
-            .catch(err => {
-                toast.showError('网络请求失败');
-                if (isRefresh) {
-                    wx.stopPullDownRefresh();
-                }
-                console.log(err);
+                    } else {
+                        toast.hide();
+                    }
+                }, delay);
             });
     }
 
