@@ -81,9 +81,10 @@ export class MessagePage extends BasePage {
     }
 
     public toDetail(e) {
-        const id = e.currentTarget.dataset.id;
+        const id = e.currentTarget.dataset.id,
+            name = e.currentTarget.dataset.name
         wx.navigateTo({
-            url: pagePath.chat + '?id=' + id
+            url: pagePath.chat + '?id=' + id+'&name='+name
         });
     }
     public openSearch() {

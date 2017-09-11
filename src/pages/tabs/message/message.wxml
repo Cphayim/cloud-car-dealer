@@ -16,7 +16,8 @@
       <block wx:for="{{messageList}}" wx:key="item.CustomerId">
         <view class="item"
           bindtap="toDetail"
-          data-unreply-count="{{item.UnreplyCount}}" data-id="{{item.CustomerId}}">
+          data-id="{{item.CustomerId}}" data-name="{{item.CustomerName}}"
+          data-unreply-count="{{item.UnreplyCount}}">
           <view class="l">
             <!-- 客户头像 -->
             <view class="avatar-wrap">
