@@ -3,13 +3,14 @@
 
 <!-- 提醒 -->
 <view class="m-remind-head">
-  <view class="content">无法解答客户问题？提醒给其他员工解答吧！</view>
+  <view class="content">无法解答问题？快提醒给其他员工吧！</view>
   <view bindtap="gotoremind" class="remind-btn" hover-class="remind-btn-hover">立即提醒</view>
 </view>
 
 
-<!-- 内容视口容器 -->
-<scroll-view scroll-top="0" scroll-y scroll-with-animation style="height:{{contentViewHeight}}px;padding-top:{{isShowTip?'30px':'0'}};"
+<!-- 内容视口容器 当工具栏高度变化时，改变内容视口的位移 -->
+<scroll-view scroll-top="0" scroll-y scroll-with-animation 
+  style="height:{{contentViewHeight}}px;transform:translateY(-{{contentViewTranslate}}px)"
   class="m-content-scroll-view">
   <!-- 内容 -->
   <view bindtouchstart="blurTextarea" class="m-content">
@@ -71,11 +72,17 @@
 <view class="m-toolset">
   <!-- 头 包含按钮和输入框 -->
   <view class="tool-head">
+    <!-- 输入模式切换：文字/语音  -->
     <view bindtap="toggleInputModel" class="switch icon-switchbtn-{{isIntercom?'1':'0'}}"></view>
-    <textarea focus="{{isFocus}}" hidden="{{isIntercom}}" bindlinechange="lineChange" cursor-spacing="10" style="height:{{textareaHeight}}px"
-      maxlength="500" confirm-type="send" placeholder="在此输入您要发送的消息内容" />
+    <!-- 文本输入域 -->
+    <textarea focus="{{isFocus}}" hidden="{{isIntercom}}" 
+      bindlinechange="lineChange" cursor-spacing="10" style="max-height:100px;" auto-height
+      maxlength="1000" confirm-type="send" placeholder="" />
+    <!-- 语音按钮 -->
     <view hover-class="intercom-btn-hover" hover-stay-time="400" class="intercom-btn" hidden="{{!isIntercom}}">按住说话</view>
+    <!-- 表情按钮 -->
     <view class="switch icon-switchbtn-2"></view>
+    <!-- 扩展按钮 -->
     <view bindtap="toggleExtend" class="switch icon-switchbtn-3"></view>
   </view>
   <view class="tool-body">

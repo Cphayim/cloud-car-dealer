@@ -1,12 +1,12 @@
 // 该样式文件用于定义 SCSS 全局变量 混合宏 占位符，可在所有视图层 SCSS 文件内导入
 // 变量定义
-$nanoFont: 12px;
-$smallFont: 13px;
-$normalFont: 15px;
-$bigFont: 24px;
-$largeFont: 28px;
+$nanoFont: 22rpx;
+$smallFont: 26rpx;
+$normalFont: 32rpx;
+$bigFont: 48rpx;
+$largeFont: 56rpx;
 $grayColor: #e2e2e2;
-$border: 1px solid $grayColor;
+$border: 2rpx solid $grayColor;
 $firstFont: #333;
 $secondFont: #666;
 $thirdFont: #999;
