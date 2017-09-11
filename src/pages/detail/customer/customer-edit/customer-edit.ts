@@ -37,7 +37,7 @@ interface Data {
         Profession?: number; // 职业
         Income?: number; // 月收入
         FamilyStructure?: number; // 家庭结构
-        HasHouse?: boolean; // 是否购房
+        HasHouse?: boolean | string; // 是否购房
         IdCard?: string; // 身份证
 
         /**
@@ -51,7 +51,7 @@ interface Data {
             PriceRange?: number; // 购车预算
             KeepCarModel?: string; // 保有车型
             Purchase?: number; // 购车性质
-            IsLoan?: boolean; // 金融类型
+            IsLoan?: boolean | string; // 金融类型
             CarUsage?: number; // 车辆用途
             Purpose?: string; // 关注特点
             OrderDate?: string; // 订单日期
@@ -242,6 +242,9 @@ class CustomerEditPage extends BasePage {
                 this.data.CarUsageOptions = carUsage;
                 // 设置 配置项 当前索引 为 返回的值对应的索引
                 this.data.SexIndex = this.data.customer.Sex;
+                // 有值取整作为 index，没值为-1
+                this.data.IsLoanIndex = this.data.customer.CustomerPre.IsLoan !== '' ? (~~this.data.customer.CustomerPre.IsLoan) : -1;
+                this.data.HasHouseIndex = this.data.customer.HasHouse !== '' ? (~~this.data.customer.HasHouse) : -1;
                 this.data.IndustryIndex = this.getConfIndexByConfValue({ ops: this.data.IndustryOptions, val: this.data.customer.Industry });
                 this.data.ProfessionIndex = this.getConfIndexByConfValue({ ops: this.data.ProfessionOptions, val: this.data.customer.Profession });
                 this.data.IncomeIndex = this.getConfIndexByConfValue({ ops: this.data.IncomeOptions, val: this.data.customer.Income });
@@ -522,6 +525,24 @@ class CustomerEditPage extends BasePage {
         }
         toast.showLoading('', true);
         let data = JSON.parse(JSON.stringify(this.data.customer));
+        // 表单验证
+        if(/^\s*$/.test(this.data.customer.Name)){
+            toast.showWarning('请输入姓名');
+            return;
+        }
+        if(/^\s*$/.test(this.data.customer.MobilePhone)){
+            toast.showWarning('请输入手机号');
+            return;
+        }
+        if(!(/^0?1[34578]\d{9}$/.test(this.data.customer.MobilePhone))){
+            toast.showWarning('请输入有效的手机号');
+            return;
+        }
+        // 有填写身份证则验证格式
+        // if(this.data.customer.IdCard && !(/^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/.test(this.data.customer.IdCard))){
+        //     toast.showWarning('请输入有效的身份证号码');
+        //     return;
+        // }
         request({
             url: domain + '/UC/Customer/Modify',
             data: data,
@@ -532,10 +553,10 @@ class CustomerEditPage extends BasePage {
             modal.show({
                 title: '',
                 content: '提交成功',
-                showCancel:false
-            }).then(flag=>{
+                showCancel: false
+            }).then(flag => {
                 const pages = getCurrentPages();
-                pages[pages.length-2].refreshFlag = true;
+                pages[pages.length - 2].refreshFlag = true;
                 wx.navigateBack();
             });
         });
