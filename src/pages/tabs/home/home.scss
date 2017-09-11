@@ -40,7 +40,7 @@
 .m-report {
     display: flex;
     .l {
-        // 潜在客户
+        // 潜客
         flex: 2;
         view {
             &:nth-child(1) {
@@ -49,6 +49,9 @@
             &:nth-child(2) {
                 margin-top: 10px;
                 @include font($largeFont, $firstFont);
+            }
+            navigator {
+                display: inline-block;
             }
         }
     }
@@ -87,8 +90,8 @@
     .title {
         @include font($smallFont, $firstFont);
     }
-    .new{
-        @include font($bigFont,$redColor);
+    .new {
+        @include font($bigFont, $redColor);
     }
     .count {
         @include font(12px, $secondFont);
@@ -191,6 +194,7 @@
     }
 }
 
+
 /*卡片背景*/
 
 .icon-card {
@@ -212,14 +216,15 @@
 
 /*进度图标*/
 
-
-.icon-home-progress{
-    width: 20px;height: 20px;
+.icon-home-progress {
+    width: 20px;
+    height: 20px;
     background-size: 100% 100%;
     background-repeat: no-repeat;
 }
-@for $i from 0 through 3{
-    .icon-progress-#{$i}{
+
+@for $i from 0 through 3 {
+    .icon-progress-#{$i} {
         background-image: url('../../../dev-resource/image-min/home-list-#{$i}.png');
     }
 }
@@ -244,12 +249,98 @@
     background-image: url('../../../dev-resource/image-min/icon-daijiandang.png');
 }
 
-.icon-newclient{
+.icon-newclient {
     background-image: url('../../../dev-resource/image-min/icon-newclient.png');
 }
-.icon-scanning{
+
+.icon-scanning {
     background-image: url('../../../dev-resource/image-min/icon-saoma.png');
 }
-.icon-groupsend{
-    background-image: url('../../../dev-resource/image-min/icon-qunfa.png'); 
+
+.icon-groupsend {
+    background-image: url('../../../dev-resource/image-min/icon-qunfa.png');
+}
+
+.animation-box {
+    %scale {
+        transition: all 0.3s cubic-bezier(0, 1.27, .56, 1.44);
+        transform: scale(0);
+    }
+    %rotate {
+        transition: all 0.6s 0.3s;
+        opacity: 0.5;
+        transform: rotateY(-90deg);
+    }
+    %transY{
+        transition: all 0.6s 0.3s;
+        opacity: 0;
+        transform: translateY(200px);
+    }
+    .m-report {
+        .l {
+            navigator {
+                @extend %scale;
+            }
+        }
+        .r {
+            .red {
+                @extend %scale;
+            }
+        }
+    }
+    .m-card {
+        .card {
+            transition: all 1s 0.3s;
+            &:nth-child(1){
+                transform: rotateY(-90deg);
+            }
+            &:nth-child(2){
+                transform: scale(0);
+            }
+            &:nth-child(3){
+                transform: rotateY(90deg);
+            }
+        }
+    }
+    .m-task,.m-tool{
+        @extend %transY;
+    }
+}
+
+.animation-box.loaded {
+    %scale {
+        transform: scale(1);
+    }
+    %rotate {
+        opacity: 1;
+        transform: rotateY(0);
+    }
+    %transY{
+        opacity: 1;
+        transform: translateY(0);
+    }
+    .m-report {
+        .l {
+            navigator {
+                @extend %scale;
+            }
+        }
+    }
+    .m-card {
+        .card {
+            // @extend %rotate;
+            &:nth-child(1){
+                transform: rotateY(0);
+            }
+            &:nth-child(2){
+                transform: scale(1);
+            }
+            &:nth-child(3){
+                transform: rotateY(0);
+            }
+        }
+    }
+    .m-task,.m-tool{
+        @extend %transY;
+    }
 }

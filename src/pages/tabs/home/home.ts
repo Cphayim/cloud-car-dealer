@@ -17,7 +17,8 @@ class HomePage extends BasePage {
     constructor() {
         super();
     }
-    public data: any = {
+    public data = {
+        loaded:false,
         pagePath: pagePath,
         homeData: {}
     }
@@ -50,10 +51,11 @@ class HomePage extends BasePage {
                 // 检查是否请求失败
                 if (resCodeCheck(res)) return;
 
-                const delay = isRefresh ? refreshDelay : 0;
+                const delay = isRefresh ? refreshDelay : 100;
                 // 请求成功，渲染视图
                 setTimeout(() => {
                     this.setData({
+                        loaded:true,
                         homeData: res.data
                     });
                     if (isRefresh) {
@@ -63,8 +65,6 @@ class HomePage extends BasePage {
                         toast.hide();
                     }
                 }, delay);
-
-
             });
     }
     /**
