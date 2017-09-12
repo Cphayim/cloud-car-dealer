@@ -40,7 +40,8 @@
             flex: 1 1 auto;
             display: flex;
             justify-content: flex-end;
-            align-items: center; // text-align: right;
+            align-items: center; 
+            text-align: right;
             color: $secondFont;
             &.arrow {
                 padding-right: 30rpx;
