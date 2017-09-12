@@ -12,7 +12,7 @@
                 </block>
             </view>
             <view class="border-bar">
-                <view class="border-bar-active" style="width:{{100/sliderTabCount}}%;transform:translateX({{sliderActiveIndex*100}}%) translateY(-100%);"></view>
+                <view class="border-bar-active" style="width:{{100/sliderTabCount}}%;transform:translateX({{sliderActiveIndex*100}}%) translateY(-100%) scaleX(0.7);"></view>
             </view>
         </view>
 
