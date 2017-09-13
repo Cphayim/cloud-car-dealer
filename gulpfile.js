@@ -26,6 +26,7 @@ const TSCompile = (filePath) => {
         })
         .pipe($.sourcemaps.init())
         .pipe(tsProject())
+        // .pipe($.uglify())
         .pipe($.sourcemaps.write('.'))
         .pipe(gulp.dest(config.outDir))
         // 监听完成
@@ -50,6 +51,7 @@ const ES6Transpile = (filePath) => {
         .pipe($.babel({
             presets: ['es2015']
         }))
+        .pipe($.uglify())
         .pipe($.sourcemaps.write('.'))
         .pipe(gulp.dest(config.outDir))
         // 监听完成
@@ -77,8 +79,10 @@ const SCSSCompile = (filePath) => {
     return gulp.src([filePath, `!${config.srcDir}dev-resource/**/*`], {
             base: config.srcDir
         })
-        // .pipe($.sourcemaps.init())
+        .pipe($.sourcemaps.init())
         .pipe($.sass({
+            // compact 对齐
+            // compressed 压缩
             outputStyle: 'compact'
         })).on('error', $.sass.logError)
         .pipe($.replace(/\/\*!(.*)scss(.*)!\*\//g, '$1wxss$2'))
@@ -86,7 +90,7 @@ const SCSSCompile = (filePath) => {
         .pipe($.rename({
             extname: '.wxss' // 修改扩展名
         }))
-        // .pipe($.sourcemaps.write('.'))
+        .pipe($.sourcemaps.write('.'))
         .pipe(gulp.dest(config.outDir))
         .on('end', () => {
             const endTime = Date.now(),
