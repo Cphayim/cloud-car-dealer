@@ -59,7 +59,7 @@ declare interface Application {
 }
 
 declare interface Base {
-  setData(data: Object): void
+  setData(data: Object, cb?: any): void
 }
 
 declare function App(app: Application): void;
