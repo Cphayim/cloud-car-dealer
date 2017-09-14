@@ -34,7 +34,7 @@ declare namespace wx {
     itemList?: string[],
     itemColor?: string,
     success?: any,
-    fail?:any
+    fail?: any
   }): void;
 
   // 下拉刷新 
@@ -48,6 +48,9 @@ declare namespace wx {
   // 调用系统
   export function makePhoneCall(arg: { phoneNumber: string }): void;
   export function scanCode(arg: any): void;
+
+  // 窗口相关
+  export function pageScrollTo(obj: { scrollTop: number }): void;
 }
 
 declare interface Application {
