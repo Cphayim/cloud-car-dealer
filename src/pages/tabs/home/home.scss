@@ -62,7 +62,7 @@
         align-items: flex-end;
         &>view {
             flex: 1;
-            border-right: 1px #666 dotted;
+            border-right: 4px #ccc dotted;
             @include font($smallFont);
             text-align: center;
             &:last-child {
@@ -262,17 +262,21 @@
 }
 
 .animation-box {
+    .section{
+        transition: all 0.3s;
+        background-color: rgba(255,255,255,0.6);
+    }
     %scale {
         transition: all 0.3s cubic-bezier(0, 1.27, .56, 1.44);
         transform: scale(0);
     }
     %rotate {
-        transition: all 0.6s 0.3s;
+        transition: all 0.4s 0.2s;
         opacity: 0.5;
         transform: rotateY(-90deg);
     }
     %transY{
-        transition: all 0.6s 0.3s;
+        transition: all 0.4s 0.2s;
         opacity: 0;
         transform: translateY(200px);
     }
@@ -290,15 +294,20 @@
     }
     .m-card {
         .card {
-            transition: all 1s 0.3s;
+            transition: all 0.4s 0.2s;
             &:nth-child(1){
+                transform-origin: 30% 50%;
                 transform: rotateY(-90deg);
+                opacity: 0.5;
             }
             &:nth-child(2){
                 transform: scale(0);
+                opacity: 0.5;
             }
             &:nth-child(3){
+                transform-origin: 70% 50%;
                 transform: rotateY(90deg);
+                opacity: 0.5;
             }
         }
     }
@@ -308,6 +317,9 @@
 }
 
 .animation-box.loaded {
+    .section{
+        background-color: rgba(255, 255, 255, 1);
+    }
     %scale {
         transform: scale(1);
     }
@@ -330,13 +342,16 @@
         .card {
             // @extend %rotate;
             &:nth-child(1){
-                transform: rotateY(0);
+                transform: rotateY(0deg);
+                opacity: 1;
             }
             &:nth-child(2){
                 transform: scale(1);
+                opacity: 1;
             }
             &:nth-child(3){
-                transform: rotateY(0);
+                transform: rotateY(0deg);
+                opacity: 1;
             }
         }
     }

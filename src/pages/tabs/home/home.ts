@@ -18,7 +18,7 @@ class HomePage extends BasePage {
         super();
     }
     public data = {
-        loaded:false,
+        loaded: false,
         pagePath: pagePath,
         homeData: {}
     }
@@ -47,6 +47,9 @@ class HomePage extends BasePage {
         toast.showLoading();
         this.requestData()
             .then((res: any) => {
+                this.setData({
+                    loaded: false
+                })
                 // console.log(res.data);
                 // 检查是否请求失败
                 if (resCodeCheck(res)) return;
@@ -55,7 +58,7 @@ class HomePage extends BasePage {
                 // 请求成功，渲染视图
                 setTimeout(() => {
                     this.setData({
-                        loaded:true,
+                        loaded: true,
                         homeData: res.data
                     });
                     if (isRefresh) {
@@ -103,6 +106,9 @@ class HomePage extends BasePage {
     private onUnload() { }
     private onPullDownRefresh() {
         this.loadData(true);
+        wx.pageScrollTo({
+            scrollTop: 0
+        })
     }
     private onReachBottom() { }
     private onShareAppMessage() { }
