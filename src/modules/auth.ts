@@ -19,10 +19,13 @@ export const reLogin = (): void => {
 }
 
 /**
- * 返回 code 鉴定
- * @param res 
+ * 返回 rescode 鉴定结果
+ * @param {*} res 响应体
+ * @param {true} [intercept] 
+ *  是否拦截 40001 以外的errorcode，设置为 false 后不再拦截，你需要在逻辑中自行判断 errorcode
+ * @returns {boolean} 
  */
-export const resCodeCheck = (res: any): boolean => {
+export const resCodeCheck = (res: any, intercept?: true): boolean => {
     if (res.errorcode === 0) {
         return false;
     }
@@ -31,13 +34,16 @@ export const resCodeCheck = (res: any): boolean => {
         reLogin();
         return true;
     }
-
-    if (res.errormsg) {
-        toast.showWarning(res.errormsg);
+    // 如果不拦截
+    if (!intercept) {
+        return false;
     } else {
-        toast.showError('未返回数据');
+        if (res.errormsg) {
+            toast.showWarning(res.errormsg);
+        } else {
+            toast.showError('未返回数据');
+        }
+        return true;
     }
-
-    return true;
 }
 
