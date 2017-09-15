@@ -61,7 +61,7 @@
                     <!-- 标注 -->
                     <view wx:if="{{item.label}}" class="label">{{item.label}}</view>
                     <!-- 时间 -->
-                    <view wx:if="{{item.time}}" class="label">时间：{{item.time}}</view>
+                    <view wx:if="{{item.time}}" class="label">{{item.time}}</view>
                 </view>
             </block>
         </scroll-view>
@@ -72,10 +72,16 @@
 <!-- 图文列表模板 -->
 <template name="si-graphic">
     <swiper-item class="list">
-        <scroll-view class="basic graphic" data-list-type="{{listType}}" scroll-y style="height:100%;">
+        <scroll-view class="basic graphic {{!items.length?'nocontent':''}}" data-list-type="{{listType}}" scroll-y style="height:100%;">
             <!-- 循环渲染列表项 -->
             <block wx:for="{{items}}" wx:key="id">
-                <view bindtap="sliderItemTap" id="{{item.id}}" class="item" data-send-msg="{{item.sendMsg}}">
+                <view bindtap="sliderItemTap" class="item"
+                    data-catalog="{{item.catalog}}"
+                    data-id="{{item.id}}"
+                    data-title="{{item.title}}"
+                    data-url="{{item.url}}"
+                    data-catalog-id="{{item.catalogId}}"
+                    >
                     <!-- 左图标 -->
                     <view class="l">
                         <image wx:if="{{item.image}}" src="{{item.image}}"></image>
@@ -100,7 +106,9 @@
         <scroll-view class="basic ticket" data-list-type="{{listType}}" scroll-y style="height:100%;">
             <!-- 循环渲染列表项 -->
             <block wx:for="{{items}}" wx:key="id">
-                <view bindtap="sliderItemTap" id="{{item.id}}" class="item" data-send-msg="{{item.sendMsg}}">
+                <view bindtap="sliderItemTap" class="item"
+                    data-catalog="{{item.catalog}}"
+                    data-id="{{item.id}}">
                     <!-- 左图标 -->
                     <view class="l">
                         <view class="icon-extend-coupons"></view>
@@ -109,7 +117,7 @@
                     <view class="r">
                         <view wx:if="{{item.title}}" class="title">{{item.title}}</view>
                         <view wx:if="{{item.type}}" class="type">{{item.type}}</view>
-                        <view wx:if="{{item.time}}" class="time">时间：{{item.time}}</view>
+                        <view wx:if="{{item.timeInterval}}" class="time">{{item.timeInterval}}</view>
                     </view>
                 </view>
             </block>

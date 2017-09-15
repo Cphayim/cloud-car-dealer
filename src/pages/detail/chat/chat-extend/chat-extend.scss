@@ -1,1 +1,12 @@
+@import '../../../../dev-resource/config.dev.scss';
+
 /*!@import '../../../../components/tab-slider/tab-slider.scss';!*/
+
+.animation-box {
+    opacity: 0;
+    transition: all 0.3s;
+}
+
+.animation-box.loaded {
+    opacity: 1;
+}

@@ -3,15 +3,15 @@
  * @Author: 云程科技 
  * @Date: 2017-07-07 13:55:54 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-08-14 12:08:53
+ * @Last Modified time: 2017-09-14 13:07:51
  */
 
 @import '../../../../dev-resource/config.dev.scss';
+
+$ticketColor: #e3c276;
 // 输入框左右按钮图标
 @for $i from 0 through 3 {
     .icon-switchbtn-#{$i} {
-        width: 60rpx;
-        height: 60rpx;
         margin: 0 auto;
         $url:'../../../../dev-resource/image-min/dialogue-h-#{$i}.png';
         @include image($url);
@@ -33,6 +33,13 @@ page {
     width: 100%;
     height: 100%;
     overflow: hidden;
+    background-color: #f4f4f5;
+}
+
+.main {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
 
 // 提醒头
@@ -43,7 +50,7 @@ page {
     padding: 30rpx;
     background-color: #fff;
     .content {
-        @include font($smallFont,$secondFont);
+        @include font($smallFont, $secondFont);
     }
     .remind-btn {
         position: absolute;
@@ -54,112 +61,198 @@ page {
         border: 1px solid $blueColor;
         transform: translateY(-50%);
         background-color: #fff;
-        @include font($smallFont,$blueColor);
+        @include font($smallFont, $blueColor);
     }
-    .remind-btn-hover{
+    .remind-btn-hover {
         background-color: $blueColor;
         color: #fff;
     }
 }
 
 // 内容区容器
-.m-content-scroll-view{
+.m-content-scroll-view {
     box-sizing: border-box;
+    background-color: #eaeaea;
 }
 
 // 内容区
 .m-content {
-    // 通用块
-    .block {
-        padding: 20rpx 30rpx;
-    } // 时间块, 提示块
-    .time,.tip {
-        view {
-            display: inline-block;
-            padding: 4px 4px;
-            border-radius: 4px;
-            @include font($smallFont,
-            #fff);
-            background-color: #d2d2d3;
+    /* 提示 */
+    .content-tip {
+        text-align: center;
+        @include font($smallFont, $secondFont);
+        &.big {
+            margin: 6rpx 0;
+        }
+        &.small {
+            @include font($nanoFont, $thirdFont);
         }
     }
-    .time{
-        text-align: center;
-    }
-    .tip{
-        text-align: center;
-    }
-
-    // 消息块
-    @extend %message;
-}
-
-%message {
-    // 消息块公共样式
+    /* 消息 */
     .msg {
         display: flex;
         justify-content: flex-start;
-        .avatar {
-            flex: 0 0 120rpx;
-            image {
-                display: inline-block;
-                width: 88rpx;
-                height: 88rpx;
+        padding: 20rpx 30rpx;
+        .l {
+            flex: 0 0 90rpx;
+            width: 90rpx;
+            .avatar {
+                width: 100%;
+                height: 90rpx;
+                border: $border;
                 border-radius: 50%;
+                image {
+                    display: inline-block;
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 50%;
+                    background-color: #fff;
+                }
             }
         }
-        .content {
-            position: relative;
-            display: inline-block;
-            // flex: 0 0 300rpx;
-            max-width: 500rpx;
-            // min-width: 300rpx;
-            padding: 15rpx 30rpx;
-            border-radius: 8px;
-            background-color: #fff;
-            box-shadow: 2px 2px 4px #ccc;
-        }
-    } // 消息块(他人)
-    .others {
-        flex-direction: row;
-        .content{
-            background-color: #fff;
-            text{
-                @include font($normalFont,$firstFont);
+        .r {
+            padding: 0 20rpx;
+            .name,
+            .time,
+            .content {
+                margin-bottom: 6rpx;
             }
-            &::before {
-                position: absolute;
-                top: 30rpx;
-                left: -12px;
-                display: block;
-                content: '';
-                width: 0;
-                height: 0;
-                border: 6px solid transparent;
-                border-right-color: #fff;
+            .name {
+                @include font($nanoFont, $secondFont);
+            }
+            .time {
+                @include font($nanoFont, $thirdFont);
+            }
+            .content {
+                position: relative; // display: flex; // flex: 0 0 300rpx;
+                // align-items: center;
+                display: inline-block;
+                max-width: 500rpx; 
+                min-width: 90rpx;
+                padding: 20rpx 30rpx;
+                border-radius: 6px;
+                // box-shadow: 2px 2px 4px #ccc;
+                background-color: #fff;
+                line-height: 1.2;
+                vertical-align: middle;
+                &.text {
+                    text {
+                        line-height: 1.2;
+                        white-space: pre-wrap;
+                        word-break: break-all;
+                    }
+                }
+                &.img{
+                    padding: 10rpx;
+                    image{
+                        position: relative;z-index: 100;
+                        display: block;
+                        width: 250rpx;
+                        height: 250rpx;
+                        border-radius: 6rpx;
+                    }
+                }
+                &.ticket{
+                    display: flex;
+                    padding-bottom: 40px;
+                    min-height: 100px;
+                    background-color: $ticketColor;
+                    $url: '../../../../dev-resource/image-min/couponBg2.png';
+                    @include image($url);
+                    &:before,&:after{
+                        border-top-color: $ticketColor;
+                    }
+                    .tl{
+                        flex: 1 0 auto;
+                        width: 300rpx;
+                        .ttitle,.tremark{
+                            width: 100%;
+                            @extend %text-clip;
+                            margin-bottom: 10rpx;
+                        }
+                        .ttitle{
+                            @include font($normalFont,#fff);
+                        }
+                        .tremark{
+                            @include font($smallFont,#fff);
+                        }
+                    }
+                    .tr{
+                        flex: 0 0 70rpx;
+                        display: flex;
+                        padding-left: 30rpx;
+                        align-items: center;                        
+                        .ticon{
+                            width: 70rpx;height: 70rpx;
+                            $url: '../../../../dev-resource/image-min/ticket.png';
+                            @include image($url);
+                        }
+                    }
+                    .tb{
+                        position: absolute;left: 0;bottom: 0;
+                        width: 100%;height: 24px;
+                        // background-color: #fff;
+                        // border-top: 4px dotted $ticketColor;
+                        padding: 0 30rpx;
+                        line-height: 24px;
+                        border-bottom-left-radius: 6rpx;
+                        border-bottom-right-radius: 6rpx;
+                        @include font(12px,$thirdFont);
+                    }
+                }
             }
         }
-    } // 消息块(自己)
-    .self {
-        flex-direction: row-reverse;
-        .avatar{
+        /* 敌方 */
+        &.others {
+            flex-direction: row;
+            text-align: left;
+            .content {
+                text-align: left;
+                background-color: #fff;
+                text {
+                    @include font($normalFont, $firstFont);
+                }
+                &::before {
+                    position: absolute;
+                    top: 30rpx;
+                    left: -8px;
+                    z-index: 1;
+                    display: block;
+                    content: '';
+                    width: 0;
+                    height: 0;
+                    border: 8px solid transparent;
+                    border-top-color: #fff;
+                }
+            }
+        }
+        /* 我方 */
+        &.self {
+            flex-direction: row-reverse;
             text-align: right;
-        }
-        .content{
-            background-color: $blueColor;
-            text{
-                @include font($normalFont,#fff);
+            .name,
+            .time {
+                text-align: right;
             }
-            &::after {
-                position: absolute;
-                top: 30rpx;
-                right: -12px;
-                display: block;
-                content: '';
-                width: 0;
-                height: 0;
-                border: 6px solid transparent;
-                border-left-color: $blueColor;
+            .content {
+                text-align: left;
+                background-color: $blueColor;
+                text {
+                    @include font($normalFont, #fff);
+                }
+                &::after {
+                    position: absolute;
+                    top: 30rpx;
+                    right: -8px;
+                    z-index: 1;
+                    display: block;
+                    content: '';
+                    width: 0;
+                    height: 0;
+                    border: 8px solid transparent;
+                    // border-left-color: $blueColor;
+                    border-top-color: $blueColor;
+                }
             }
         }
     }
@@ -167,13 +260,13 @@ page {
 
 // 工具集(底部)
 .m-toolset {
-    position: absolute;
-    bottom: 0;
+    // position: absolute;
+    // bottom: 0;
     width: 100%;
     background-color: #f4f4f5;
     @extend %tool-head;
     @extend %tool-body;
-    navigator{
+    navigator {
         box-sizing: border-box;
     }
 }
@@ -182,37 +275,57 @@ page {
 %tool-head {
     .tool-head {
         display: flex;
-        align-items: flex-end;
+        align-items: stretch;
         padding: 10rpx 5rpx;
-        view,
-        textarea {
+        .btn-wraper,
+        .ts-wraper,
+        .ic-wraper {
             margin: 0 5rpx;
         }
-        .switch {
+        .btn-wraper {
             flex: 0 0 auto;
+            display: flex;
+            align-items: flex-end;
+            .switch {
+                width: 64rpx;
+                height: 64rpx;
+            }
         }
-        textarea,
-        .intercom-btn {
-            @include font($normalFont,
-            $firstFont);
-            border: $border;
-            border-radius: 8px;
-            padding: 10rpx 4px;
-        }
-        textarea {
-            line-height:1;
-            background-color: #fff;
-        }
-        .intercom-btn {
-            box-sizing: content-box;
-            width: 100%;
-            height: 40rpx;
-            line-height: 40rpx;
-            text-align: center;
-            background-color: #f4f4f5;
-        }
-        .intercom-btn-hover {
-            background-color: rgba(0, 0, 0, 0.1);
+        .ts-wraper {
+            flex: 1 1 auto;
+            .ta {
+                display: flex;
+                align-items: center;
+                height: 100%;
+                padding: 4rpx 8rpx;
+                background-color: #fff;
+                textarea,
+                input {
+                    width: 100%;
+                    line-height: 1;
+                    background-color: #fff;
+                    font-size: 15px;
+                    color: #333;
+                }
+            }
+            .ic {
+                flex: 1 1 auto;
+                display: flex;
+                height: 100%;
+                .intercom-btn {
+                    @include font($normalFont, $firstFont);
+                    border: $border;
+                    border-radius: 8px;
+                    padding: 10rpx 4px;
+                    width: 100%;
+                    line-height: 40rpx;
+                    text-align: center;
+                    background-color: #f4f4f5;
+                    &.hover {
+                        background-color: rgba(0, 0, 0, 0.1);
+                    }
+                }
+            }
         }
     }
 }
@@ -235,8 +348,7 @@ page {
                 padding: 10rpx;
                 text-align: center;
                 .text {
-                    @include font($smallFont,
-                    $secondFont);
+                    @include font($smallFont, $secondFont);
                     padding: 15rpx 0;
                 }
             }

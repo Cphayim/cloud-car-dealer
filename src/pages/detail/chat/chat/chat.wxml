@@ -3,120 +3,246 @@
 
 <!-- 提醒 -->
 <view class="m-remind-head">
-  <view class="content">无法解答问题？快提醒给其他员工吧！</view>
-  <view bindtap="gotoremind" class="remind-btn" hover-class="remind-btn-hover">立即提醒</view>
+    <view class="content">无法解答问题？快提醒给其他员工吧！</view>
+    <view bindtap="gotoremind" class="remind-btn" hover-class="remind-btn-hover">立即提醒</view>
 </view>
 
+<view class="main">
+    <!-- 内容视口容器 当工具栏高度变化时，改变内容视口的位移 -->
+    <!-- scroll-with-animation -->
+    <scroll-view scroll-y 
+        scroll-into-view="{{anchorId}}"
+        upper-threshold="-50"
+        bindscrolltoupper="scrollToupper"
+        scroll-with-animation="{{loaded? true: false}}" 
+        style="height:{{contentViewHeight}}px;transform:translateY(-{{contentViewTranslate}}px)"
+        class="m-content-scroll-view">
+        <!-- 内容 -->
+         <view bindtouchstart="blurTextarea" class="m-content"> 
+            <view hidden="{{messageData.length < 20 || noMoreContent}}" class="content-tip big">下拉加载更多消息</view>
+            <view hidden="{{messageData.length < 20 || noMoreContent}}" class="content-tip small">提示: 数据载入时出现容器滚动是正常现象</view>
+            <view hidden="{{messageData.length < 20 || noMoreContent}}" class="content-tip small">数据插入顶部后，程序会将界面定位到你先前访问的位置</view>
+            <view hidden="{{!noMoreContent}}" class="content-tip bug">没有更多内容了</view>
+            <block wx:for="{{messageData}}" wx:key="item.Id">
+                <!-- 
+                    敌方
+                    条件渲染: item.Type === 1
+                -->
+                <block wx:if="{{item.Type === 1}}">
+                    <view class="block msg others" id="{{'a'+item.Id}}"
+                        data-id="{{item.CustomerId}}"
+                        data-Tenant-id="{{item.TenantId}}"
+                        data-content-type="{{item.ContentType}}"
+                        >
+                        <view class="l">
+                            <!-- 头像 -->
+                            <navigator 
+                                style="margin-top:{{item.Target?'30rpx':'0'}}"
+                                class="avatar" hover-class="" 
+                                url="{{pagePath['customer-info']+'?id='+item.CustomerId}}">
+                                <image src="{{item.CustomerImage || '/assets/image/avatar_default.png'}}"></image>
+                            </navigator>
+                        </view>
+                        <view class="r">
+                            <view class="name">{{item.Target? '找 ' + item.EmployeeName + ' - ':''}}{{item.CreateTimeStr}}</view>
+                            <!-- 消息内容 -->
+                            <!-- 文字 -->
+                             <view wx:if="{{item.ContentType < 4}}" class="content text">
+                                <text>{{item.Content || '-'}}</text>
+                            </view> 
+                            <!-- 图片 -->
+                             <view wx:if="{{item.ContentType == 4}}" class="content img"
+                                bindtap="previewImage" 
+                                data-url="{{item.ContentUrl}}"> 
+                                <image mode="aspectFill" src="{{item.ContentUrl}}"></image>
+                            </view> 
+                            <!-- 卡券 -->
+                            <view wx:if="{{item.ContentType >= 6}}" class="content ticket">
+                                <view class="tl">
+                                    <view class="ttitle">{{item.Content.Name || '优惠券'}}</view>
+                                    <view class="tremark">{{item.Content.Remark || '-'}}</view>
+                                </view>
+                                <view class="tr">
+                                    <view class="ticon"></view>
+                                </view>
+                                <view class="tb">
+                                    到店出示卡券
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </block>
+                <!-- /敌方 -->
+                <!-- 
+                    我方
+                    条件渲染: item.Type === 2 
+                -->
+                <block wx:else>
+                    <view class="block msg self" id="{{'a'+item.Id}}"
+                        data-id="{{item.EmployeeId}}"
+                        data-Tenant-id="{{item.TenantId}}"
+                        data-content-type="{{item.ContentType}}">
+                        <view class="l" style="margin-top:20rpx;">
+                            <!-- 头像 -->
+                            <view class="avatar">
+                                <image src="{{item.EmployeeImage || '/assets/image/avatar_default.png'}}"></image>
+                            </view>
+                        </view>
+                        <view class="r">
+                            <!-- 回复人 -->
+                            <view class="name">{{item.EmployeeName || '妖怪'}} - {{item.CreateTimeStr}}</view> 
+                            <!-- 消息内容 -->
+                            <!-- 文字 -->
+                            <view wx:if="{{item.ContentType < 4 || item.ContentType == 8}}" class="content text">
+                                <text>{{item.Content}}</text>
+                            </view>
+                            <!-- 图片 -->
+                            <view wx:if="{{item.ContentType == 4}}" class="content img"
+                                bindtap="previewImage" 
+                                data-url="{{item.ContentUrl}}">
+                                <image mode="aspectFill" src="{{item.ContentUrl}}"></image>
+                            </view> 
+                            <!-- 卡券 -->
+                            <view wx:if="{{item.ContentType == 7}}" class="content ticket">
+                                <view class="tl">
+                                    <view class="ttitle">{{item.Content.Name || '优惠券'}}</view>
+                                    <view class="tremark">{{item.Content.Remark || '-'}}</view>
+                                </view>
+                                <view class="tr">
+                                    <view class="ticon"></view>
+                                </view>
+                                <view class="tb">
+                                    到店出示卡券
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </block>
+                <!-- /我方 -->
+            </block>
+            <!-- <view class="block time">
+                <view>15:10</view>
+            </view>
+            <view class="block msg self">
+                <view class="avatar">
+                    <image src="https://img.vcar360.com/App_Content/Image/avatar.JPG"></image>
+                </view>
+                <view class="content">
+                    <text>在吗？</text>
+                </view>
+            </view> -->
+            <!-- 时间块 -->
+            <!-- <view class="block time">
+                <view>15:11</view>
+            </view> -->
+            <!-- 消息块(他人) -->
+            <!-- <view class="block msg others">
+                <view class="avatar">
+                    <image src="https://cphayim.me/wp-content/uploads/2017/05/cphayim-avatar-2017.jpg"></image>
+                </view>
+                <view class="content">
+                    <text>亲，我是您的专属顾问，请问有什么可以帮助您吗？</text>
+                </view>
+            </view>  -->
+            <!-- 消息块(自己) -->
+            <!-- <view class="block msg self">
+                <view class="avatar">
+                    <image src="https://img.vcar360.com/App_Content/Image/avatar.JPG"></image>
+                </view>
+                <view class="content">
+                    <text>为啥我昨天刚在你们店买的车，今天上路就掉一个轮子？</text>
+                </view>
+            </view>
+            <view class="block time">
+                <view>15:15</view>
+            </view>
+            <view class="block msg self">
+                <view class="avatar">
+                    <image src="https://img.vcar360.com/App_Content/Image/avatar.JPG"></image>
+                </view>
+                <view class="content">
+                    <text>人呢？</text>
+                </view>
+            </view>
+            <view class="block tip">
+                <view>您已被禁言</view>
+            </view> -->
 
-<!-- 内容视口容器 当工具栏高度变化时，改变内容视口的位移 -->
-<scroll-view scroll-top="0" scroll-y scroll-with-animation 
-  style="height:{{contentViewHeight}}px;transform:translateY(-{{contentViewTranslate}}px)"
-  class="m-content-scroll-view">
-  <!-- 内容 -->
-  <view bindtouchstart="blurTextarea" class="m-content">
-    <view class="block time">
-      <view>15:10</view>
-    </view>
-    <view class="block msg self">
-      <view class="avatar">
-        <image src="https://img.vcar360.com/App_Content/Image/avatar.JPG"></image>
-      </view>
-      <view class="content">
-        <text>在吗？</text>
-      </view>
-    </view>
-    <!-- 时间块 -->
-    <view class="block time">
-      <view>15:11</view>
-    </view>
-    <!-- 消息块(他人) -->
-    <view class="block msg others">
-      <!-- 头像 -->
-      <view class="avatar">
-        <image src="https://cphayim.me/wp-content/uploads/2017/05/cphayim-avatar-2017.jpg"></image>
-      </view>
-      <!-- 内容 -->
-      <view class="content">
-        <text>亲，我是您的专属顾问，请问有什么可以帮助您吗？</text>
-      </view>
-    </view>
-    <!-- 消息块(自己) -->
-    <view class="block msg self">
-      <view class="avatar">
-        <image src="https://img.vcar360.com/App_Content/Image/avatar.JPG"></image>
-      </view>
-      <view class="content">
-        <text>为啥我昨天刚在你们店买的车，今天上路就掉一个轮子？</text>
-      </view>
-    </view>
-    <view class="block time">
-      <view>15:15</view>
-    </view>
-    <view class="block msg self">
-      <view class="avatar">
-        <image src="https://img.vcar360.com/App_Content/Image/avatar.JPG"></image>
-      </view>
-      <view class="content">
-        <text>人呢？</text>
-      </view>
-    </view>
-    <view class="block tip">
-      <view>您已被禁言</view>
-    </view>
-
-  </view>
-</scroll-view>
+         </view> 
+    </scroll-view>
 
 
-<!-- 工具集 -->
-<view class="m-toolset">
-  <!-- 头 包含按钮和输入框 -->
-  <view class="tool-head">
-    <!-- 输入模式切换：文字/语音  -->
-    <view bindtap="toggleInputModel" class="switch icon-switchbtn-{{isIntercom?'1':'0'}}"></view>
-    <!-- 文本输入域 -->
-    <textarea focus="{{isFocus}}" hidden="{{isIntercom}}" 
-      bindlinechange="lineChange" cursor-spacing="10" style="max-height:100px;" auto-height
-      maxlength="1000" confirm-type="send" placeholder="" />
-    <!-- 语音按钮 -->
-    <view hover-class="intercom-btn-hover" hover-stay-time="400" class="intercom-btn" hidden="{{!isIntercom}}">按住说话</view>
-    <!-- 表情按钮 -->
-    <view class="switch icon-switchbtn-2"></view>
-    <!-- 扩展按钮 -->
-    <view bindtap="toggleExtend" class="switch icon-switchbtn-3"></view>
-  </view>
-  <view class="tool-body">
-    <view class="wrap extend-box" style="{{isShowExtend?'':'display:none;'}}">
-
-      <view class="item" hover-class="item-hover" hover-stay-time="400">
-        <view class="icon-extendbtn-0"></view>
-        <view class="text">图片</view>
-      </view>
-
-      <navigator url="{{pagePath.extend}}?cat=activity&nav=店内活动" class="item" hover-class="item-hover" hover-stay-time="400">
-        <view class="icon-extendbtn-1"></view>
-        <view class="text">店内活动</view>
-      </navigator>
-      <navigator url="{{pagePath.extend}}?cat=coupons&nav=优惠券" class="item" hover-class="item-hover" hover-stay-time="400">
-        <view class="icon-extendbtn-2"></view>
-        <view class="text">优惠券</view>
-      </navigator>
-      <navigator url="{{pagePath.extend}}?cat=game&nav=游戏" class="item" hover-class="item-hover" hover-stay-time="400">
-        <view class="icon-extendbtn-3"></view>
-        <view class="text">游戏</view>
-      </navigator>
-      <navigator url="{{pagePath.extend}}?cat=position&nav=商家位置" class="item" hover-class="item-hover" hover-stay-time="400">
-        <view class="icon-extendbtn-4"></view>
-        <view class="text">商家位置</view>
-      </navigator>
-      <navigator url="{{pagePath.extend}}?cat=questionnaire&nav=问卷调查" class="item" hover-class="item-hover" hover-stay-time="400">
-        <view class="icon-extendbtn-5"></view>
-        <view class="text">问卷调查</view>
-      </navigator>
-      <navigator url="{{pagePath.extend}}?cat=msgtpl&nav=对话模板" class="item" hover-class="item-hover" hover-stay-time="400">
-        <view class="icon-extendbtn-6"></view>
-        <view class="text">对话模板</view>
-      </navigator>
+    <!-- 工具集 -->
+    <view class="m-toolset">
+        <!-- 头 包含按钮和输入框 -->
+        <view class="tool-head">
+            <!-- 输入模式切换：文字/语音  -->
+            <view class="btn-wraper">
+                <view bindtap="toggleInputModel" class="switch icon-switchbtn-{{isIntercom?'1':'0'}}"></view>
+            </view>
+            <!-- 文本输入域 -->
+            <view class="ts-wraper" hidden="{{isIntercom}}">
+                <view class="ta">
+                    <!-- textarea 有毒！ -->
+                    <!-- <textarea focus="{{isFocus}}" bindlinechange="lineChange" cursor-spacing="5" style="max-height:100px;"
+                        auto-height maxlength="1000" confirm-type="send" placeholder="" /> -->
+                    <input type="text" cursor-spacing="10"  maxlength="500"
+                        confirm-type="send"
+                        focus="{{isFocus}}"
+                        bindinput="syncTextContent"
+                        bindconfirm="sendTextContent"
+                        value="{{textContent}}" />
+                </view>
+            </view>
+            <!-- 语音按钮 -->
+            <view class="ts-wraper" hidden="{{!isIntercom}}">
+                <view class="ic">
+                    <view hover-class="hover" hover-stay-time="400" class="intercom-btn"
+                        bindtouchstart="voiceBegin" bindtouchend="voiceEnd">
+                        按住说话
+                    </view>
+                </view>
+            </view>
+            <!-- 表情按钮 -->
+            <view class="btn-wraper">
+                <view class="switch icon-switchbtn-2"></view>
+            </view>
+            <!-- 扩展按钮 -->
+            <view class="btn-wraper">
+                <view bindtap="toggleExtend" class="switch icon-switchbtn-3"></view>
+            </view>
+        </view>
+        <view class="tool-body">
+            <view class="wrap extend-box" style="{{isShowExtend?'':'display:none;'}}">
+                <view class="item" hover-class="item-hover" hover-stay-time="400">
+                    <view bindtap="choosePhoto" class="icon-extendbtn-0"></view>
+                    <view class="text">图片</view>
+                </view>
+                <navigator url="{{pagePath['chat-extend']}}?cat=activity&nav=店内活动&id={{id}}" class="item" hover-class="item-hover" hover-stay-time="400">
+                    <view class="icon-extendbtn-1"></view>
+                    <view class="text">店内活动</view>
+                </navigator>
+                <navigator url="{{pagePath['chat-extend']}}?cat=coupons&nav=优惠券&id={{id}}" class="item" hover-class="item-hover" hover-stay-time="400">
+                    <view class="icon-extendbtn-2"></view>
+                    <view class="text">优惠券</view>
+                </navigator>
+                <navigator url="{{pagePath['chat-extend']}}?cat=game&nav=游戏&id={{id}}" class="item" hover-class="item-hover" hover-stay-time="400">
+                    <view class="icon-extendbtn-3"></view>
+                    <view class="text">游戏</view>
+                </navigator>
+                <navigator url="{{pagePath['chat-extend']}}?cat=position&nav=商家位置&id={{id}}" class="item" hover-class="item-hover" hover-stay-time="400">
+                    <view class="icon-extendbtn-4"></view>
+                    <view class="text">商家位置</view>
+                </navigator>
+                <navigator url="{{pagePath['chat-extend']}}?cat=questionnaire&nav=问卷调查&id={{id}}" class="item" hover-class="item-hover" hover-stay-time="400">
+                    <view class="icon-extendbtn-5"></view>
+                    <view class="text">问卷调查</view>
+                </navigator>
+                <navigator url="{{pagePath['chat-extend']}}?cat=msgtpl&nav=对话模板&id={{id}}" class="item" hover-class="item-hover" hover-stay-time="400">
+                    <view class="icon-extendbtn-6"></view>
+                    <view class="text">对话模板</view>
+                </navigator>
+            </view>
+        </view>
     </view>
-  </view>
 </view>
