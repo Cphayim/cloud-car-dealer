@@ -55,7 +55,7 @@ export function request({
             },
             fail(res) {
                 console.log(res);
-                toast.showError('网络请求失败! 错误状态码:' + res.statusCode);
+                toast.showError('网络请求失败!');
             }
         });
     });

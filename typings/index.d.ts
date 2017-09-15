@@ -19,7 +19,8 @@ declare namespace wx {
   export function reLaunch(args: { url: string, success?: (res) => void, fail?: (err) => void }): void;
   export function navigateBack(args?: { delta?: number }): void;
 
-  // http 请求
+
+  // 连接
   export function request(args: Object): void;
 
   // 弹框相关
@@ -49,35 +50,8 @@ declare namespace wx {
   export function scanCode(arg: any): void;
 
   // 窗口相关
-  export function pageScrollTo(opts: { scrollTop: number }): void;
-
-  // 图片
-
-
-  // 录音
-  export function startRecord(opts: { success?: any, fail?: any, complete?: any }): void;
-  export function stopRecord(): void;
-
-  // 播放音频
-  export function playVoice(opts: { filePath: string, success?: any, fail?: any, complete?: any }): void;
-  export function pauseVoice(): void;
-  export function stopVoice(): void;
-
-  // 上传下载
-  export function uploadFile(opts: { url: string, filePath: string, name: string, header?: any, formData?: any, success?: any, fail?: any, complete?: any }): TransmissionTask;
-  export function downloadFile(opts: { url: string, header?: any, formData?: any, success?: any, fail?: any, complete?: any }): TransmissionTask;
-
-  // 图片
-  export function chooseImage(opts: { count?: number, sizeType?: string[], sourceType?: string[], success?: any, fail?: any, complete?: any }): void;
-  export function previewImage(opts: { current?: string, urls: string[], success?: any, fail?: any, complete?: any }): void;
+  export function pageScrollTo(obj: { scrollTop: number }): void;
 }
-
-// 传输类任务返回的接口
-declare interface TransmissionTask {
-  onProgressUpdate: (e: { progress: number, totalBytesSent: number, totalBytesExpectedToSend: number }) => {}
-  abort: () => {}
-}
-
 
 declare interface Application {
   onLaunch(): void,

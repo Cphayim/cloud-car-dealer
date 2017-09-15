@@ -15,6 +15,7 @@ class Toast {
      * @returns 返回 promise 对象
      */
     public showLoading(title: string = '', mask: boolean = false) {
+        this.hide();
         return new Promise((resolve, reject) => {
             wx.showLoading({
                 title, mask,
@@ -72,6 +73,7 @@ class Toast {
      * @returns 返回 promise 对象 
      */
     private show({ title = '', duration = 10000, mask = false, icon = "none", image = '' }: any) {
+        this.hide();
         return new Promise((resolve, reject) => {
             wx.showToast({
                 title, icon, image, duration, mask,

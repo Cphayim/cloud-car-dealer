@@ -9,7 +9,7 @@
 export const actionSheet = {
     show({
         itemList = [],
-        itemColor = '#666',// #54b4ef
+        itemColor = '#54b4ef',
     }: {
             itemList: string[],
             itemColor?: string

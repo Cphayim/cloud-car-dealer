@@ -1,6 +1,5 @@
+
 <!-- 聊天界面-扩展工具 -->
 <import src="../../../../components/tab-slider/tab-slider.wxml" />
 
-<view class="animation-box {{loaded?'loaded':''}}">
-    <template is="tab-slider" data="{{...tabSlider}}"></template>
-</view>
+<template is="tab-slider" data="{{...tabSlider}}"></template>
