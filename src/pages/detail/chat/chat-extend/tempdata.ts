@@ -1,4 +1,4 @@
-// 临时数据
+// 临时测试数据
 const tempData:any = {
     // 对话模板
     msgtpl: [{
