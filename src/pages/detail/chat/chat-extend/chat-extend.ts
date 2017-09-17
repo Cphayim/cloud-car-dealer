@@ -6,8 +6,6 @@
  * @Last Modified time: 2017-08-14 12:41:35
  */
 
-
-// 临时数据
 import tempData from './tempdata'
 import TabSlider from '../../../../components/tab-slider/tab-slider';
 import BasePage from '../../../basepage';
@@ -32,37 +30,37 @@ class ChatExtendPage extends BasePage {
         // 修改导航栏标题
         wx.setNavigationBarTitle({
             title: decodeURI(options.nav)
-        })
-        this.id = ~~options.id
+        });
+        this.id = ~~options.id;
         // 获取分类
-        this.cat = options.cat
+        this.cat = options.cat;
         if (!this.cat) {
-            toast.showError('参数错误')
-            setTimeout(() => wx.navigateBack(), 2000)
-            return
+            toast.showError('参数错误');
+            setTimeout(() => wx.navigateBack(), 2000);
+            return;
         }
 
         // 根据 cat 参数调用各自的方法加载数据
         switch (this.cat) {
             case 'activity': // 店内活动
-                this.loadActivity()
-                break
+                this.loadActivity();
+                break;
             case 'coupons': // 优惠券
-                this.loadCoupons()
-                break
+                this.loadCoupons();
+                break;
             case 'game': // 游戏
-                this.loadGame()
-                break
+                this.loadGame();
+                break;
             case 'position': // 商家位置
-                break
+                this.loadPosition();
+                break;
             case 'questionnaire': // 问卷调查
-                break
+                break;
             case 'msgtpl': // 对话模板
-                break
+                break;
             default:
-                toast.showError('参数错误')
-                setTimeout(() => wx.navigateBack(), 2000)
-                return
+                toast.showError('参数错误');
+                return setTimeout(() => wx.navigateBack(), 2000);
         }
         // this.tabSlider.update(data);
     }
@@ -226,8 +224,38 @@ class ChatExtendPage extends BasePage {
      * @private
      * @memberof ChatExtendPage
      */
-    private loadGame() { 
-        
+    private loadGame() {
+        request({
+            url: domain + '/Game/Minigame/ReadForPickerWithoutScreen',
+            data: {
+                pageNo: 1,
+                pageSize: 999
+            }
+        }).then((res: any) => {
+            if (resCodeCheck(res)) { return }
+            const { data } = res;
+            const tabSliderData = [];
+            tabSliderData.push({
+                tabTitle: '游戏',
+                listType: 'text',
+                items: (() => {
+                    return data.map(item => {
+                        return {
+                            title: `【${item.GameTypeName}】${item.Title}`,
+                            time: `结束时间：${dateFormat('yyyy/MM/dd hh:mm', new Date(item.EndTime))}`,
+                            name: item.Title,
+                            url: item.GameBackGameUrl,
+                            catalog: 'game'
+                        }
+                    })
+                })()
+            })
+
+            this.tabSlider.update(tabSliderData)
+            this.setData({
+                loaded: true
+            })
+        })
     }
 
     /**
@@ -260,7 +288,7 @@ class ChatExtendPage extends BasePage {
         const { catalog } = e.currentTarget.dataset
         // 图文, 店内活动
         if (catalog === "activity") {
-            const { catalogId, id, title, url } = e.currentTarget.dataset;
+            const { id, title, url } = e.currentTarget.dataset;
             modal.show({
                 title: '',
                 content: '确定发送该活动链接给客户吗？',
@@ -316,10 +344,42 @@ class ChatExtendPage extends BasePage {
                         showCancel: false,
                     }).then(flag => {
                         this.triggerToBack()
-                    })
-                })
-            })
+                    });
+                });
+            });
         }
+        // 游戏
+        else if (catalog === 'game') {
+            const { name, url } = e.currentTarget.dataset;
+            let content = `<a href='${url}'>${name}</a>`;
+            modal.show({
+                title: '',
+                content: `确定发送该${catalog === 'coupon' ? '优惠券' : '礼包'}给客户吗？`,
+            }).then(flag => {
+                if (!flag) { return }
+                toast.showLoading('发送中...', true);
+                request({
+                    url: domain + '/WX/Message/Send',
+                    data: {
+                        customerId: this.id,
+                        contentType: 1,
+                        IsAllowSuperSend: true,
+                        content: content
+                    }
+                }).then((res: any) => {
+                    if (resCodeCheck(res)) { return }
+                    toast.hide();
+                    modal.show({
+                        title: '',
+                        content: '发送成功',
+                        showCancel: false,
+                    }).then(flag => {
+                        this.triggerToBack()
+                    });
+                });
+            });
+        }
+        // 商家位置
 
     }
     /**

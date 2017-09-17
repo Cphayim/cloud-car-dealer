@@ -52,7 +52,10 @@
         <scroll-view class="basic text" data-list-type="{{listType}}" scroll-y style="height:100%;">
             <!-- 循环渲染列表项 -->
             <block wx:for="{{items}}" wx:key="id">
-                <view bindtap="sliderItemTap" id="{{item.id}}" class="item" data-send-msg="{{item.sendMsg}}">
+                <view bindtap="sliderItemTap" class="item"
+                 data-name="{{item.name}}"
+                 data-url="{{item.url}}"
+                 data-catalog="{{item.catalog}}">
                     <!-- 条件渲染 -->
                     <!-- 标题 -->
                     <view wx:if="{{item.title}}" class="title">{{item.title}}</view>
@@ -80,7 +83,6 @@
                     data-id="{{item.id}}"
                     data-title="{{item.title}}"
                     data-url="{{item.url}}"
-                    data-catalog-id="{{item.catalogId}}"
                     >
                     <!-- 左图标 -->
                     <view class="l">
