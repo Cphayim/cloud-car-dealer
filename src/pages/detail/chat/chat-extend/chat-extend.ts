@@ -55,6 +55,7 @@ class ChatExtendPage extends BasePage {
                 this.loadPosition();
                 break;
             case 'questionnaire': // 问卷调查
+                this.loadQuestionnaire();
                 break;
             case 'msgtpl': // 对话模板
                 break;
@@ -118,13 +119,12 @@ class ChatExtendPage extends BasePage {
                 tabSliderList.listType = 'graphic'
                 tabSliderList.items = res.map(item => {
                     return {
-                        id: item.Id,
                         image: item.TitleImage,
                         title: item.Title,
                         starttime: '',
                         endtime: item.EndTime,
                         catalogId: item.CatalogId,
-                        url: item.WebUrl,
+                        msg: encodeURIComponent(`<a href='${item.WebUrl}'>${item.Title}</a>`),
                         // 分类
                         catalog: 'activity'
                     }
@@ -225,6 +225,7 @@ class ChatExtendPage extends BasePage {
      * @memberof ChatExtendPage
      */
     private loadGame() {
+        toast.showLoading();
         request({
             url: domain + '/Game/Minigame/ReadForPickerWithoutScreen',
             data: {
@@ -243,19 +244,19 @@ class ChatExtendPage extends BasePage {
                         return {
                             title: `【${item.GameTypeName}】${item.Title}`,
                             time: `结束时间：${dateFormat('yyyy/MM/dd hh:mm', new Date(item.EndTime))}`,
-                            name: item.Title,
-                            url: item.GameBackGameUrl,
+                            msg: encodeURIComponent(`<a href='${item.GameBackGameUrl}'>${item.Title}</a>`),
                             catalog: 'game'
                         }
-                    })
+                    });
                 })()
-            })
+            });
 
             this.tabSlider.update(tabSliderData)
             this.setData({
                 loaded: true
-            })
-        })
+            });
+            toast.hide();
+        });
     }
 
     /**
@@ -263,14 +264,78 @@ class ChatExtendPage extends BasePage {
      * @private
      * @memberof ChatExtendPage
      */
-    private loadPosition() { }
+    private loadPosition() {
+        toast.showLoading();
+        request({
+            url: domain + '/Tool/Location/ReadForPickerConvert',
+            data: {
+                pageNo: 1,
+                pageSize: 999
+            }
+        }).then((res: any) => {
+            if (resCodeCheck(res)) { return }
+            const { data } = res;
+            const tabSliderData = [];
+            tabSliderData.push({
+                tabTitle: '商家位置',
+                listType: 'text',
+                items: (() => {
+                    return data.map(item => {
+                        return {
+                            title: item.Name,
+                            label: item.Address,
+                            msg: encodeURIComponent(`<a href="http://apis.map.qq.com/uri/v1/marker?marker=coord:${item.Latitude},${item.Longitude};title:${item.Name};addr:${item.Address}">点击查看本店位置信息</a>`),
+                            catalog: 'position'
+                        }
+                    });
+                })()
+            });
+            this.tabSlider.update(tabSliderData);
+            this.setData({
+                loaded: true
+            });
+            toast.hide();
+        });
+    }
 
     /**
      * 加载问卷调查列表
      * @private
      * @memberof ChatExtendPage
      */
-    private loadQuestionnaire() { }
+    private loadQuestionnaire() {
+        toast.showLoading();
+        request({
+            url: domain + '/Car/Survey/ReadForPicker',
+            data: {
+                pageNo: 1,
+                pageSize: 999
+            }
+        }).then((res: any) => {
+            if (resCodeCheck(res)) { return }
+            const { data } = res;
+            const typeStr = ['售前','售后','通用'];
+            const tabSliderData = [];
+            tabSliderData.push({
+                tabTitle: '问卷调查',
+                listType: 'text',
+                items: (() => {
+                    return data.map(item => {
+                        return {
+                            title: `【${typeStr[item.Type-1] || '通用'}】${item.Title}`,
+                            msg: encodeURIComponent(`<a href="${item.url}">${item.Title}</a>`),
+                            catalog: 'questionnaire'
+                        }
+                    });
+                })()
+            });
+            this.tabSlider.update(tabSliderData);
+            this.setData({
+                loaded: true
+            });
+            toast.hide();
+        });
+    }
 
     /**
      * 加载对话模板列表
@@ -286,44 +351,13 @@ class ChatExtendPage extends BasePage {
      */
     private sliderItemTap(e) {
         const { catalog } = e.currentTarget.dataset
-        // 图文, 店内活动
-        if (catalog === "activity") {
-            const { id, title, url } = e.currentTarget.dataset;
-            modal.show({
-                title: '',
-                content: '确定发送该活动链接给客户吗？',
-            }).then(flag => {
-                if (!flag) { return }
-                toast.showLoading('发送中...', true);
-                const content = `<a href='${url}'>${title}</a>`
-                request({
-                    url: domain + '/WX/Message/Send',
-                    data: {
-                        customerId: this.id,
-                        contentType: 1, // 文本 
-                        IsAllowSuperSend: true,
-                        content: content
-                    }
-                }).then((res: any) => {
-                    if (resCodeCheck(res)) { return }
-                    toast.hide();
-                    modal.show({
-                        title: '',
-                        content: '发送成功',
-                        showCancel: false,
-                    }).then(flag => {
-                        this.triggerToBack()
-                    })
-                })
-            })
-        }
         // 票券，优惠券 或 礼包
-        else if (catalog === 'coupon' || catalog === 'package') {
+        if (catalog === 'coupon' || catalog === 'package') {
             // 这里 优惠券/礼包的 id 作为 content 发送
             const { id: content } = e.currentTarget.dataset;
             modal.show({
                 title: '',
-                content: `确定发送该${catalog === 'coupon' ? '优惠券' : '礼包'}给客户吗？`,
+                content: `确定发送给客户吗？`,
             }).then(flag => {
                 if (!flag) { return }
                 toast.showLoading('发送中...', true);
@@ -348,13 +382,12 @@ class ChatExtendPage extends BasePage {
                 });
             });
         }
-        // 游戏
-        else if (catalog === 'game') {
-            const { name, url } = e.currentTarget.dataset;
-            let content = `<a href='${url}'>${name}</a>`;
+        // 店内活动、游戏、商家位置
+        else {
+            const { msg } = e.currentTarget.dataset;
             modal.show({
                 title: '',
-                content: `确定发送该${catalog === 'coupon' ? '优惠券' : '礼包'}给客户吗？`,
+                content: `确定发送给客户吗？`,
             }).then(flag => {
                 if (!flag) { return }
                 toast.showLoading('发送中...', true);
@@ -364,7 +397,7 @@ class ChatExtendPage extends BasePage {
                         customerId: this.id,
                         contentType: 1,
                         IsAllowSuperSend: true,
-                        content: content
+                        content: decodeURIComponent(msg)
                     }
                 }).then((res: any) => {
                     if (resCodeCheck(res)) { return }
@@ -379,8 +412,6 @@ class ChatExtendPage extends BasePage {
                 });
             });
         }
-        // 商家位置
-
     }
     /**
      * 触发父页面刷新并返回

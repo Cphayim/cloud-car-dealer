@@ -53,8 +53,7 @@
             <!-- 循环渲染列表项 -->
             <block wx:for="{{items}}" wx:key="id">
                 <view bindtap="sliderItemTap" class="item"
-                 data-name="{{item.name}}"
-                 data-url="{{item.url}}"
+                 data-msg="{{item.msg}}"
                  data-catalog="{{item.catalog}}">
                     <!-- 条件渲染 -->
                     <!-- 标题 -->
@@ -80,9 +79,7 @@
             <block wx:for="{{items}}" wx:key="id">
                 <view bindtap="sliderItemTap" class="item"
                     data-catalog="{{item.catalog}}"
-                    data-id="{{item.id}}"
-                    data-title="{{item.title}}"
-                    data-url="{{item.url}}"
+                    data-msg="{{item.msg}}"
                     >
                     <!-- 左图标 -->
                     <view class="l">
