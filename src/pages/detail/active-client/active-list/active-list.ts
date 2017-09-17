@@ -88,7 +88,7 @@ class ActiveListPage extends BasePage {
     private itemToEnter(e) {
         const id = e.currentTarget.dataset.id;
         wx.navigateTo({
-            url: pagePath['active-info'] + '?id=' + id
+            url: pagePath['customer-info'] + '?id=' + id
         });
     }
     private onPullDownRefresh() {
