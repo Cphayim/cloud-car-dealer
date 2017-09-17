@@ -8,44 +8,54 @@
 
 @import '../../../../dev-resource/config.dev.scss';
 
-page{
-    height: 100%;
-    overflow: hidden;
-}
+/*!@import '../../../../components/list/list.scss';!*/
 
 // 提醒人列表
 .m-remind-list {
-    background-color: #fff;
+    padding-bottom: 100rpx;
     .item {
         padding: 20rpx 30rpx;
         display: flex;
         border-top: $border;
+        background-color: #fff;
         &:first-of-type {
             border: none;
         }
-        .l,.c,.r {
+        .l,
+        .c,
+        .r {
             display: flex;
             flex-direction: column;
             justify-content: center;
-            box-sizing: border-box;
         }
-        .l{
-            width: 120rpx;
+        .l {
+            flex: 0 0 auto;
         }
         .c {
-            width: 490rpx;
-            padding: 0 8px;
-            margin: 10px 0;
+            flex: 1 1 auto;
+            width: 50%;
+            padding: 0 16rpx;
+            margin: 10rpx 0;
         }
         .r {
             align-items: flex-end;
             width: 80rpx;
             text-align: right;
         }
-        .avatar {
-            width: 50px;
-            height: 50px;
+        .avatar-wrap {
+            width: 52px;
+            height: 52px;
+            padding: 2px;
+            border: $border;
             border-radius: 50%;
+        }
+        .avatar {
+            width: 100%;
+            height: 100%; // padding: 5px;
+            border-radius: 50%; // box-shadow: 0 0 0 1px #eee;
+        }
+        .namewrap{
+            display: flex;
         }
         .realname,
         .username {
@@ -76,26 +86,6 @@ page{
         .time {
             @include font($smallFont, $thirdFont);
             width: 100%;
-        }
-    }
-}
-
-// 提醒按钮
-.m-remind-btn {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    padding: 20rpx 30rpx;
-    border-top: $border;
-    background-color: rgba(255, 255,255,1);
-    .remind-btn {
-        padding: 25rpx;
-        border-radius: 10rpx;
-        background-color: $blueColor;
-        text-align: center;
-        @include font($normalFont, #fff);
-        &.hover {
-            background-color: #6699cc;
         }
     }
 }
