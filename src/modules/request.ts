@@ -7,6 +7,7 @@ import toast from './toast';
  * @Last Modified time: 2017-09-08 17:40:54
  */
 
+// http 请求
 export function request({
     url,
     method = 'post',
@@ -56,6 +57,30 @@ export function request({
             fail(res) {
                 console.log(res);
                 toast.showError('网络请求失败! 错误状态码:' + res.statusCode);
+            }
+        });
+    });
+}
+
+// 文件上传请求
+export function uploadFile({ url, filePath, name, header = {}, formData = {} }:
+    { url: string, filePath: string, name: string, header?: any, formData?: any }) {
+    if (!url || !filePath || !name) {
+        throw Error('uploadFile 参数缺失');
+    }
+    return new Promise((resolve, reject) => {
+        wx.uploadFile({
+            url, filePath, name, header, formData,
+            success(res) {
+                if (res.statusCode !== 200) {
+                    toast.showError('上传失败');
+                    return;
+                }
+                resolve(res);
+            },
+            fail(res) {
+                console.log(res);
+                toast.showError('上传失败');
             }
         });
     });
