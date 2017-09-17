@@ -9,11 +9,12 @@
 import pagePath from '../../../../config/path.config'
 import BasePage from '../../../basepage'
 import toast from '../../../../modules/toast';
-import { request } from '../../../../modules/request'
+import { request, uploadFile } from '../../../../modules/request';
 import { domain } from '../../../../config/config';
 import { resCodeCheck } from '../../../../modules/auth'
 import { dateFormat } from '../../../../modules/util'
 import { modal } from '../../../../modules/modal'
+import { cywxImage } from '../../../../modules/image';
 
 export class ChatPage extends BasePage {
     private isRefresh: boolean = false
@@ -87,7 +88,8 @@ export class ChatPage extends BasePage {
      * 加载数据(历史数据)
      * unshift -> messageData
      * @private
-     * @param {boolean} [scrollBt=false] 是否滚动到底部
+     * @param {boolean} [isScrollBt=false] 是否滚动到底部
+     * @param {boolean} [isReset=false] 是否重置已有数据
      * @memberof ChatPage
      */
     private loadData(isScrollBt: boolean = false, isReset: boolean = false) {
@@ -153,7 +155,6 @@ export class ChatPage extends BasePage {
                 }), 100)
             }
         })
-        toast.showSuccess('不停', 60000)
     }
     /**
      * 插入新消息
@@ -349,6 +350,7 @@ export class ChatPage extends BasePage {
             urls: [url]
         })
     }
+    
     /**
      * 发送文字对话
      * @param {any} e 
@@ -376,6 +378,9 @@ export class ChatPage extends BasePage {
         }).then((res: any) => {
             if (resCodeCheck(res)) { return }
             this.insertNewData([res.data])
+            this.setData({
+                textContent: ''
+            })
             toast.hide()
         })
     }
@@ -386,43 +391,62 @@ export class ChatPage extends BasePage {
      */
     public voiceBegin(e) {
         console.log('按下');
-        if (this.isVoicing) { return }
-        this.isVoicing = true
-        const id = this.id;
-        wx.startRecord({
+        wx.downloadFile({
+            url: 'http://admin.vcar360.com/App_Content/Theme/OAv2/js/prompt.mp3',
             success(res) {
+                console.log(res);
                 const { tempFilePath } = res;
-                console.log(tempFilePath);
-                wx.uploadFile({
-                    url: domain + '/WX/Message/Send',
+                wx.playVoice({
                     filePath: tempFilePath,
-                    name: 'httpPostedFile',
-                    header: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
-                    formData: {
-                        ticket: wx.getStorageSync('ticket'),
-                        customerId: id,
-                        contentType: 5,
-                        IsAllowSuperSend: true
-                    },
                     success(res) {
+                        console.log(res);
+                    },
+                    fail(res) {
                         console.log(res);
                     }
                 })
             },
             fail(res) {
                 console.log(res);
-                toast.showError('录音失败，没有权限')
             }
         })
+        // if (this.isVoicing) { return }
+        // this.isVoicing = true
+        // const id = this.id;
+        // wx.startRecord({
+        //     success(res) {
+        //         const { tempFilePath } = res;
+        //         console.log(tempFilePath);
+        //         wx.uploadFile({
+        //             url: domain + '/WX/Message/Send',
+        //             filePath: tempFilePath,
+        //             name: 'httpPostedFile',
+        //             header: {
+        //                 'X-Requested-With': 'XMLHttpRequest'
+        //             },
+        //             formData: {
+        //                 ticket: wx.getStorageSync('ticket'),
+        //                 customerId: id,
+        //                 contentType: 5,
+        //                 IsAllowSuperSend: true
+        //             },
+        //             success(res) {
+        //                 console.log(res);
+        //             }
+        //         })
+        //     },
+        //     fail(res) {
+        //         console.log(res);
+        //         toast.showError('录音失败，没有权限')
+        //     }
+        // })
     }
     public voiceEnd(e) {
         console.log('放开');
-        wx.stopRecord();
-        setTimeout(() => {
-            this.isVoicing = false
-        }, 1000);
+        // wx.stopRecord();
+        // setTimeout(() => {
+        //     this.isVoicing = false
+        // }, 1000);
     }
 
     /**
@@ -431,46 +455,34 @@ export class ChatPage extends BasePage {
      */
     public choosePhoto() {
         const id = this.id;
-        /**
-         * 上传图片
-         * @param filePath 图片临时路径
-         */
-        const uploadImage = (filePath) => {
-            return new Promise((resolve, reject) => {
-                wx.uploadFile({
-                    url: domain + '/WX/Message/Send',
-                    filePath: filePath,
-                    name: 'httpPostedFile',
-                    header: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
-                    formData: {
-                        ticket: wx.getStorageSync('ticket'),
-                        customerId: id,
-                        contentType: 4,
-                        IsAllowSuperSend: true
-                    },
-                    success(res) {
-                        if (resCodeCheck(res)) { return }
-                        resolve();
-                    }, fail(res) {
-                        reject();
-                    }
-                })
+        // 选择图片
+        cywxImage.choose({
+            count: 1, // 暂时只支持单张上传
+        }).then((res: any) => {
+            const { tempFilePaths } = res;
+            // console.log(tempFilePaths);
+            // 如果没有选择，退出
+            if (!tempFilePaths[0]) { return; }
+            toast.showLoading('发送中...')
+            uploadFile({
+                url: domain + '/WX/Message/Send',
+                filePath: tempFilePaths[0],
+                name: 'httpPostedFile',
+                header: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                formData: {
+                    ticket: wx.getStorageSync('ticket'),
+                    customerId: id,
+                    contentType: 4,
+                    IsAllowSuperSend: true
+                }
+            }).then(res => {
+                if (resCodeCheck(res)) { return; }
+                toast.showSuccess('发送成功');
+                this.loadData(true, true);
             })
-        }
-        const chooseImage = () => {
-            return new Promise((resolve, reject) => {
-                wx.chooseImage({
-                    count: 1,
-                    success(res) {
-                        resolve(res.tempFilePaths);
-                    }
-                })
-            })
-
-        }
-
+        });
     }
 }
 
