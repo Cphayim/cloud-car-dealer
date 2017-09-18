@@ -2,11 +2,9 @@
 <!-- 我 -->
 
 <!-- 基本信息 -->
-<view class="m-basic-info section"
-  data-id="{{employeeInfo.id}}"
-  >
+<view class="m-basic-info section" data-id="{{employeeInfo.id}}">
   <view class="l">
-  <image class="avatar" src="{{employeeInfo.avatar}}"></image>
+    <image class="avatar" src="{{employeeInfo.avatar}}"></image>
   </view>
   <view class="r">
     <!-- 姓名 -->
@@ -17,18 +15,21 @@
 </view>
 
 <!-- 办公 -->
-<!-- <view class="m-work section">
-  <block wx:for="{{workList}}" wx:key="*this">
+<view class="m-work section">
+  <view class="tip">功能模块开发中...将陆续添加</view>
+  <view class="box">
+    <!-- <block wx:for="{{workList}}" wx:key="*this">
     <view class="item" data-item-name="{{item.title}}">
       <view class="icon-work-{{item.className}}"></view>
       <view class="item-name">{{item.title}}</view>
     </view>
-  </block>
-</view> -->
+  </block> -->
+  </view>
+</view>
 
 <!-- 底部列表 -->
 <view class="m-list section">
-  <view bindtap="logout" class="item">
+  <view bindtap="logout" class="item" hover-class="hover">
     退出登录
   </view>
 </view>

@@ -16,51 +16,67 @@
 }
 
 // 图标名数组
-$workItemIcon:
-    'active', 'wechat','watcher','client',
-    'groupsend','preferential','batch','letter',
-    'address','friend','personalized','help','setting';
+$workItemIcon : 'active',
+'wechat',
+'watcher',
+'client',
+'groupsend',
+'preferential',
+'batch',
+'letter',
+'address',
+'friend',
+'personalized',
+'help',
+'setting';
 // 循环创建图标类
-@each $val in $workItemIcon{
-    .icon-work-#{$val}{
+@each $val in $workItemIcon {
+    .icon-work-#{$val} {
         $url: '../../../dev-resource/image-min/work-#{$val}.png';
         $size: 72rpx 72rpx;
-        @include image($url,$size);
+        @include image($url, $size);
     }
-} 
+}
 
 // 基本信息
-.m-basic-info{
+.m-basic-info {
     display: flex;
     padding: 30rpx;
-    .l{
+    .l {
         width: 120rpx;
         margin-right: 30rpx;
     }
-    .r{
+    .r {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        >view:first-child{
-            @include font($normalFont,$firstFont,bold);
+        >view:first-child {
+            @include font($normalFont, $firstFont);
             margin-bottom: 5px;
         }
-        >view:last-child{
-            @include font($smallFont,$secondFont);
+        >view:last-child {
+            @include font($smallFont, $secondFont);
         }
     }
-    .avatar{
+    .avatar {
         width: 120rpx;
         height: 120rpx;
         border-radius: 50%;
     }
 }
+
 // 办公
 .m-work {
-    display: flex;
-    justify-content: flex-start;
-    flex-wrap: wrap;
     padding: 20rpx 0;
+    .tip {
+        @include font($normalFont, $thirdFont);
+        text-align: center;
+    }
+    .box {
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
     .item {
         width: 25%;
         box-sizing: border-box;
@@ -81,14 +97,17 @@ $workItemIcon:
 }
 
 // 底部列表
-.m-list{
-    .item{
+.m-list {
+    .item {
         padding: 30rpx;
         border-bottom: $border;
-        @include font($normalFont, $firstFont);
+        @include font($normalFont, $secondFont);
         text-align: center;
-        &:last-child{
+        &:last-child {
             border: none;
+        }
+        &.hover{
+            background-color: rgba(32, 32, 32, 0.2);
         }
     }
 }
