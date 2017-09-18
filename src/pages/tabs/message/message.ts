@@ -59,6 +59,18 @@ export class MessagePage extends BasePage {
             if (data instanceof Array && data.length) {
                 // 添加列表时间
                 data.forEach(item => {
+                    // 内容为图片显示'[图片]'
+                    if (/^<img/.test(item.Content)) {
+                        item.Content = '[图片]';
+                    }
+                    // 内容是优惠券
+                    else if (/^{.*}$/.test(item.Content)) {
+                        item.Content = JSON.parse(item.Content).Name;
+                    }
+                    else {
+                        // 去掉标签
+                        item.Content = item.Content.replace(/<[^>]+>/g, "")
+                    }
                     item.time = listTimeFormat(item.CustomerActiveTime)
                     return item
                 })
@@ -84,7 +96,7 @@ export class MessagePage extends BasePage {
         const id = e.currentTarget.dataset.id,
             name = e.currentTarget.dataset.name
         wx.navigateTo({
-            url: pagePath.chat + '?id=' + id+'&name='+name
+            url: pagePath.chat + '?id=' + id + '&name=' + name
         });
     }
     public openSearch() {
