@@ -20,7 +20,7 @@
             <view wx:if="{{item.Nickname}}" class="username">{{item.Nickname}}</view>
           </view>
           <!-- 角色 -->
-          <view class="role">{{item.role}}</view>
+          <view class="role">{{item.RoleName}}</view>
         </view>
         <view class="r">
           <icon type="success" color="{{activeIndex === index?'#54b4ef':'#e0e0e0'}}" size="20" />
