@@ -4,7 +4,7 @@
 <!-- 基本信息 -->
 <view class="m-basic-info section" data-id="{{employeeInfo.id}}">
   <view class="l">
-    <image class="avatar" src="{{employeeInfo.avatar}}"></image>
+    <image class="avatar" src="{{employeeInfo.avatar || '/assets/image/avatar_default.png'}}"></image>
   </view>
   <view class="r">
     <!-- 姓名 -->
