@@ -679,7 +679,7 @@ class CustomerPage extends BasePage {
     public openChat(e) {
         const id = e.currentTarget.dataset.customerId;
         wx.navigateTo({
-            url: pagePath.dialogue + "?id=" + id
+            url: pagePath.chat + "?id=" + id+'&name='+this.data.introData.realname
         });
     }
     /**

@@ -118,6 +118,16 @@ class RecordInfoPage extends BasePage {
         });
     }
     /**
+     * 添加备注
+     * @param {any} e 
+     * @memberof CustomerPage
+     */
+    public addRemark(e) {
+        wx.navigateTo({
+            url: `${pagePath['customer-discuss']}?id=${this.id}&type=remark`
+        });
+    }
+    /**
      * 拨打手机
      * @param e 
      */
@@ -134,7 +144,7 @@ class RecordInfoPage extends BasePage {
     public openChat(e) {
         const id = e.currentTarget.dataset.customerId;
         wx.navigateTo({
-            url: `${pagePath.dialogue}?id=${id}`
+            url: `${pagePath.chat}?id=${id}&name=${this.data.introData.realname}`
         });
     }
     /**

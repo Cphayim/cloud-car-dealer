@@ -16,7 +16,7 @@ import { resCodeCheck } from '../../../modules/auth';
 
 class OpportunityPage extends BasePage {
     private id: number = 0; // 业务 id
-    private customerId:number = 0; // 客户 id
+    private customerId: number = 0; // 客户 id
     private progressChangeData: {
         ticket: any;
         status: any;
@@ -94,10 +94,7 @@ class OpportunityPage extends BasePage {
              * 组装页面数据
              */
             const pageData = this.data.pageData;
-            const {
-                    userInfo,
-                list
-                } = pageData;
+            const { userInfo, list } = pageData;
 
             // 枚举属性
             const enumName = this.data.enumName;
@@ -352,6 +349,16 @@ class OpportunityPage extends BasePage {
         } else {
             toast.showWarning('该客户未登记手机号');
         }
+    }
+    /**
+     * 进入聊天
+     * @param e 
+     */
+    public openChat(e) {
+        const id = e.currentTarget.dataset.customerId;
+        wx.navigateTo({
+            url: `${pagePath.chat}?id=${id}&name=${this.data.pageData.userInfo.realname}`
+        });
     }
     /**
      * 生命周期
