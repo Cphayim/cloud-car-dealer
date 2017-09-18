@@ -2,31 +2,33 @@
 <!-- 我 -->
 
 <!-- 基本信息 -->
-<view class="m-basic-info section">
+<view class="m-basic-info section"
+  data-id="{{employeeInfo.id}}"
+  >
   <view class="l">
-  <image class="avatar" src="https://cphayim.me/wp-content/uploads/2017/05/cphayim-avatar-2017.jpg"></image>
+  <image class="avatar" src="{{employeeInfo.avatar}}"></image>
   </view>
   <view class="r">
     <!-- 姓名 -->
-    <view class="realname">Cphayim</view>
+    <view class="realname">{{employeeInfo.name}}</view>
     <!-- 职位 -->
-    <view class="position">销售顾问</view>
+    <view class="position">{{employeeInfo.role}}</view>
   </view>
 </view>
 
 <!-- 办公 -->
-<view class="m-work section">
+<!-- <view class="m-work section">
   <block wx:for="{{workList}}" wx:key="*this">
     <view class="item" data-item-name="{{item.title}}">
       <view class="icon-work-{{item.className}}"></view>
       <view class="item-name">{{item.title}}</view>
     </view>
   </block>
-</view>
+</view> -->
 
 <!-- 底部列表 -->
 <view class="m-list section">
-  <view class="item">
+  <view bindtap="logout" class="item">
     退出登录
   </view>
 </view>

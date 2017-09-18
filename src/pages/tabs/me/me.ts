@@ -1,10 +1,13 @@
 import BasePage from '../../basepage';
+import { Roles } from '../../../config/config';
+import { modal } from '../../../modules/modal';
+import pagePath from '../../../config/path.config';
 /*
  * Tab 我 逻辑
  * @Author: 云程科技 
  * @Date: 2017-06-30 17:23:29 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-08-13 23:59:28
+ * @Last Modified time: 2017-09-18 13:58:00
  */
 
 // 渲染测试数据 
@@ -34,42 +37,39 @@ for (let key in itemObj) {
 }
 
 class MePage extends BasePage {
-    public data:any = {
+    public data = {
+        employeeInfo: {},
         workList
     }
-    constructor() {
-        super();
-    }
-    /**
-   * 页面的初始数据
-   */
-
-    /**
-     * 生命周期
-     */
     private onLoad(options) {
-
+        const employeeInfo = wx.getStorageSync('employee');
+        console.log(employeeInfo);
+        this.data.employeeInfo = {
+            id: employeeInfo.Id,
+            avatar: employeeInfo.Image,
+            name: employeeInfo.Name || employeeInfo.Nickname,
+            role: Roles[employeeInfo.Role]
+        }
+        this.setData({
+            employeeInfo: this.data.employeeInfo
+        });
     }
-    private onReady() {
-
-    }
-    private onShow() {
-
-    }
-    private onHide() {
-
-    }
-    private onUnload() {
-
-    }
-    private onPullDownRefresh() {
-
-    }
-    private onReachBottom() {
-
-    }
-    private onShareAppMessage() {
-
+    public logout(e) {
+        modal.show({
+            title: '',
+            content: '确定退出登录吗？'
+        }).then(flag => {
+            if (flag) {
+                // 清除用户缓存数据
+                wx.removeStorageSync('ticket');
+                wx.removeStorageSync('employee');
+                wx.removeStorageSync('tenant');
+                // 返回登录页
+                wx.redirectTo({
+                    url: pagePath.welcome
+                })
+            }
+        })
     }
 }
 
