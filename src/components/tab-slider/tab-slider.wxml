@@ -191,14 +191,14 @@
                         <view class="l">
                             <!-- 客户头像 -->
                             <view class="avatar-wrap">
-                                <image class="avatar" src="{{item.HeadImgUrl}}"></image>
+                                <image class="avatar" src="{{item.HeadImgUrl || '/assets/image/avatar_default.png'}}"></image>
                             </view>
                         </view>
                         <view class="c">
                             <!-- 客户名 -->
                             <view class="namewrap">
-                                <view class="realname">{{item.CustomerName || '无'}}</view>
-                                <view class="username">{{item.CustomerNickname || '无'}}</view>
+                                <view class="realname">{{item.CustomerName || item.CustomerNickname || '无'}}</view>
+                                <view wx:if="{{item.CustomerNickname}}" class="username">{{item.CustomerNickname || '无'}}</view>
                             </view>
                             <view class="content">{{item.DefeatCarBrand || '未知'}}</view>
                         </view>
