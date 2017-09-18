@@ -123,6 +123,8 @@
                 border-radius: 15rpx;
                 padding: 20rpx;
                 border:$border;
+                text-align: left;
+                min-height: 80rpx;
                 .placeholder {
                     @include font(14px,
                     #aaa);
