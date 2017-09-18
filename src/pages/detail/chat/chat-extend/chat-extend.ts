@@ -323,7 +323,7 @@ class ChatExtendPage extends BasePage {
                     return data.map(item => {
                         return {
                             title: `【${typeStr[item.Type-1] || '通用'}】${item.Title}`,
-                            msg: encodeURIComponent(`<a href="${item.url}">${item.Title}</a>`),
+                            msg: encodeURIComponent(`<a href="${item.WebUrl}">${item.Title}</a>`),
                             catalog: 'questionnaire'
                         }
                     });
