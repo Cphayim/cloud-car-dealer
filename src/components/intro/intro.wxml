@@ -25,7 +25,7 @@
         <!-- 头像 -->
         <view class="avatar" hover-class="hover">
             <view class="bg"></view>
-            <image src="{{avatar}}"></image>
+            <image src="{{avatar || '/assets/image/avatar_default.png'}}"></image>
         </view>
         <!-- 名 -->
         <view class="namewrap">
@@ -70,7 +70,7 @@
         <!-- 头像 -->
         <view class="avatar" hover-class="hover">
             <view class="bg"></view>
-            <image src="{{avatar}}"></image>
+            <image src="{{avatar || '/assets/image/avatar_default.png'}}"></image>
         </view>
         <!-- 名 -->
         <view class="namewrap">
