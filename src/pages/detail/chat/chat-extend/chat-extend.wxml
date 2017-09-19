@@ -2,5 +2,5 @@
 <import src="../../../../components/tab-slider/tab-slider.wxml" />
 
 <view class="animation-box {{loaded?'loaded':''}}">
-    <template is="tab-slider" data="{{...tabSlider}}"></template>
+    <template wx:if="{{tabSlider}}" is="tab-slider" data="{{...tabSlider}}"></template>
 </view>

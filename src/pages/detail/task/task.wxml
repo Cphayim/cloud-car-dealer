@@ -4,6 +4,6 @@
 <import src="../../../components/tab-slider/tab-slider.wxml" />
 <view class="contianer animation-box {{loaded?'loaded':''}}">
   <view class="m-task">
-    <template is="tab-slider" data="{{...tabSlider}}"></template>
+    <template wx:if="{{tabSlider}}" is="tab-slider" data="{{...tabSlider}}"></template>
   </view>
 </view>

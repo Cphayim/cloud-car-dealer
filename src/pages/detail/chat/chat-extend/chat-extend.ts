@@ -3,7 +3,7 @@
  * @Author: 云程科技 
  * @Date: 2017-07-13 10:03:42 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-08-14 12:41:35
+ * @Last Modified time: 2017-09-19 15:20:40
  */
 
 import tempData from './tempdata'
@@ -16,17 +16,21 @@ import { resCodeCheck } from '../../../../modules/auth';
 import { modal } from '../../../../modules/modal';
 import { dateFormat } from '../../../../modules/util';
 
-const tabSlider = new TabSlider({});
+
 class ChatExtendPage extends BasePage {
-    private id: number = 0
-    private tabSlider: TabSlider = tabSlider
-    private cat: string = ''
+    private id: number = 0;
+    private tabSlider: TabSlider;
+    private cat: string = '';
     public data = {
         loaded: false,
-        tabSlider
+        tabSlider: null
     }
 
     private onLoad(options) {
+        this.tabSlider = new TabSlider({});
+        this.setData({
+            tabSlider: this.tabSlider
+        });
         // 修改导航栏标题
         wx.setNavigationBarTitle({
             title: decodeURI(options.nav)
@@ -314,7 +318,7 @@ class ChatExtendPage extends BasePage {
         }).then((res: any) => {
             if (resCodeCheck(res)) { return }
             const { data } = res;
-            const typeStr = ['售前','售后','通用'];
+            const typeStr = ['售前', '售后', '通用'];
             const tabSliderData = [];
             tabSliderData.push({
                 tabTitle: '问卷调查',
@@ -322,7 +326,7 @@ class ChatExtendPage extends BasePage {
                 items: (() => {
                     return data.map(item => {
                         return {
-                            title: `【${typeStr[item.Type-1] || '通用'}】${item.Title}`,
+                            title: `【${typeStr[item.Type - 1] || '通用'}】${item.Title}`,
                             msg: encodeURIComponent(`<a href="${item.WebUrl}">${item.Title}</a>`),
                             catalog: 'questionnaire'
                         }

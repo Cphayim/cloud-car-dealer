@@ -3,7 +3,7 @@
  * @Author: Cphayim
  * @Date: 2017-07-13 17:02:18 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-08-14 11:42:48
+ * @Last Modified time: 2017-09-19 15:00:57
  */
 
 import toast from '../../modules/toast'
@@ -16,7 +16,7 @@ import toast from '../../modules/toast'
 class TabSlider {
     private swiperHeight: number;
     private heightRatio: number;
-    private sliderActiveIndex: number;
+    public sliderActiveIndex: number;
     private sliderTabCount: number;
     private sliderData: any[];
     /**
@@ -159,7 +159,7 @@ class TabSlider {
     init() {
         setTimeout(() => {
             this.setSwiperHeight();
-            wx.hideToast();
+            // this.sliderActiveIndex = 0; // 重置索引
         }, 300);
     }
     /**

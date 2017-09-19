@@ -11,7 +11,7 @@ import pagePath from '../../../config/path.config';
  * @Author: 云程科技 
  * @Date: 2017-07-11 15:49:45 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-09-11 00:25:00
+ * @Last Modified time: 2017-09-19 15:00:32
  */
 
 interface Data {
@@ -20,24 +20,26 @@ interface Data {
     type: number,
 }
 
-const tabSlider: TabSlider = new TabSlider({});
 
 class TaskPage extends BasePage {
-    private tabSlider: TabSlider = tabSlider;
+    private tabSlider: TabSlider;
     private title: string;
     private type: number = 0;
     private reqData: any = {};
     private reqPath: string;
     public data: Data = {
         loaded: false,
-        tabSlider,
+        tabSlider: null,
         type: this.type,
-
     }
     /**
      * 生命周期函数--监听页面加载
      */
     private onLoad(options) {
+        this.tabSlider = new TabSlider({});
+        this.setData({
+            tabSlider: this.tabSlider
+        });
         let { type, title } = options;
         // 获取类型 1: 回访任务 2: 邀约任务 3:到店任务 4:交车任务
         this.type = ~~type;
@@ -135,10 +137,10 @@ class TaskPage extends BasePage {
         });
     }
     public changeSlider(e) {
-        tabSlider.changeSlider(e);
+        this.tabSlider.changeSlider(e);
     }
 
-    private itemToEnter(e){
+    private itemToEnter(e) {
         const id = e.currentTarget.dataset.id;
         wx.navigateTo({
             url: `${pagePath['customer-info']}?id=${id}`
