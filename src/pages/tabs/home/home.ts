@@ -10,7 +10,7 @@ import { refreshDelay } from '../../../config/config';
  * @Author: 云程科技 
  * @Date: 2017-06-30 10:11:47 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-09-11 00:25:05
+ * @Last Modified time: 2017-09-19 11:25:08
  */
 
 class HomePage extends BasePage {
@@ -77,17 +77,49 @@ class HomePage extends BasePage {
         wx.scanCode({
             onlyFromCamera: true,
             success(res) {
-                const result: string = res.result,
-                    reg: RegExp = /^.*?rand=(.*)&?.*$/;
+                const result: string = res.result;
+                console.log('result: ' + result);
 
+                // 扣款码正则
+                const reg: RegExp = /^.*?rand=(.*)&?.*$/;
                 const matchResult = result.match(reg);
-                // 判断 扫描结果是否有效，有效则携带参数
+
+                // 是扣款码直接跳转到扣款页
                 if (matchResult) {
                     const rand: string = matchResult[1];
                     wx.navigateTo({
                         url: pagePath.charge + '?rand=' + rand
                     });
+                } else {
+                    toast.showLoading();
+                    // 发给服务器验证二维码有效性
+                    request({
+                        url: domain + '/Biz/QRcodeItem/ScanCode',
+                        data: {
+                            no: result
+                        }
+                    }).then((res: any) => {
+                        if (resCodeCheck(res)) { return }
+                        toast.hide();
+                        const { url } = res.data;
+                        console.log('url: ' + url);
+                        // 判断 result 是否是业务链接 / Biz / OpportunityPre / Detail ? Id = 98588
+                        if (/OpportunityPre/.test(url)) {
+                            console.log('报名');
+                            const id = url.match(/.*Id=(\d+)&?/i)[1];
+                            wx.navigateTo({
+                                url: pagePath.opportunity + '?id=' + id
+                            });
+                        }
+                        // 判断 result 是否是优惠券链接 /Biz/CardRecord/DetailForUse?id=67612
+                        else if (/CardRecord/.test(url)) {
+                            console.log('优惠券');
+                            const id = url.match(/.*Id=(\d+)&?/i)[1];
+                        }
+                    })
+                    // toast.showWarning('非平台二维码');
                 }
+
             },
             fail(err) {
                 console.log(err);
