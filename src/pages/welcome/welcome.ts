@@ -3,6 +3,7 @@ import pagePath from '../../config/path.config';
 import toast from '../../modules/toast';
 import { domain } from '../../config/config';
 import { request } from '../../modules/request';
+import { resCodeCheck } from '../../modules/auth';
 
 /**
  * 启动与登录页
@@ -55,10 +56,10 @@ class WelcomePage extends BasePage {
         const formData = this.data.formData;
         // 判断数据是否完整
         if (!formData.UserName) {
-            toast.showWarning('请输入用户名', 2000);
+            toast.showWarning('请输入用户名');
             return;
         } else if (!formData.Password) {
-            toast.showWarning('请输入密码', 2000);
+            toast.showWarning('请输入密码');
             return;
         }
 
@@ -72,9 +73,6 @@ class WelcomePage extends BasePage {
                 data: formData
             }).then(res => {
                 resolve(res);
-            }).catch(err => {
-                toast.showError('连接失败，请检查网络');
-                console.log(err);
             });
         }).then((res: any) => {
 
@@ -113,15 +111,11 @@ class WelcomePage extends BasePage {
         });
     }
 
-    /**
-     * 生命周期相关
-     * @memberof WelcomePage
-     */
     private onLoad(options): void {
 
         const overdue: boolean = !!options.overdue;
 
-        if(overdue){
+        if (overdue) {
             toast.showWarning('登录凭证过期，请重新登录');
         }
 
@@ -135,21 +129,44 @@ class WelcomePage extends BasePage {
             }, 500);
         }).then(() => {
             return new Promise((resolve, reject) => {
-                // 检测登录状态
-                const ticket = wx.getStorageSync('ticket');
-                if (ticket) {
-                    resolve();
-                } else {
+                /**
+                 * 登录状态检测
+                 */
+                const ticket = wx.getStorageSync('ticket'),
+                    employee = wx.getStorageSync('employee'),
+                    tenant = wx.getStorageSync('tenant');
+
+                // 本地三证齐全 -> ticket 验证
+                if (ticket && employee && tenant) {
+                    toast.showLoading('登录验证中...');
+                    setTimeout(function () {
+                        request({
+                            url: domain + '/ApiEmployee/EmployeeTicket'
+                        }).then((res: any) => {
+                            if (res.errorcode === 0) {
+                                // 验证通过
+                                resolve();
+                            } else {
+                                // 验证未通过，重新登录
+                                toast.showWarning(res.errormsg);
+                                reject();
+                            }
+                        })
+                    }, 1000);
+                }
+                // 本地三证不齐 -> 弹出登录框
+                else {
                     reject();
                 }
             });
         }).then(() => {
+            toast.showSuccess('登录成功');
             // 已登录 转到首页
             setTimeout(() => {
                 wx.switchTab({
                     url: pagePath.home
                 });
-            }, 2000);
+            }, 600);
         }).catch(() => {
             // 未登录 调出登录框
             setTimeout(() => {
@@ -159,13 +176,6 @@ class WelcomePage extends BasePage {
             }, 600);
         });
     }
-    onReady(): void { }
-    onShow(): void { }
-    onHide(): void { }
-    onUnload(): void { }
-    onPullDownRefresh(): void { }
-    onReachBottom(): void { }
-    onShareAppMessage(): void { }
 }
 
 Page(new WelcomePage());
