@@ -70,6 +70,7 @@ declare namespace wx {
   // 图片
   export function chooseImage(opts: { count?: number, sizeType?: string[], sourceType?: string[], success?: any, fail?: any, complete?: any }): void;
   export function previewImage(opts: { current?: string, urls: string[], success?: any, fail?: any, complete?: any }): void;
+  export function getImageInfo(opts: { src: string, success?: any, fail?: any, complete?: any }):void;
 }
 
 // 传输类任务返回的接口
