@@ -85,3 +85,27 @@ export function uploadFile({ url, filePath, name, header = {}, formData = {} }:
         });
     });
 }
+
+// 文件下载
+export function downloadFile({ url, header = {} }) {
+    if (!url) {
+        throw Error('downloadFile 参数缺失');
+    }
+    return new Promise((resolve, reject) => {
+        wx.downloadFile({
+            url, header,
+            success(res) {
+                if (res.statusCode !== 200) {
+                    console.log('下载失败');
+                    console.log(res.statusCode);
+                    return;
+                }
+                resolve(res);
+            },
+            fail(res) {
+                console.log(res);
+                console.log('下载失败');
+            }
+        })
+    });
+}
