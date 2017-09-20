@@ -25,7 +25,7 @@ export const reLogin = (): void => {
  *  是否拦截 40001 以外的errorcode，设置为 false 后不再拦截，你需要在逻辑中自行判断 errorcode
  * @returns {boolean} 
  */
-export const resCodeCheck = (res: any, intercept?: true): boolean => {
+export const resCodeCheck = (res: any, intercept:boolean = true): boolean => {
     if (res.errorcode === 0) {
         return false;
     }
