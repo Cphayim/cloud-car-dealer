@@ -7,7 +7,6 @@
  */
 
 @import '../../../../dev-resource/config.dev.scss';
-
 $ticketColor: #e3c276;
 // 输入框左右按钮图标
 @for $i from 0 through 3 {
@@ -127,11 +126,10 @@ page {
                 position: relative; // display: flex; // flex: 0 0 300rpx;
                 // align-items: center;
                 display: inline-block;
-                max-width: 500rpx; 
+                max-width: 500rpx;
                 min-width: 90rpx;
                 padding: 20rpx 30rpx;
-                border-radius: 6px;
-                // box-shadow: 2px 2px 4px #ccc;
+                border-radius: 6px; // box-shadow: 2px 2px 4px #ccc;
                 background-color: #fff;
                 line-height: 1.2;
                 vertical-align: middle;
@@ -142,62 +140,68 @@ page {
                         word-break: break-all;
                     }
                 }
-                &.img{
+                &.img {
                     padding: 10rpx;
-                    image{
-                        position: relative;z-index: 100;
+                    image {
+                        position: relative;
+                        z-index: 100;
                         display: block;
                         width: 250rpx;
                         height: 250rpx;
                         border-radius: 6rpx;
                     }
                 }
-                &.ticket{
+                &.ticket {
                     display: flex;
                     padding-bottom: 40px;
                     min-height: 100px;
                     background-color: $ticketColor;
                     $url: '../../../../dev-resource/image-min/couponBg2.png';
                     @include image($url);
-                    &:before,&:after{
+                    &:before,
+                    &:after {
                         border-top-color: $ticketColor;
                     }
-                    .tl{
+                    .tl {
                         flex: 1 0 auto;
                         width: 300rpx;
-                        .ttitle,.tremark{
+                        .ttitle,
+                        .tremark {
                             width: 100%;
                             @extend %text-clip;
                             margin-bottom: 10rpx;
                         }
-                        .ttitle{
-                            @include font($normalFont,#fff);
+                        .ttitle {
+                            @include font($normalFont, #fff);
                         }
-                        .tremark{
-                            @include font($smallFont,#fff);
+                        .tremark {
+                            @include font($smallFont, #fff);
                         }
                     }
-                    .tr{
+                    .tr {
                         flex: 0 0 70rpx;
                         display: flex;
                         padding-left: 30rpx;
-                        align-items: center;                        
-                        .ticon{
-                            width: 70rpx;height: 70rpx;
+                        align-items: center;
+                        .ticon {
+                            width: 70rpx;
+                            height: 70rpx;
                             $url: '../../../../dev-resource/image-min/ticket.png';
                             @include image($url);
                         }
                     }
-                    .tb{
-                        position: absolute;left: 0;bottom: 0;
-                        width: 100%;height: 24px;
-                        // background-color: #fff;
+                    .tb {
+                        position: absolute;
+                        left: 0;
+                        bottom: 0;
+                        width: 100%;
+                        height: 24px; // background-color: #fff;
                         // border-top: 4px dotted $ticketColor;
                         padding: 0 30rpx;
                         line-height: 24px;
                         border-bottom-left-radius: 6rpx;
                         border-bottom-right-radius: 6rpx;
-                        @include font(12px,$thirdFont);
+                        @include font(12px, $thirdFont);
                     }
                 }
             }
@@ -249,8 +253,7 @@ page {
                     content: '';
                     width: 0;
                     height: 0;
-                    border: 8px solid transparent;
-                    // border-left-color: $blueColor;
+                    border: 8px solid transparent; // border-left-color: $blueColor;
                     border-top-color: $blueColor;
                 }
             }
@@ -337,8 +340,25 @@ page {
             display: flex;
             flex-wrap: wrap;
             justify-content: flex-start;
-            padding: 30rpx;
+            align-items: stretch;
+            padding: 20rpx;
             border-top: $border;
+        }
+        .swiper {
+            height: 20rpx*2+(750rpx-20rpx*2)/4*2;
+        }
+        .swiper-item {
+            box-sizing: border-box;
+            .face {
+                width: (750rpx-20rpx*2)/4;
+                height: (750rpx-20rpx*2)/4-20rpx; // 减上下少的两个10rpx
+                padding: 0 10rpx;
+                image {
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 20rpx;
+                }
+            }
         }
         .extend-box {
             .item {

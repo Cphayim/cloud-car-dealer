@@ -3,16 +3,16 @@
  * @Author: 云程科技 
  * @Date: 2017-07-07 13:56:52 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-09-14 13:31:19
+ * @Last Modified time: 2017-09-20 15:04:58
  */
 
 import pagePath from '../../../../config/path.config'
 import BasePage from '../../../basepage'
 import toast from '../../../../modules/toast';
-import { request, uploadFile } from '../../../../modules/request';
+import { request, uploadFile, downloadFile } from '../../../../modules/request';
 import { domain } from '../../../../config/config';
 import { resCodeCheck } from '../../../../modules/auth'
-import { dateFormat } from '../../../../modules/util'
+import { dateFormat, extend } from '../../../../modules/util';
 import { modal } from '../../../../modules/modal'
 import { cywxImage } from '../../../../modules/image';
 
@@ -44,6 +44,7 @@ export class ChatPage extends BasePage {
         isFocus: false,// 输入框是否聚焦
         isIntercom: false,// 是否为语音模式
         isShowExtend: false,// 是否显示扩展盒子
+        extendIndex: 0, // 0 表情 1 扩展
         contentViewHeight: 0, // 内容滚动视图高度
         contentViewTranslate: 0, // 内容滚动视图Y轴偏移量
         scrollTop: 0,
@@ -291,22 +292,44 @@ export class ChatPage extends BasePage {
         // 设置 Intercom 取反
         this.setData({ isIntercom: !this.data.isIntercom })
         // 如果 extend 扩展盒子是打开的顺带关闭它
-        this.data.isShowExtend && this.toggleExtend()
+        this.data.isShowExtend && this.toggleExtend(null, true);
+    }
+    /**
+     * 输入框聚焦
+     * @param {any} [e] 
+     * @memberof ChatPage
+     */
+    public textFocus(e) {
+        // this.data.isShowExtend && this.toggleExtend(null, true);
     }
     /**
      * 切换扩展
      * @param {any} [e] 
      * @memberof ChatPage
      */
-    public toggleExtend(e?) {
-        const obj: any = {}
-        if (this.data.isShowExtend) {
-            obj.isShowExtend = false
-            if (e) { obj.isFocus = true }
-            this.setData(obj)
-        } else {
-            obj.isShowExtend = true
-            this.setData(obj)
+    public toggleExtend(e, close: boolean = false) {
+        // 如果 close 参数为 true 或不存在 e，直接隐藏盒子
+        if (close || !e) {
+            this.setData({
+                isShowExtend: false,
+            });
+            return;
+        }
+        // 获取 data-extend-index 的值
+        let { extendIndex } = e.currentTarget.dataset;
+        extendIndex = ~~extendIndex;
+        // 如果当前盒子为显示状态 且 显示的是点击的盒子，关闭它
+        if (this.data.isShowExtend && this.data.extendIndex === extendIndex) {
+            this.setData({
+                isShowExtend: false
+            })
+        }
+        // 当前盒子为隐藏状态 或 (当前盒子为显示状态 但 this.data.extendIndex 不等于 extendIndex)
+        else {
+            this.setData({
+                isShowExtend: true,
+                extendIndex: extendIndex
+            })
         }
     }
     /**
@@ -350,7 +373,7 @@ export class ChatPage extends BasePage {
             urls: [url]
         })
     }
-    
+
     /**
      * 发送文字对话
      * @param {any} e 
@@ -450,11 +473,36 @@ export class ChatPage extends BasePage {
     }
 
     /**
+     * 发送表情
+     * @param {any} e
+     * @memberof ChatPage
+     */
+    public sendFace(e) {
+        const { imgUrl } = e.currentTarget.dataset;
+        // console.log(imgUrl);
+        toast.showLoading('发送中...');
+        request({
+            url: domain + '/WX/Message/Send',
+            data: {
+                customerId: this.id,
+                contentType: 4,
+                IsAllowSuperSend: true,
+                content: imgUrl
+            }
+        }).then((res: any) => {
+            if (resCodeCheck(res)) { return }
+            this.insertNewData([res.data])
+            this.setData({
+                textContent: ''
+            })
+            toast.hide()
+        })
+    }
+    /**
      * 选择照片
      * @memberof ChatPage
      */
     public choosePhoto() {
-        const id = this.id;
         // 选择图片
         cywxImage.choose({
             count: 1, // 暂时只支持单张上传
@@ -464,6 +512,7 @@ export class ChatPage extends BasePage {
             // 如果没有选择，退出
             if (!tempFilePaths[0]) { return; }
             toast.showLoading('发送中...')
+            console.log(tempFilePaths[0]);
             uploadFile({
                 url: domain + '/WX/Message/Send',
                 filePath: tempFilePaths[0],
@@ -473,7 +522,7 @@ export class ChatPage extends BasePage {
                 },
                 formData: {
                     ticket: wx.getStorageSync('ticket'),
-                    customerId: id,
+                    customerId: this.id,
                     contentType: 4,
                     IsAllowSuperSend: true
                 }

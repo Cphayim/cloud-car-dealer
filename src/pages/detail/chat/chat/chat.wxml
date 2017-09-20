@@ -189,6 +189,7 @@
                     <input type="text" cursor-spacing="10"  maxlength="500"
                         confirm-type="send"
                         focus="{{isFocus}}"
+                        bindfocus="textFocus"
                         bindinput="syncTextContent"
                         bindconfirm="sendTextContent"
                         value="{{textContent}}" />
@@ -205,15 +206,58 @@
             </view>
             <!-- 表情按钮 -->
             <view class="btn-wraper">
-                <view class="switch icon-switchbtn-2"></view>
+                <view class="switch icon-switchbtn-2"
+                    bindtap="toggleExtend"
+                    data-extend-index="0"></view>
             </view>
             <!-- 扩展按钮 -->
             <view class="btn-wraper">
-                <view bindtap="toggleExtend" class="switch icon-switchbtn-3"></view>
+                <view class="switch icon-switchbtn-3"
+                    bindtap="toggleExtend"
+                    data-extend-index="1" ></view>
             </view>
         </view>
+        <!-- 体 包含表情包和扩展入口 -->
         <view class="tool-body">
-            <view class="wrap extend-box" style="{{isShowExtend?'':'display:none;'}}">
+            <view style="{{isShowExtend && extendIndex === 0?'':'display:none;'}}">
+                <swiper class="swiper" indicator-dots="true">
+                    <!-- 表情盒子一 -->
+                    <swiper-item class="swiper-item wrap">
+                        <block wx:for="{{[1,2,3,4,5,6,7,8]}}" wx:key="*this">
+                            <view class="face"
+                                bindtap="sendFace" data-img-url="http://img.vcar360.com/facePacks/1/girl/{{item}}.jpg">
+                                <image src="http://img.vcar360.com/facePacks/1/girl/{{item}}.jpg"></image>
+                            </view>
+                        </block>
+                    </swiper-item>
+                    <!-- 表情盒子二 -->
+                    <swiper-item class="swiper-item wrap">
+                        <block wx:for="{{[9,10,11,12]}}" wx:key="*this">
+                            <view class="face"
+                                bindtap="sendFace" data-img-url="http://img.vcar360.com/facePacks/1/girl/{{item}}.jpg">
+                                <image src="http://img.vcar360.com/facePacks/1/girl/{{item}}.jpg"></image>
+                            </view>
+                        </block>
+                        <block wx:for="{{[1,2,3,4]}}" wx:key="*this">
+                            <view class="face"
+                                bindtap="sendFace" data-img-url="http://img.vcar360.com/facePacks/1/boy/{{item}}.jpg">
+                                <image src="http://img.vcar360.com/facePacks/1/boy/{{item}}.jpg"></image>
+                            </view>
+                        </block>
+                    </swiper-item >
+                     <!-- 表情盒子三 -->
+                    <swiper-item class="swiper-item wrap">
+                        <block wx:for="{{[5,6,7,8,9,10,11,12]}}" wx:key="*this">
+                            <view class="face"
+                                bindtap="sendFace" data-img-url="http://img.vcar360.com/facePacks/1/boy/{{item}}.jpg">
+                                <image src="http://img.vcar360.com/facePacks/1/boy/{{item}}.jpg"></image>
+                            </view>
+                        </block>
+                    </swiper-item >
+                </swiper>
+            </view>
+            <!-- 扩展入口 -->
+            <view class="wrap extend-box" style="{{isShowExtend && extendIndex === 1?'':'display:none;'}}">
                 <view class="item" hover-class="item-hover" hover-stay-time="400">
                     <view bindtap="choosePhoto" class="icon-extendbtn-0"></view>
                     <view class="text">图片</view>
@@ -238,11 +282,12 @@
                     <view class="icon-extendbtn-5"></view>
                     <view class="text">问卷调查</view>
                 </navigator>
-                <navigator url="{{pagePath['chat-extend']}}?cat=msgtpl&nav=对话模板&id={{id}}" class="item" hover-class="item-hover" hover-stay-time="400">
+                <!-- <navigator url="{{pagePath['chat-extend']}}?cat=msgtpl&nav=对话模板&id={{id}}" class="item" hover-class="item-hover" hover-stay-time="400">
                     <view class="icon-extendbtn-6"></view>
                     <view class="text">对话模板</view>
-                </navigator>
+                </navigator> -->
             </view>
+            <!-- /扩展入口 -->
         </view>
     </view>
 </view>
