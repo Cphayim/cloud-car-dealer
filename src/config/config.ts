@@ -3,13 +3,13 @@
  * @Author: Cphayim 
  * @Date: 2017-09-11 00:25:54 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-09-18 13:59:40
+ * @Last Modified time: 2017-09-20 15:19:57
  */
 
 // 小程序 appid
 export const AppId = 'wx1e351c277e5f118b'
 // 版本号 
-export const AppVersion = '0.6'
+export const AppVersion = '0.7'
 
 // HTTP 请求域名
 export let domain = 'https://ssl.api.vcar360.com'
@@ -32,7 +32,7 @@ const roles = {
     'WX_Finance': '财务专员'
 }
 // 角色对象 -> 角色枚举
-export const Roles = (() => {
+export const Roles = ((roles) => {
     const enumRoles = {};
     const keys = Object.keys(roles);
     keys.forEach(item => {
@@ -42,4 +42,4 @@ export const Roles = (() => {
         enumRoles[roles[item]] = item;
     });
     return enumRoles;
-})()
+})(roles)
