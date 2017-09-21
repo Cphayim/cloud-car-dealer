@@ -16,7 +16,7 @@ import { refreshDelay } from '../../../config/config';
  * @Author: 云程科技 
  * @Date: 2017-07-03 10:45:33 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-09-11 00:25:05
+ * @Last Modified time: 2017-09-20 15:39:13
  */
 
 
@@ -227,7 +227,7 @@ class BusinessPage extends BasePage {
 
         // 获取 search 入口组件高度
         let p1 = new Promise((resolve, reject) => {
-            wx.createSelectorQuery().select('.m-search-outer').boundingClientRect(rect => {
+            wx.createSelectorQuery().select('.m-search').boundingClientRect(rect => {
                 resolve(rect.height);
             }).exec();
         });

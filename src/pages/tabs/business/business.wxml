@@ -7,7 +7,7 @@
 <!-- 顶部双组件 -->
 <view class="top-component">
   <!-- 搜索组件入口 -->
-  <template is="search-outer" data="{{type:'business',url:pagePath.search}}"></template>
+  <template is="search" data="{{type:'business',url:pagePath.search}}"></template>
   <!-- selection 组件 -->
   <template wx:if="{{selection}}" is="selection" data="{{...selection}}"></template>
 </view>
