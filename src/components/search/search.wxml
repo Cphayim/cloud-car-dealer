@@ -1,11 +1,73 @@
-<!-- 搜索框外部模块 -->
-<template name="search-outer">
-  <!-- 外部搜索框，点击进入搜索页，携带参数 type -->
-  <view class="m-search-outer">
-    <view catchtap="openSearch" 
-        data-type="{{type}}" data-url="{{url}}"
-        class="search">
-      <icon type="search" color="#999" size="13" />搜索
+<template name="search">
+    <view class="m-search">
+        <!-- 头部搜索模板 -->
+        <view class="search-header">
+            <!-- 外部(伪输入框) -->
+            <!-- display: flex; 的元素无法使用 微信的 hidden 来控制隐藏 -->
+            <view class="search-out" style="{{isOpen?'display:none;':''}}" catchtap="openSearch">
+                <view class="out-text">
+                    <icon type="search" color="#999" size="13" />
+                    <text>搜索</text>
+                </view>
+            </view>
+            <!-- 内部(真输入框) -->
+            <view class="search-in">
+                <view class="in-input">
+                    <icon type="search" color="#999" size="13" />
+                     <input type="text" confirm-type="search" placeholder="搜索" 
+                        focus="{{isFocus}}"
+                        value="{{keyword}}"
+                        bindconfirm="sendSearch" /> 
+                </view>
+                <view class="in-cancel" hover-class="hover" hover-start-time="0"
+                    catchtap="closeSearch">
+                    <view>取消</view>
+                </view>
+            </view>
+        </view>
+        <!-- 搜索结果列表模板 -->
+        <view hidden="{{!isOpen}}" class="search-body">
+            <!-- 遮罩层 -->
+            <view class="mask"></view>
+            <!-- 搜索列表滚动视图 -->
+            <scroll-view class="scroll-view" scroll-y style="height:{{listHeight}}px;">
+                <!-- 提示 -->
+                <view hidden="{{searchList.length}}" class="body-l-tip">
+                    请输入关键字进行搜索
+                </view>
+                <!-- 搜索内容列表 -->
+                <view hidden="{{!searchList.length}}" class="cy-list cy-client-list">
+                    <block wx:for="{{searchList}}" wx:key="item.id"> 
+                        <view class="item" bindtap="toDetail" 
+                            data-id="{{item.id}}" 
+                            data-name="{{item.name}}">
+                            <view class="l">
+                                <!-- 客户头像 -->
+                                <view class="avatar-wrap">
+                                    <image class="avatar" src="{{item.avatar || '/assets/image/avatar_default.png'}}"></image>
+                                </view>
+                            </view>
+                            <view class="c">
+                                <!-- 客户名 -->
+                                <view class="namewrap">
+                                    <view class="realname">{{item.name || item.nickname || '未知'}}</view>
+                                    <view wx:if="{{item.nickname}}" class="username">{{item.nickname || '-'}}</view>
+                                </view>
+                                <!-- 最后一条对话内容 -->
+                                <view class="content">{{item.content || '-'}}</view>
+                            </view>
+                            <view class="r">
+                                <!-- 时间/状态 -->
+                                <view class="time">{{item.time}}</view>
+                                <view wx:if="{{item.statusName}}" class="status {{item.statusClassname}}">
+                                    {{item.statusName}}
+                                </view>
+                            </view>
+                        </view>
+                    </block> 
+                </view>
+            </scroll-view>
+            <!-- /搜索列表滚动视图 -->
+        </view>
     </view>
-  </view>
 </template>
