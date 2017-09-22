@@ -37,7 +37,6 @@
         z-index: 998;
         display: flex;
         align-items: stretch;
-        @include font($smallFont, $thirdFont);
         .in-input {
             flex: 1 1 auto;
             display: flex;
@@ -46,6 +45,7 @@
             border-radius: 10rpx;
             background-color: #fff;
             border: 1rpx solid #eaeaea;
+            @include font($smallFont, $secondFont);
             input {
                 flex: 1 0 auto;
                 display: inline-block;
