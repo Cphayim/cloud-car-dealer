@@ -2,7 +2,7 @@
  * @Author: Cphayim
  * @Date: 2017-07-31 09:47:25 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-08-28 15:52:31
+ * @Last Modified time: 2017-09-22 11:57:09
  */
 
 @import '../../dev-resource/config.dev.scss';
@@ -22,7 +22,7 @@
         @include font(14px);
         background-color: #fff;
         &:last-child {
-            border-bottom: none;
+            // border-bottom: none;
         }
         .item-key,.item-val{
             padding: 25rpx 0;
@@ -191,7 +191,7 @@
         padding: 20rpx 30rpx;
         background-color: #fff;
         &:last-of-type {
-            border: none;
+            // border: none;
         }
         .l,
         .c,
