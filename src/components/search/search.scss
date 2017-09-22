@@ -47,8 +47,7 @@
             background-color: #fff;
             border: 1rpx solid #eaeaea;
             input {
-                flex: 0 0 auto;
-                // width: 90%;
+                flex: 1 0 auto;
                 display: inline-block;
                 height: $smallFont;
                 padding: 0 10rpx;
@@ -87,7 +86,7 @@
         .body-l-tip{
             padding: 30rpx;
             text-align: center;
-            @include font($smallFont,$secondFont);
+            @include font(15px,$secondFont);
         } 
         /* 搜索内容列表 */
         .scroll-view {
