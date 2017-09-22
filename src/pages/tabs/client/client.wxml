@@ -8,7 +8,7 @@
 <!-- 顶部双组件 -->
 <view class="top-component">
   <!-- 搜索入口 -->
-  <template is="search-outer" data="{{type:'client',url:'/pages/search/search'}}"></template>
+  <template is="search" data="{{...search}}"></template>
   <!-- 选项盒子组件 -->
   <template wx:if="{{selection}}" is="selection" data="{{...selection}}"></template>
 </view>
@@ -16,7 +16,8 @@
 <!-- 滚动容器 -->
 <!-- 内容区 -->
 <view class="animation-box {{loaded?'loaded':''}}" style="padding-top:{{listPaddingTop}}px">
-  <view class="m-client">
+  <!-- 在展开搜索组件时隐藏主模块，防止滚动穿透 -->
+  <view hidden="{{search.isOpen}}" class="m-client">
     <!-- 列表项统计 -->
     <view class="cy-list-count">总数：{{clientTotal}}</view>
     <!-- 列表 -->

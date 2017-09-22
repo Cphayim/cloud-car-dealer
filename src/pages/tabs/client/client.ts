@@ -2,8 +2,8 @@ import BasePage from '../../basepage';
 import pagePath from '../../../config/path.config';
 import Selection from '../../../components/selection/selection';
 import toast from '../../../modules/toast';
-import { domain } from '../../../config/config';
-import { openSearch } from '../../../components/search/search';
+import { domain, maxPageSize } from '../../../config/config';
+import Search from '../../../components/search/search';
 import { request } from '../../../modules/request';
 import { enumConfig } from '../../../config/enum.config';
 import { resCodeCheck } from '../../../modules/auth';
@@ -15,7 +15,7 @@ import { refreshDelay } from '../../../config/config';
  * @Author: 云程科技 
  * @Date: 2017-06-30 10:12:17 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-09-11 00:25:01
+ * @Last Modified time: 2017-09-22 11:55:09
  */
 
 
@@ -28,34 +28,12 @@ const selection = new Selection({
     selectionData: selectionDataObj
 });
 
-/**
- * 请求车品牌插入 SelectionData
- */
-
-interface Data {
-    loaded: boolean;
-    pagePath: any;
-    // 列表顶部填充层高度
-    listPaddingTop: number;
-    // selection 对象挂载
-    selection: Selection;
-
-    /*
-     * 枚举相关
-     */
-    PreLevel: any;
-    /**
-     * 数据
-     */
-    clientTotal: number; // 客户总数
-    clientList: any[]; // 客户列表
-}
-
-
 class ClientPage extends BasePage {
     private isFirst: boolean = true;
 
+    private search: Search = new Search();
     private selection: Selection = selection;
+
     private carBrandFlag = false;
     // 视图滚动属性
     private listPaddingTop: number = 0;
@@ -83,13 +61,14 @@ class ClientPage extends BasePage {
     private LastTime: string = '0'; // 最近联系时间
 
 
-    private data: Data = {
+    private data = {
+        search: this.search,
+        selection: this.selection,
+
         loaded: false,
         pagePath: pagePath,
         // 列表顶部填充层高度
         listPaddingTop: this.listPaddingTop,
-        // selection 对象挂载
-        selection: this.selection,
 
         // listCount: 0, // 当前列表项数
 
@@ -102,10 +81,6 @@ class ClientPage extends BasePage {
          */
         clientTotal: 0, // 客户总数
         clientList: [], // 客户列表
-    }
-    // 搜索组件 入口方法挂载
-    public openSearch(){
-        toast.showWarning('搜索模块正在开发');
     }
     /**
      * 展开下拉选项卡
@@ -208,7 +183,7 @@ class ClientPage extends BasePage {
      * @returns 
      */
     private addListItem(isReset = false, isRefresh = false) {
-        toast.showLoading('',true);
+        toast.showLoading('', true);
         // 如果是刷新重置部分请求配置
         if (isReset) {
             this.pageNo = 0;
@@ -285,6 +260,7 @@ class ClientPage extends BasePage {
      * 生命周期函数--监听页面加载
      */
     private onLoad(options) {
+        this.search.init();
         // 页面加载时调用 selection 的 init 方法初始化组件
         this.selection.init();
 
@@ -292,7 +268,7 @@ class ClientPage extends BasePage {
 
         // 获取 search 入口组件高度
         let p1 = new Promise((resolve, reject) => {
-            wx.createSelectorQuery().select('.m-search-outer').boundingClientRect(rect => {
+            wx.createSelectorQuery().select('.m-search').boundingClientRect(rect => {
                 resolve(rect.height);
             }).exec();
         });
@@ -365,19 +341,77 @@ class ClientPage extends BasePage {
             url: pagePath['customer-info'] + '?id=' + id + '&name=' + name
         });
     }
-
-    private onReady() {
-    }
-    private onShow() { }
-    private onHide() { }
-    private onUnload() { }
     private onPullDownRefresh() {
         this.addListItem(true, true);
     }
     private onReachBottom() {
         this.addListItem();
     }
-    private onShareAppMessage() { }
+
+    /**
+     * 搜索组件相关
+     */
+    /**
+     * 展开搜索组件
+     * @param {any} e 
+     * @memberof MessagePage
+     */
+    public openSearch(e) {
+        this.search.openSearch(e);
+    }
+    /**
+     * 关闭搜索组件
+     * @private
+     * @memberof MessagePage
+     */
+    public closeSearch(e) {
+        this.search.closeSearch(e);
+    }
+    /**
+     * 搜索输入框虚拟键盘 confirm 点击事件
+     * 调用 Search 组件 sendSearch 方法
+     * @param {any} e 
+     * @memberof MessagePage
+     */
+    public sendSearch(e) {
+        this.search.sendSearch(e, keyword => {
+            return new Promise((resovle, reject) => {
+                toast.showLoading();
+                request({
+                    url: domain + '/ApiCustomerPre/ReadForSearchView',
+                    data: {
+                        PageSize: maxPageSize,
+                        PageNo: 1,
+                        orderBy: 'LastTrackTime DESC',
+                        MultiWord: keyword
+                    }
+                }).then((res: any) => {
+                    if (resCodeCheck(res)) { return }
+                    if (res.data instanceof Array) {
+                        if (res.data.length) {
+                            let formatData = res.data.map(item => ({
+                                id: item.Id,
+                                avatar: item.HeadImgUrl,
+                                name: item.Name,
+                                nickname: item.Nickname,
+                                time: listTimeFormat(item.LastTrackTime),
+                                content: (() => {
+                                    let preLevel = this.data.PreLevel[item.PreLevel || 0]
+                                    let carBrandName = item.CarBrandName || '无意向车型';
+                                    return preLevel + ' | ' + carBrandName;
+                                })()
+                            }));
+                            toast.hide();
+                            resovle(formatData);
+                        } else {
+                            toast.showWarning('未搜索到相关结果');
+                            resovle([]);
+                        }
+                    } else { reject('服务器返回数据类型有误'); }
+                });
+            });
+        });
+    }
 }
 
 Page(new ClientPage());

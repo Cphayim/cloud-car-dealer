@@ -5,12 +5,13 @@
 <import src="../../../components/search/search.wxml" />
 
 <view class="top-component">
-  <!-- 搜索入口 -->
-  <template is="search-outer" data="{{type:'message',url:'/pages/search/search'}}"></template>
+  <!-- Search 组件 -->
+  <template is="search" data="{{...search}}"></template>
 </view>
 
 <view class="animation-box {{loaded?'loaded':''}}" style="padding-top:{{listPaddingTop}}px" >
-  <view class="m-message" >
+  <!-- 在展开搜索组件时隐藏主模块，防止滚动穿透 -->
+  <view hidden="{{search.isOpen}}" class="m-message" >
     <!-- 列表 -->
     <view class="cy-list cy-client-list {{!messageList.length?'nocontent':''}}">
       <block wx:for="{{messageList}}" wx:key="item.CustomerId">

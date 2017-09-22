@@ -1,35 +1,33 @@
 import BasePage from '../../basepage';
 import pagePath from '../../../config/path.config';
+import Search from '../../../components/search/search';
 import Selection from '../../../components/selection/selection';
 import toast from '../../../modules/toast';
 import { dateFormat, listTimeFormat } from '../../../modules/util';
-import { domain } from '../../../config/config';
+import { domain, maxPageSize } from '../../../config/config';
 import { enumConfig } from '../../../config/enum.config.js';
-import { openSearch } from '../../../components/search/search';
+import { refreshDelay } from '../../../config/config';
 import { request } from '../../../modules/request';
 import { resCodeCheck } from '../../../modules/auth';
-import { refreshDelay } from '../../../config/config';
-
 
 /*
  * Tab 业务页逻辑
  * @Author: 云程科技 
  * @Date: 2017-07-03 10:45:33 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-09-20 15:39:13
+ * @Last Modified time: 2017-09-22 11:40:06
  */
-
-
 
 const selectionJSON = `[{ "name": "PreFrom", "title": "类型", "type": "select", "opts": [{ "title": "全部", "val": "" }, { "title": "试驾预约", "val": "1" }, { "title": "购车询价", "val": "2" }, { "title": "二手置换", "val": "3" }, { "title": "新车", "val": "4" }, { "title": "二手车", "val": "5" }, { "title": "购车优惠", "val": "7" }, { "title": "销售咨询", "val": "8" }] }, { "name": "PreStatus", "title": "状态", "type": "select", "opts": [{ "title": "全部", "val": "" }, { "title": "未联系", "val": "2" }, { "title": "已联系", "val": "9" }, { "title": "已到店", "val": "11" }, { "title": "无效", "val": "10" }] }]`;
 
-// 实例化 selection 组件对象
+// 实例化 selection 组件
 const selection = new Selection({
     isExistScreening: false, // 不存在 Screening-box
     selectionData: JSON.parse(selectionJSON) // 数据
 });
 
 class BusinessPage extends BasePage {
+    private search: Search = new Search();
     private selection: Selection = selection;
 
     // 视图滚动属性
@@ -37,13 +35,15 @@ class BusinessPage extends BasePage {
     private selectionHeight: number = 0;
     private listPaddingTop: number = 0;
 
-    public data: any = {
+    public data = {
+        search: this.search,
+        selection: this.selection,
+
         loaded: false,
         pagePath: pagePath,
         // 列表顶部填充层高度
         listPaddingTop: this.listPaddingTop,
-        // selection 对象挂载
-        selection: this.selection,
+
         /**
          * 请求相关
          */
@@ -64,15 +64,6 @@ class BusinessPage extends BasePage {
          */
         businessTotal: 0, // 业务总数
         businessList: [], // 业务列表
-    }
-    /**
-     * 搜索框 tap 事件
-     * @param {any} e 
-     * @memberof BusinessPage
-     */
-    public openSearch(e) {
-        // openSearch(e);
-        toast.showWarning('搜索模块正在开发');
     }
     /**
      * 展开下拉选项卡
@@ -222,7 +213,8 @@ class BusinessPage extends BasePage {
      * 生命周期相关
      */
     private onLoad(options) {
-        // _selection 初始化
+        this.search.init();
+        // selection 初始化
         this.selection.init();
 
         // 获取 search 入口组件高度
@@ -250,16 +242,6 @@ class BusinessPage extends BasePage {
         // 初始化添加一次数据
         this.addListItem();
     }
-    private onReady() {
-
-    }
-    private onShow() {
-
-    }
-    private onHide() {
-
-    }
-    private onUnload() { }
     private onPullDownRefresh(e) {
         // 下拉刷新
         this.addListItem(true, true);
@@ -268,7 +250,83 @@ class BusinessPage extends BasePage {
         // 上拉加载
         this.addListItem();
     }
-    private onShareAppMessage() { }
+
+    /**
+     * 搜索组件相关
+     */
+    /**
+     * 展开搜索组件
+     * @param {any} e 
+     * @memberof MessagePage
+     */
+    public openSearch(e) {
+        this.search.openSearch(e);
+    }
+    /**
+     * 关闭搜索组件
+     * @private
+     * @memberof MessagePage
+     */
+    public closeSearch(e) {
+        this.search.closeSearch(e);
+    }
+    /**
+     * 搜索输入框虚拟键盘 confirm 点击事件
+     * 调用 Search 组件 sendSearch 方法
+     * @param {any} e 
+     * @memberof MessagePage
+     */
+    public sendSearch(e) {
+        this.search.sendSearch(e, keyword => {
+            return new Promise((resovle, reject) => {
+                toast.showLoading();
+                request({
+                    url: domain + '/Biz/OpportunityPre/Read',
+                    data: {
+                        PageSize: maxPageSize,
+                        PageNo: 1,
+                        orderBy: 'CreateTime desc,Status asc',
+                        MultiWord: keyword
+                    }
+                }).then((res: any) => {
+                    if (resCodeCheck(res)) { return }
+                    if (res.data instanceof Array) {
+                        if (res.data.length) {
+                            let formatData = res.data.map(item => ({
+                                id: item.Id,
+                                avatar: item.HeadImgUrl,
+                                name: item.Name,
+                                nickname: item.Nickname,
+                                time: listTimeFormat(item.CreateTime),
+                                content: (() => {
+                                    let preFrom = this.data.OpportunityPreFrom[item.PreFrom];
+                                    let fromTitle = item.FromTitle;
+                                    return preFrom + ' | ' + fromTitle;
+                                })(),
+                                statusName: this.data.OpportunityStatus[item.Status],
+                                statusClassname: ((status) => {
+                                    status = parseInt(status);
+                                    let classname = '';
+                                    switch (status) {
+                                        case 11: classname = 'status-finished'; break;
+                                        case 9: classname = 'status-progressed'; break;
+                                        case 2: classname = 'status-untreated'; break;
+                                        case 10: classname = 'status-null'; break;
+                                    }
+                                    return classname;
+                                })(item.Status)
+                            }));
+                            toast.hide();
+                            resovle(formatData);
+                        } else {
+                            toast.showWarning('未搜索到相关结果');
+                            resovle([]);
+                        }
+                    } else { reject('服务器返回数据类型有误'); }
+                });
+            });
+        });
+    }
 }
 
 Page(new BusinessPage());

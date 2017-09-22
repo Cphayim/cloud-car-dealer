@@ -6,15 +6,16 @@
 
 <!-- 顶部双组件 -->
 <view class="top-component">
-  <!-- 搜索组件入口 -->
-  <template is="search" data="{{type:'business',url:pagePath.search}}"></template>
-  <!-- selection 组件 -->
+  <!-- Search 组件 -->
+  <template is="search" data="{{...search}}"></template>
+  <!-- Selection 组件 -->
   <template wx:if="{{selection}}" is="selection" data="{{...selection}}"></template>
 </view>
 
 <view class="animation-box {{loaded?'loaded':''}}" style="padding-top:{{listPaddingTop}}px">
   <!-- 内容区 -->
-  <view class="m-business">
+  <!-- 在展开搜索组件时隐藏主模块，防止滚动穿透 -->
+  <view hidden="{{search.isOpen}}" class="m-business">
     <!-- 列表项统计 -->
     <view class="cy-list-count">总数：{{businessTotal}}</view>
     <!-- 列表 -->
