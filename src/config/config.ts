@@ -14,9 +14,7 @@ export const AppVersion = '0.7'
 // HTTP 请求域名
 export let domain = 'https://ssl.api.vcar360.com'
 
-// 下拉刷新延迟时间
-export let refreshDelay = 600
-
+// 角色对象
 const roles = {
     'WX_Sales': '销售顾问',
     'WX_Service': '售后顾问',
@@ -31,6 +29,7 @@ const roles = {
     'WX_Claim': '理赔专员',
     'WX_Finance': '财务专员'
 }
+
 // 角色对象 -> 角色枚举
 export const Roles = ((roles) => {
     const enumRoles = {};
@@ -43,3 +42,12 @@ export const Roles = ((roles) => {
     });
     return enumRoles;
 })(roles)
+
+// 下拉刷新延迟时间
+export let refreshDelay = 600
+
+// 默认页面加载列表项数
+export let defuatPageSize = 20
+
+// 最大页面加载列表项数
+export let maxPageSize = 999
