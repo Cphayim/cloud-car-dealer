@@ -9,7 +9,7 @@
 // 小程序 appid
 export const AppId = 'wx1e351c277e5f118b'
 // 版本号 
-export const AppVersion = '0.7'
+export const AppVersion = '0.8'
 
 // HTTP 请求域名
 export let domain = 'https://ssl.api.vcar360.com'
