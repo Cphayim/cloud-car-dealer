@@ -3,7 +3,7 @@
  * @Author: Cphayim
  * @Date: 2017-07-11 11:10:40 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-07-11 14:11:21
+ * @Last Modified time: 2017-09-22 13:47:05
  */
 export default class Search {
     private isOpen: boolean = false; // 是否展开搜索组件
@@ -75,7 +75,10 @@ export default class Search {
         let { value } = e.detail;
         this.keyword = /^\s*$/.test(value) ? '' : value.replace(/^\s*|\s*$/g, '');
         // 如果当前 keyword 为空，返回空字符串
-        if (!this.keyword) { return '' }
+        if (!this.keyword) {
+            this.syncDataToView();
+            return ''
+        }
         // 若 callback 是函数类型，执行回调
         if (typeof callback === 'function') {
             let res = callback(this.keyword);
