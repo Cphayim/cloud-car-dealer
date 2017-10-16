@@ -1,0 +1,18 @@
+/**
+ * 这里定义项目的所有字体相关变量
+ *
+ * @Author: Cphayim 
+ * @Date: 2017-10-16 16:34:09 
+ * @Last Modified by: Cphayim
+ * @Last Modified time: 2017-10-16 16:34:48
+ */
+$iphone6RootFontSize: 20px;
+@function r($px) {
+    @return $px / $iphone6RootFontSize+rem;
+}
+
+$font_nano:   r(12); // 迷你
+$font_small:  r(14); // 小号
+$font_normal: r(16); // 正常
+$font_big:    r(20); // 大号
+$font_large:  r(26); // 特大
