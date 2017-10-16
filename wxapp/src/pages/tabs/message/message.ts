@@ -190,3 +190,5 @@ class MessagePage extends BasePage {
 }
 
 Page(new MessagePage());
+
+
