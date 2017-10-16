@@ -8,18 +8,15 @@
 </style>
 
 <template>
-  <index-tab></index-tab>
-  <!-- <client-tab></client-tab> -->
+  <div id="app">
+    
+  </div>
 </template>
 
 <script>
-import IndexTab from '@/pages/IndexTab'
-import ClientTab from '@/pages/ClientTab'
 export default {
   name: 'App',
   components:{
-    IndexTab,
-    ClientTab
   }
 }
 </script>

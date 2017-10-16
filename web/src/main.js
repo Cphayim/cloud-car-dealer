@@ -1,5 +1,5 @@
 // 全局样式
-import '@/style/base/reset.scss'
+import '@/styles/reset.scss'
 import 'mint-ui/lib/style.css'
 
 /**
