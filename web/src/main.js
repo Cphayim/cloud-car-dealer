@@ -1,21 +1,42 @@
-// 全局样式
-import '@/styles/reset.scss'
-import 'mint-ui/lib/style.css'
+/** 
+ * 入口脚本
+ * 
+ * @Author: Cphayim 
+ * @Date: 2017-10-17 16:13:12 
+ * @Last Modified by: Cphayim
+ * @Last Modified time: 2017-10-18 16:01:40
+ */
+
+// 全局样式 (有覆盖关系，顺序不要乱)
+import '@/styles/reset.scss' // 1
+import 'mint-ui/lib/style.css' // 2
+import '@/styles/coverage.scss' // 3
 
 /**
- * 脚本和 Vue 组件
+ * 预处理脚本
+ */
+import Response from './scripts/response'
+import FastClick from 'fastclick'
+
+/**
+ * Vue 相关
  */
 import Vue from 'vue'
 import MintUI from 'mint-ui'
+import router from './router'
+// import axios from 'axios'
+import axios from './scripts/request'
 import App from '@/App'
-// import router from './router'
+
+document.addEventListener('DOMContentLoaded', () => { FastClick.attach(document.body) })
 
 Vue.use(MintUI)
 Vue.config.productionTip = false
+Vue.prototype.$axios = axios
 
 new Vue({
   el: '#app',
-  // router,
+  router,
   template: '<App/>',
   components: { App }
 })
