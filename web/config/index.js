@@ -6,8 +6,14 @@ module.exports = {
     env: require('./prod.env'),
     index: path.resolve(__dirname, '../dist/index.html'),
     assetsRoot: path.resolve(__dirname, '../dist'),
-    assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    // 原: 静态打包到 /static 下
+    // assetsSubDirectory: 'static',
+    // assetsPublicPath: '/',
+    
+    // 修改：打包到 ./ 下
+    assetsSubDirectory: '',
+    assetsPublicPath: './',
+    
     productionSourceMap: true,
     // Gzip off by default as many popular static hosts such as
     // Surge or Netlify already gzip all static assets for you.

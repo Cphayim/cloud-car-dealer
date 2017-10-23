@@ -37,6 +37,9 @@ exports.cssLoaders = function (options) {
     if (options.extract) {
       return ExtractTextPlugin.extract({
         use: loaders,
+        // 给 css 中的背景图添加前缀路径
+        // img/...  ->  ../img/...
+        publicPath: '../',
         fallback: 'vue-style-loader'
       })
     } else {
