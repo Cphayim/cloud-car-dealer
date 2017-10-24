@@ -90,10 +90,10 @@
     <!-- 登录表单 -->
     <div class="login-form">
       <div class="item username">
-        <input type="text" v-model="formData.username" placeholder="请输入您的账号">
+        <input type="text" v-model.trim="formData.username" placeholder="请输入您的账号" autocomplete="false">
       </div>
       <div class="item password">
-        <input type="password" v-model="formData.password" placeholder="请输入您的密码">
+        <input type="password" v-model.trim="formData.password" placeholder="请输入您的密码" autocomplete="false">
       </div>
       <div class="login-btn">
         <button @click="login">登录</button>
@@ -130,12 +130,26 @@ export default {
         this.$toast('请填写账号及密码')
         return
       }
-      console.log(123)
       this.$axios({
         url: CONFIG.HOST + '/org/employee/login',
         method: 'post',
         data: this.formData
-      }).then(res => { console.log(res) })
+      }).then(res => { 
+        let {data} = res
+        /* 当登录成功时 data 为 null
+         * 登录失败时 data 为 
+         * {Errors: string}
+         */ 
+        // console.log(data)
+        if (data && data.Errors){ //登录失败
+          this.$toast(data.Errors)
+        } else { // 登录成功
+          location.href = '/pages/index'
+        }
+      }).catch(err =>{
+        console.warn(err)
+        this.$toast('请求失败，请检查网络')
+      })
     }
   }
 }
