@@ -15,9 +15,11 @@
   <div class="container hastab">
     <!-- Tab 页内容区 -->
     <div class="wraper">
-      <!-- 子路由 -->
-      <router-view></router-view>
-      <!-- /子路由 -->
+      <keep-alive>
+        <!-- 子路由 -->
+        <router-view></router-view>
+        <!-- /子路由 -->
+      </keep-alive>
     </div>
     <!-- /Tab 页内容区 -->
     <!-- Tab 栏 -->

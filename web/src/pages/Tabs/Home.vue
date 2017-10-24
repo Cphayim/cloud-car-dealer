@@ -185,16 +185,16 @@
     </div>
     <!-- /战报 -->
 
-    <!-- 站内信 -->
+    <!-- 朋友圈营销 -->
     <div class="m-letter section pad">
       <div class="l">
         <div class="icon"></div>
       </div>
       <div class="r">
-        <p class="last">[黄晓米] 请您审核下优惠期活动的是打算大所大所多阿萨德多</p>
+        <p class="last">[朋友圈营销] {{letter.lastMsg || '暂无'}}</p>
       </div>
     </div>
-    <!-- /站内信 -->
+    <!-- /朋友圈营销 -->
 
     <!-- 卡片组 -->
     <div class="m-card-group section pad">
@@ -281,6 +281,9 @@ export default {
         customerAfterUnassign: 0, // 老客待分配
         customerAfterUndeal: 0 // 老客待验证
       },
+      letter:{
+        lastMsg: ''
+      },
       cards: {
         onlineRegist: 0, // 在线报名累计
         onlineRegistUndeal: 0, // 在线报名新增
@@ -311,6 +314,9 @@ export default {
     }
   },
   methods: {
+    /**
+     * 管理员数据加载
+     */
     loadAdmin() {
       this.$axios({
         url: CONFIG.HOST + '/Statistic/GetTenantTotal?&isNew=false&r=' + Math.random(),
@@ -369,7 +375,19 @@ export default {
       })
     },
     loadSales() { },
-    loadService() { }
+    loadService() { },
+
+    loadShare(){
+      this.$axios({
+        url: CONFIG.HOST + '/Car/ShareInfos/ReadForArticle?resultType=json',
+        method: 'get'
+      }).then(res=>{
+        let {data} = res
+        if(data && data[0] && data[0].Title){
+          this.letter.lastMsg = data[0].Title
+        }
+      })
+    }
   },
   created() {
     if (typeof GLOBAL_ROLE !== 'string') return this.$toast('获取角色信息失败!')
@@ -385,7 +403,10 @@ export default {
         this.loadAdmin(); this.pageTitle = '店铺管理员'; break
       default:
         this.$toast('角色信息有误!')
+        return
     }
+
+    this.loadShare()
   }
 }
 </script>
