@@ -4,7 +4,7 @@
  * @Author: Cphayim 
  * @Date: 2017-10-19 14:14:06 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-10-24 15:37:07
+ * @Last Modified time: 2017-10-25 10:36:33
  */
 
 
@@ -16,8 +16,8 @@ export default {
 
   // 请求主机名
   // HOST: 'http://app.vcar360.com', // 线上服务器
-  // HOST: 'http://127.0.0.1:3000', // 本地模拟数据服务器
-  HOST: '', // 测试服务器
+  HOST: 'http://127.0.0.1:3000', // 本地模拟数据服务器
+  // HOST: '', // 测试服务器
 
   // 下拉刷新延迟时间（毫秒）
   REFRESH_DELAY: 600,

@@ -5,12 +5,16 @@
  * @Last Modified by: Cphayim
  * @Last Modified time: 2017-10-18 09:08:06
  */
+import CONFIG from '@/config/config'
 import TabPage from '@/pages/Tab'
 import HomePage from '@/pages/Tabs/Home'
 import BusinessPage from '@/pages/Tabs/Business'
 import ClientPage from '@/pages/Tabs/Client'
 import MessagePage from '@/pages/Tabs/Message'
 import MePage from '@/pages/Tabs/Me'
+
+const {role} = GLOBAL,
+  {ROLES:roleEnum} = CONFIG
 
 export default {
   path: '/tab',
@@ -30,11 +34,9 @@ export default {
       name: 'business',
       component: BusinessPage,
       beforeEnter: (to, from, next) => {
-        console.log('to')
-        console.log(to)
-        console.log('from')
-        console.log(from)
-        next()
+        // 临时跳转
+        location.href = '/Pages/Business'
+        // next()
       }
     },
     { // 客户
@@ -42,11 +44,12 @@ export default {
       name: 'client',
       component: ClientPage,
       beforeEnter: (to, from, next) => {
-        console.log('to')
-        console.log(to)
-        console.log('from')
-        console.log(from)
-        next()
+        // 临时跳转
+        if(role === roleEnum['售后顾问']){
+          location.href = '/UC/CustomerAfter/IndexForSearch'
+        }else{
+          location.href = '/UC/CustomerPre/IndexForSearch'
+        }
       }
     },
     { // 对话
@@ -54,11 +57,8 @@ export default {
       name: 'message',
       component: MessagePage,
       beforeEnter: (to, from, next) => {
-        console.log('to')
-        console.log(to)
-        console.log('from')
-        console.log(from)
-        next()
+        location.href = '/Pages/Message'
+        // next()
       }
     },
     { // 我
@@ -66,11 +66,8 @@ export default {
       name: 'me',
       component: MePage,
       beforeEnter: (to, from, next) => {
-        console.log('to')
-        console.log(to)
-        console.log('from')
-        console.log(from)
-        next()
+        location.href = '/Pages/Mine'
+        // next()
       }
     }
   ]
