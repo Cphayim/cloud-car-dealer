@@ -130,6 +130,10 @@
       @include image($url);
     }
   }
+  .icon-hope {
+    $url: '../../assets/icons/home-tools-hope.png';
+    @include image($url);
+  }
   .item {
     flex: 1 0 auto;
     /* 最多5个按钮 */
@@ -325,6 +329,10 @@
         <span class="icon icon-5"></span>
         <span class="name">新增客户</span>
       </div>  
+      <div class="item">
+        <span class="icon icon-hope"></span>
+        <span class="name">尽情期待</span>
+      </div>
     </div>
     <!-- /工具 -->
   </div>
@@ -474,12 +482,24 @@ export default {
           customerAfterUndeal: data.MyCustomerAfterUndeal || 0
         }
         this.cards = {
-          onlineRegist: data.MyBusinessPre || 0,
-          onlineRegistUndeal: data.MyBusinessPreUndeal || 0,
+          onlineRegist:(()=>{
+            if(this.role === this.roleEnum['销售顾问']){
+              return data.MyBusinessPre || 0
+            }else{
+              return (data.MyBusinessAfter + data.MyMaintain) || 0
+            }
+          })(),
+          onlineRegistUndeal: (()=>{
+            if(this.role === this.roleEnum['销售顾问']){
+              return data.MyBusinessPreUndeal || 0
+            }else{
+              return (data.MyBusinessAfterUndeal + data.MyMaintainUndeal) || 0
+            }
+          })(),
           message: data.MyMessage || 0,
-          messageUnreply: data.MyMessageUnReply || 0,
-          activeCustomer: data.MyActiveCustomer || 0,
-          activeCustomerUndeal: data.MyActiveCustomerUndeal || 0
+          messageUnreply: data.MyMessageUnreply || 0,
+          activeCustomer: data.MyActiveCustomerUndeal || 0,
+          activeCustomerUndeal: (data.MyActiveCustomerUndeal + data.MyActiveCustomer) || 0
         }
         this.task = {
           visit: data.MyVisitTotal || 0,
@@ -535,20 +555,24 @@ export default {
      * 调用微信端扫码接口
      */
     openScan() {
+      let _this = this
       wx.scanQRCode({
         // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
         needResult: 1,
         // 指定扫二维码还是条形码，或二者都有
         scanType: ['qrCode', 'barCode'],
         success(result) {
-          let resultStr = result // 当needResult 为 1 时，扫码返回的结果
-          this.$axios({
-            url: '/Biz/QRCodeItem/ScanCode',
+          let { resultStr } = result // 当needResult 为 1 时，扫码返回的结果
+          _this.$axios({
+            url: CONFIG.HOST + '/Biz/QRCodeItem/ScanCode',
             method: 'post',
             data: { no: resultStr }
           }).then(res => {
             let { data } = res
             console.log(data)
+            if(!data || data.Error){
+              return _this.$toast('二维码无效')
+            }
             if (!data.url) return
             window.location.href = data.url
           })

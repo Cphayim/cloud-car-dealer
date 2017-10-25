@@ -3,6 +3,7 @@
 .m-tabbar {
   position: fixed;
   bottom: 0;
+  border-top: 1px solid $color_back;
   display: flex;
   align-items: center;
   width: 100%;
