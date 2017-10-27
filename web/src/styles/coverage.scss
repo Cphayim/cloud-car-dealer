@@ -4,7 +4,7 @@
  * @Author: Cphayim 
  * @Date: 2017-10-17 16:11:13 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-10-18 13:50:11
+ * @Last Modified time: 2017-10-26 01:53:22
  */
 
 @import './style-config.scss';
@@ -17,4 +17,15 @@
 }
 .mint-header-title {
     @include font($font_normal, #fff);
+}
+
+/*
+ * 下拉刷新
+ */
+.mint-loadmore-text{
+    @include font($font_small, $color_f2);
+}
+
+.mint-popup{
+    background: none;
 }

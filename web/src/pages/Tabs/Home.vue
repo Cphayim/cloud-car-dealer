@@ -10,6 +10,49 @@
   }
 }
 
+// 进场动画控制 初始化状态
+.animation-box {
+  .section {
+    // 权值 10+10 = 20
+    opacity: 0;
+    transition: all 0.6s;
+  }
+  .m-card-group {
+    .card {
+      transform: scale(0);
+    }
+  }
+  .section:nth-child(2n-1) {
+    // 权值 10+10+10 = 30
+    transform: translateX(-70%);
+  }
+  .section:nth-child(2n) {
+    transform: translateX(70%);
+  }
+}
+
+.animation-box.loaded {
+  .section {
+    // 权值 20+10 = 30
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .m-card-group {
+    .card {
+      transform: scale(1);
+    }
+    .card:nth-of-type(3) {
+      transition: all 0.6s 0.4s;
+    }
+    .card:nth-of-type(2) {
+      transition: all 0.6s 0.6s;
+    }
+    .card:nth-of-type(1) {
+      transition: all 0.6s 0.8s;
+    }
+  }
+}
+
 .m-report {
   .report-row {
     display: flex;
@@ -124,6 +167,7 @@
 
 .m-tools {
   display: flex;
+  padding: r(10) 0;
   @for $i from 1 through 5 {
     .icon-#{$i} {
       $url: '../../assets/icons/home-tools-#{$i}.png';
@@ -135,7 +179,8 @@
     @include image($url);
   }
   .item {
-    flex: 1 0 auto;
+    flex: 0 0 auto;
+    width: 25%;
     /* 最多5个按钮 */
     // width: r(69); /* (375-15*2)/5*/
     text-align: center;
@@ -156,186 +201,182 @@
 </style>
 
 <template>
-  <div class="p-home">
-    <!-- 导航栏 -->
-    <mt-header fixed :title="pageTitle"></mt-header>
-    <!-- /导航栏 -->
-
-    <!-- 战报 -->
-    <div class="m-report section">
-      <!-- 战报子项 -->
-      <!-- 管理员显示: 粉丝、潜客、老客 -->
-      <!-- 销售显示: 粉丝、潜客 -->
-      <!-- 售后显示: 粉丝、老客 -->
-      <!-- 第一行 -->
-      <div class="report-row">
-        <div class="report-item">
-          <div class="basic">
-            <div class="cate">粉丝</div>
-            <div class="total">{{report.customer}}</div>
-          </div>
-          <div class="more">
-            <div>新增
-              <span>{{report.customerIncreased}}</span>
+  <mt-loadmore :top-method="loadData" ref="refresh">
+    <div class="p-home animation-box" :class="{loaded:isload}">
+      <!-- 战报 -->
+      <div class="m-report section">
+        <!-- 战报子项 -->
+        <!-- 管理员显示: 粉丝、潜客、老客 -->
+        <!-- 销售显示: 粉丝、潜客 -->
+        <!-- 售后显示: 粉丝、老客 -->
+        <!-- 第一行 -->
+        <div class="report-row">
+          <div class="report-item">
+            <div class="basic">
+              <div class="cate">粉丝</div>
+              <div class="total">{{report.customer}}</div>
+            </div>
+            <div class="more">
+              <div>新增
+                <span>{{report.customerIncreased}}</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <!-- /第一行 -->
-      <!-- 第二行 -->
-      <div class="report-row">
-        <!-- 潜客战报: 仅管理员与销售类员工显示 -->
-        <div v-if="role === roleEnum['店铺管理员'] || role === roleEnum['销售顾问']" class="report-item">
-          <!-- 临时跳转到旧版 -->
-          <div @click.stop="tempLinkToOld('/Report/CustomerPreReport/IndexForPreManager?vview=indexforadmin')" class="basic">
-            <div class="cate">潜客</div>
-            <div class="total">{{report.customerPre}}</div>
-          </div>
-          <!-- 临时跳转到旧版 -->
-          <div class="more">
-            <!-- 顾问不显示待分配 -->
-            <div @click.stop="tempLinkToOld('/UC/Customer/AssignForPre')" v-show="role !== roleEnum['销售顾问']">待分配
-              <span>{{report.customerPreUnassign}}</span>
+        <!-- /第一行 -->
+        <!-- 第二行 -->
+        <div class="report-row">
+          <!-- 潜客战报: 仅管理员与销售类员工显示 -->
+          <div v-if="role === roleEnum['店铺管理员'] || role === roleEnum['销售顾问']" class="report-item">
+            <!-- 临时跳转到旧版 -->
+            <div @click.stop="tempLinkToOld('/Report/CustomerPreReport/IndexForPreManager?vview=indexforadmin')" class="basic">
+              <div class="cate">潜客</div>
+              <div class="total">{{report.customerPre}}</div>
             </div>
-            <div @click.stop="tempLinkToOld('/Report/CustomerPreReport/IndexForPreManager?vview=indexforadmin')">新增
-              <span>{{report.customerPreIncreased}}</span>
-            </div>
-          </div>
-        </div>
-        <!-- 老客战报: 仅管理员与售后类员工显示 -->
-        <div v-if="role === roleEnum['店铺管理员'] || role === roleEnum['售后顾问']" class="report-item">
-          <!-- 临时跳转到旧版 -->
-          <div @click.stop="tempLinkToOld('/UC/CustomerAfter/IndexForSearch?customerType=After'+(role === roleEnum['售后顾问']?'&EmployeeId='+employeeId:''))" class="basic">
-            <div class="cate">老客</div>
-            <div class="total">{{report.customerAfter}}</div>
-          </div>
-          <!-- 临时跳转到旧版 -->
-          <div class="more">
-            <!-- 顾问不显示待分配 -->
-            <div @click.stop="tempLinkToOld('/UC/Customer/AssignForAfter')" v-show="role !== roleEnum['售后顾问']">待分配
-              <span>{{report.customerAfterUnassign}}</span>
-            </div>
-            <div @click.stop="tempLinkToOld('/UC/CustomerAfter/Index?customerType=After&&Status=UnDeal'+(role === roleEnum['售后顾问']?'&EmployeeId='+employeeId:''))">待验证
-              <span>{{report.customerAfterUndeal}}</span>
+            <!-- 临时跳转到旧版 -->
+            <div class="more">
+              <!-- 顾问不显示待分配 -->
+              <div @click.stop="tempLinkToOld('/UC/Customer/AssignForPre')" v-show="role !== roleEnum['销售顾问']">待分配
+                <span>{{report.customerPreUnassign}}</span>
+              </div>
+              <div @click.stop="tempLinkToOld('/Report/CustomerPreReport/IndexForPreManager?vview=indexforadmin')">新增
+                <span>{{report.customerPreIncreased}}</span>
+              </div>
             </div>
           </div>
+          <!-- 老客战报: 仅管理员与售后类员工显示 -->
+          <div v-if="role === roleEnum['店铺管理员'] || role === roleEnum['售后顾问']" class="report-item">
+            <!-- 临时跳转到旧版 -->
+            <div @click.stop="tempLinkToOld('/UC/CustomerAfter/IndexForSearch?customerType=After'+(role === roleEnum['售后顾问']?'&EmployeeId='+employeeId:''))" class="basic">
+              <div class="cate">老客</div>
+              <div class="total">{{report.customerAfter}}</div>
+            </div>
+            <!-- 临时跳转到旧版 -->
+            <div class="more">
+              <!-- 顾问不显示待分配 -->
+              <div @click.stop="tempLinkToOld('/UC/Customer/AssignForAfter')" v-show="role !== roleEnum['售后顾问']">待分配
+                <span>{{report.customerAfterUnassign}}</span>
+              </div>
+              <div @click.stop="tempLinkToOld('/UC/CustomerAfter/Index?customerType=After&&Status=UnDeal'+(role === roleEnum['售后顾问']?'&EmployeeId='+employeeId:''))">待验证
+                <span>{{report.customerAfterUndeal}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /第二行 -->
+      </div>
+      <!-- /战报 -->
+
+      <!-- 朋友圈营销 -->
+      <div class="m-letter section pad">
+        <!-- 临时跳转到旧版 -->
+        <div @click.stop="tempLinkToOld('/Pages/Article')" class="l">
+          <div class="icon"></div>
+        </div>
+        <div @click.stop="tempLinkToOld('/Pages/Article')" class="r">
+          <p class="last">[朋友圈营销] {{letter.lastMsg || '暂无'}}</p>
         </div>
       </div>
-      <!-- /第二行 -->
-    </div>
-    <!-- /战报 -->
+      <!-- /朋友圈营销 -->
 
-    <!-- 朋友圈营销 -->
-    <div class="m-letter section pad">
-      <!-- 临时跳转到旧版 -->
-      <div @click.stop="tempLinkToOld('/Pages/Article')" class="l">
-        <div class="icon"></div>
-      </div>
-      <div @click.stop="tempLinkToOld('/Pages/Article')" class="r">
-        <p class="last">[朋友圈营销] {{letter.lastMsg || '暂无'}}</p>
-      </div>
-    </div>
-    <!-- /朋友圈营销 -->
-
-    <!-- 卡片组 -->
-    <div class="m-card-group section pad">
-      <!-- 临时跳转到旧版 -->
-      <div @click.stop="tempLinkToOld('/Pages/Business'+(role === roleEnum['售后顾问']?'&Type=After':''))" class="card">
-        <p class="title">在线报名</p>
-        <p @click.stop="tempLinkToOld(role === roleEnum['店铺管理员']?'/Pages/Business?status=2':(role === roleEnum['销售顾问']?'/Pages/Business?status=2&type=all':'/Pages/Business?Type=After&Status=2'))" class="new">
-          {{cards.onlineRegistUndeal}}
-        </p>
-        <p class="count">累计总数 {{cards.onlineRegist}}</p>
-      </div>
-      <!-- 临时跳转到旧版 -->
-      <div @click.stop="tempLinkToOld('/Pages/Message')" class="card">
-        <p class="title">微信对话</p>
-        <p class="new">{{cards.messageUnreply}}</p>
-        <p class="count">累计总数 {{cards.message}}</p>
-      </div>
-      <!-- 临时跳转到旧版 -->
-      <div @click.stop="tempLinkToOld(role === roleEnum['店铺管理员']?'/Report/CustomerActiveReport/ActiveChart':(role === roleEnum['销售顾问']?'/UC/Customer/IndexForActive':'/UC/Customer/IndexForActive?Type=After'))" class="card">
-        <p class="title">活跃客户</p>
-        <p class="new">{{cards.activeCustomer}}</p>
-        <p class="count">累计总数 {{cards.activeCustomerUndeal}}</p>
-      </div>
-    </div>
-    <!-- /卡片组 -->
-
-    <!-- 任务: 销售 -->
-    <task-list @taskItemTo="tempLinkToOld" v-if="role === roleEnum['销售顾问'] || role === roleEnum['店铺管理员']" classify="sale" :isOpenVisit="isOpenVisit" :task="task" :role="role" :roleEnum="roleEnum" class="section"></task-list>
-    <!-- /任务: 销售 -->
-
-    <!-- 任务: 售后 -->
-    <task-list @taskItemTo="tempLinkToOld" v-if="role === roleEnum['售后顾问'] || role === roleEnum['店铺管理员']" classify="service" :isOpenVisit="isOpenVisit" :task="task" :role="role" :roleEnum="roleEnum" class="section"></task-list>
-    <!-- /任务: 售后 -->
-
-    <!-- 目标 -->
-    <div class="m-target section pad">
-      <!-- 交车目标: 仅管理员与销售类员工显示 -->
-      <div class="item" v-if="role === roleEnum['销售顾问'] || role === roleEnum['店铺管理员']">
-        <progress-circle :percentage="target.deliverCurrent/target.deliverTarget" :radius="progressCircelConfig.radius" :color="progressCircelConfig.color1"></progress-circle>
-        <div class="desc">
-          <span class="name">交车目标</span>
-          <span class="data">{{target.deliverCurrent}}/{{target.deliverTarget}}</span>
+      <!-- 卡片组 -->
+      <div class="m-card-group section pad">
+        <!-- 临时跳转到旧版 -->
+        <div @click.stop="tempLinkToOld('/Pages/Business'+(role === roleEnum['售后顾问']?'&Type=After':''))" class="card">
+          <p class="title">在线报名</p>
+          <p @click.stop="tempLinkToOld(role === roleEnum['店铺管理员']?'/Pages/Business?status=2':(role === roleEnum['销售顾问']?'/Pages/Business?status=2&type=all':'/Pages/Business?Type=After&Status=2'))" class="new">
+            {{cards.onlineRegistUndeal}}
+          </p>
+          <p class="count">累计总数 {{cards.onlineRegist}}</p>
+        </div>
+        <!-- 临时跳转到旧版 -->
+        <div @click.stop="tempLinkToOld('/Pages/Message')" class="card">
+          <p class="title">微信对话</p>
+          <p class="new">{{cards.messageUnreply}}</p>
+          <p class="count">累计总数 {{cards.message}}</p>
+        </div>
+        <!-- 临时跳转到旧版 -->
+        <div @click.stop="tempLinkToOld(role === roleEnum['店铺管理员']?'/Report/CustomerActiveReport/ActiveChart':(role === roleEnum['销售顾问']?'/UC/Customer/IndexForActive':'/UC/Customer/IndexForActive?Type=After'))" class="card">
+          <p class="title">活跃客户</p>
+          <p class="new">{{cards.activeCustomer}}</p>
+          <p class="count">累计总数 {{cards.activeCustomerUndeal}}</p>
         </div>
       </div>
-      <div class="item">
-        <progress-circle :percentage="target.followCurrent/target.followTarget" :radius="progressCircelConfig.radius" :color="progressCircelConfig.color2"></progress-circle>
-        <div class="desc">
-          <span class="name">增粉目标</span>
-          <span class="data">{{target.followCurrent}}/{{target.followTarget}}</span>
-        </div>
-      </div>
-      <!-- 临时跳转到旧版 -->
-      <div @click.stop="tempLinkToOld(role === roleEnum['店铺管理员']?'/Org/Evaluation/IndexForAdmin':'/Org/Evaluation')" class="item">
-        <progress-circle :percentage="target.satisfied" :radius="progressCircelConfig.radius" :color="progressCircelConfig.color3"></progress-circle>
-        <div class="desc">
-          <span class="name">满意度</span>
-          <span class="data">{{(target.satisfied*100).toFixed(2)}}%</span>
-        </div>
-      </div>
-    </div>
-    <!-- 目标 -->
+      <!-- /卡片组 -->
 
-    <!-- 工具 -->
-    <div class="m-tools section pad">
-      <div @click="openScan" class="item">
-        <span class="icon icon-3"></span>
-        <span class="name">扫一扫</span>
+      <!-- 任务: 销售 -->
+      <task-list @taskItemTo="tempLinkToOld" v-if="role === roleEnum['销售顾问'] || role === roleEnum['店铺管理员']" classify="sale" :isOpenReVisit="isOpenReVisit" :task="task" :role="role" :roleEnum="roleEnum" class="section"></task-list>
+      <!-- /任务: 销售 -->
+
+      <!-- 任务: 售后 -->
+      <task-list @taskItemTo="tempLinkToOld" v-if="role === roleEnum['售后顾问'] || role === roleEnum['店铺管理员']" classify="service" :isOpenReVisit="isOpenReVisit" :task="task" :role="role" :roleEnum="roleEnum" class="section"></task-list>
+      <!-- /任务: 售后 -->
+
+      <!-- 目标 -->
+      <div class="m-target section pad">
+        <!-- 交车目标: 仅管理员与销售类员工显示 -->
+        <div class="item" v-if="role === roleEnum['销售顾问'] || role === roleEnum['店铺管理员']">
+          <progress-circle :percentage="target.deliverCurrent/target.deliverTarget" :radius="progressCircelConfig.radius" :color="progressCircelConfig.color1"></progress-circle>
+          <div class="desc">
+            <span class="name">交车目标</span>
+            <span class="data">{{target.deliverCurrent}}/{{target.deliverTarget}}</span>
+          </div>
+        </div>
+        <div class="item">
+          <progress-circle :percentage="target.followCurrent/target.followTarget" :radius="progressCircelConfig.radius" :color="progressCircelConfig.color2"></progress-circle>
+          <div class="desc">
+            <span class="name">增粉目标</span>
+            <span class="data">{{target.followCurrent}}/{{target.followTarget}}</span>
+          </div>
+        </div>
+        <!-- 临时跳转到旧版 -->
+        <div @click.stop="tempLinkToOld(role === roleEnum['店铺管理员']?'/Org/Evaluation/IndexForAdmin':'/Org/Evaluation')" class="item">
+          <progress-circle :percentage="target.satisfied" :radius="progressCircelConfig.radius" :color="progressCircelConfig.color3"></progress-circle>
+          <div class="desc">
+            <span class="name">满意度</span>
+            <span class="data">{{(target.satisfied*100).toFixed(2)}}%</span>
+          </div>
+        </div>
       </div>
-      <!-- 临时跳转到旧版 -->
-      <!-- 二维码顾问才显示 -->
-      <div v-if="role !== roleEnum['店铺管理员']"
-        @click.stop="tempLinkToOld('/WX/QRCodeLog/IndexForNewLog')"
-        class="item">
-        <span class="icon icon-1"></span>
-        <span class="name">二维码</span>
+      <!-- 目标 -->
+
+      <!-- 工具 -->
+      <div class="m-tools section">
+
+        <!-- 临时跳转到旧版 -->
+        <!-- 新增客户: 管理员 显示 -->
+        <div @click.stop="tempLinkToOld('/UC/Customer/Create?fromT=pre')" v-if="role === roleEnum['店铺管理员']" class="item">
+          <span class="icon icon-5"></span>
+          <span class="name">新增客户</span>
+        </div>
+        <!-- 群发消息 -->
+        <div @click.stop="tempLinkToOld(role === roleEnum['店铺管理员']?'/UC/Customer/Search':(role === roleEnum['销售顾问']?'/UC/CustomerPre/Search':'/UC/CustomerAfter/Search'))" class="item">
+          <span class="icon icon-2"></span>
+          <span class="name">群发消息</span>
+        </div>
+        <!-- 二维码: 顾问 显示 -->
+        <div v-if="role !== roleEnum['店铺管理员']" @click.stop="tempLinkToOld('/WX/QRCodeLog/IndexForNewLog')" class="item">
+          <span class="icon icon-1"></span>
+          <span class="name">二维码</span>
+        </div>
+        <!-- 扫一扫 -->
+        <div @click="openScan" class="item">
+          <span class="icon icon-3"></span>
+          <span class="name">扫一扫</span>
+        </div>
+        <!-- 带建档: 销售 显示 -->
+        <div @click.stop="tempLinkToOld('/UC/Customer/IndexForRecord')" v-if="role === roleEnum['销售顾问']" class="item">
+          <span class="icon icon-4"></span>
+          <span class="name">待建档</span>
+        </div>
+        <div class="item">
+          <span class="icon icon-hope"></span>
+          <span class="name">敬请期待</span>
+        </div>
       </div>
-      <div @click.stop="tempLinkToOld(role === roleEnum['店铺管理员']?'/UC/Customer/Search':(role === roleEnum['销售顾问']?'/UC/CustomerPre/Search':'/UC/CustomerAfter/Search'))"
-       class="item">
-        <span class="icon icon-2"></span>
-        <span class="name">群发消息</span>
-      </div>
-      <!-- 销售类显示 -->
-      <div @click.stop="tempLinkToOld('/UC/Customer/IndexForRecord')"
-       v-if="role === roleEnum['销售顾问']" class="item">
-        <span class="icon icon-4"></span>
-        <span class="name">待建档</span>
-      </div>
-      <!-- 新增客户管理员才显示 -->
-      <div @click.stop="tempLinkToOld('/UC/Customer/Create?fromT=pre')"
-         v-if="role === roleEnum['店铺管理员']" class="item">
-        <span class="icon icon-5"></span>
-        <span class="name">新增客户</span>
-      </div>  
-      <div class="item">
-        <span class="icon icon-hope"></span>
-        <span class="name">尽情期待</span>
-      </div>
+      <!-- /工具 -->
     </div>
-    <!-- /工具 -->
-  </div>
+  </mt-loadmore>
 </template>
 
 <script>
@@ -348,10 +389,10 @@ export default {
   components: { TaskList, ProgressCircle },
   data() {
     return {
+      isload: false,
       role: '',
       roleEnum: CONFIG.ROLES,
-      isOpenVisit: true, // 是否开启回访
-      pageTitle: '', // 这里之后根据登录角色来更变
+      isOpenReVisit: true, // 是否开启回访
       progressCircelConfig: {
         radius: 20,
         color1: '#f35833',
@@ -401,6 +442,33 @@ export default {
     }
   },
   methods: {
+    loadData() {
+      this.isload = false
+      this.$indicator.open({
+        // 处于下拉刷新状态则显示'刷新'
+        text: this.$refs.refresh ? '正在刷新...' : '正在加载...',
+        spinnerType: 'triple-bounce'
+      })
+      
+      // 加载角色所属数据
+      setTimeout(() => {
+        switch (this.role) {
+          case this.roleEnum['销售顾问']:
+          case this.roleEnum['售后顾问']:
+            this.loadCounselor(); break
+          case this.roleEnum['店铺管理员']:
+            this.loadAdmin(); break
+          default:
+            this.$toast('用户角色信息有误!')
+            return
+        }
+      }, this.$refs.refresh ? 600 : 0)
+
+      // 判断是否处于下拉刷新状态，是则收起下拉层
+      if (this.$refs.refresh) {
+        this.$refs.refresh.onTopLoaded()
+      }
+    },
     /**
      * 管理员数据加载
      */
@@ -408,8 +476,7 @@ export default {
       this.$axios({
         url: CONFIG.HOST + '/Statistic/GetTenantTotal?&isNew=false&r=' + Math.random(),
         method: 'get'
-      }).then(res => {
-        let { data } = res
+      }).then(data => {
         this.report = {
           customer: data.Customer || 0,
           customerIncreased: data.CustomerIncreased || 0,
@@ -460,6 +527,10 @@ export default {
             return satisfied
           })()
         }
+        setTimeout(_ => {
+          this.$indicator.close()
+          this.isload = true
+        }, 0)
       })
     },
     /**
@@ -469,8 +540,7 @@ export default {
       this.$axios({
         url: CONFIG.HOST + '/Report/Statistic/GetEmployeeTotal?&isNew=false&r=' + Math.random(),
         method: 'get'
-      }).then(res => {
-        let { data } = res
+      }).then(data => {
         this.report = {
           customer: data.Customer || 0,
           customerIncreased: data.CustomerIncreased || 0,
@@ -482,17 +552,17 @@ export default {
           customerAfterUndeal: data.MyCustomerAfterUndeal || 0
         }
         this.cards = {
-          onlineRegist:(()=>{
-            if(this.role === this.roleEnum['销售顾问']){
+          onlineRegist: (() => {
+            if (this.role === this.roleEnum['销售顾问']) {
               return data.MyBusinessPre || 0
-            }else{
+            } else {
               return (data.MyBusinessAfter + data.MyMaintain) || 0
             }
           })(),
-          onlineRegistUndeal: (()=>{
-            if(this.role === this.roleEnum['销售顾问']){
+          onlineRegistUndeal: (() => {
+            if (this.role === this.roleEnum['销售顾问']) {
               return data.MyBusinessPreUndeal || 0
-            }else{
+            } else {
               return (data.MyBusinessAfterUndeal + data.MyMaintainUndeal) || 0
             }
           })(),
@@ -533,6 +603,10 @@ export default {
             return satisfied
           })()
         }
+        setTimeout(_ => {
+          this.$indicator.close()
+          this.isload = true
+        }, 0)
       })
     },
 
@@ -543,8 +617,7 @@ export default {
       this.$axios({
         url: CONFIG.HOST + '/Car/ShareInfos/ReadForArticle?resultType=json',
         method: 'get'
-      }).then(res => {
-        let { data } = res
+      }).then(data => {
         if (data && data[0] && data[0].Title) {
           this.letter.lastMsg = data[0].Title
         }
@@ -570,7 +643,7 @@ export default {
           }).then(res => {
             let { data } = res
             console.log(data)
-            if(!data || data.Error){
+            if (!data || data.Error) {
               return _this.$toast('二维码无效')
             }
             if (!data.url) return
@@ -595,23 +668,15 @@ export default {
 
     this.role = GLOBAL.role
     this.employeeId = GLOBAL.employeeId
-    this.isOpenVisit = GLOBAL.isOpenVisit
+    this.isOpenReVisit = GLOBAL.isOpenReVisit
 
     console.log(this.role)
 
-    // 加载角色所属数据
-    switch (this.role) {
-      case this.roleEnum['销售顾问']:
-      case this.roleEnum['售后顾问']:
-        this.loadCounselor(); break
-      case this.roleEnum['店铺管理员']:
-        this.loadAdmin(); break
-      default:
-        this.$toast('角色信息有误!')
-        return
-    }
-    this.pageTitle = this.roleEnum[this.role] || '未知角色'
+    // 根据登录的角色修改标题
+    this.$emit('changeTitle', this.roleEnum[this.role] || '未知角色')
 
+    // 加载页面数据
+    this.loadData()
     // 加载朋友圈营销 lastMsg
     this.loadShare()
   }

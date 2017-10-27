@@ -51,7 +51,7 @@
     <!-- 销售类 -->
     <ul v-if="classify === 'sale'">
       <!-- 后台开启回访功能时才显示 回访任务 -->
-      <li @click="EmitGoTo(role === roleEnum['店铺管理员']? '/Report/CustomerVisitReport/VisitChart?VisitType=Visit&ItemType=Visit': '/UC/CustomerVisit/Index')" v-if="isOpenVisit" class="item">
+      <li @click="EmitGoTo(role === roleEnum['店铺管理员']? '/Report/CustomerVisitReport/VisitChart?VisitType=Visit&ItemType=Visit': '/UC/CustomerVisit/Index')" v-if="isOpenReVisit" class="item">
         <div class="key task-sale1">回访</div>
         <div class="val">
           <progress-bar :percentage="task.visit/task.visitTotal" :width="progressConfig.width" :height="progressConfig.height" :color="progressConfig.color"></progress-bar>
@@ -127,7 +127,7 @@
  * @Author: Cphayim 
  * @Date: 2017-10-19 16:08:03 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-10-25 15:47:46
+ * @Last Modified time: 2017-10-26 10:47:58
  */
 import ProgressBar from '../common/ProgressBar'
 export default {
@@ -140,7 +140,7 @@ export default {
     task: {
       type: Object
     },
-    isOpenVisit: {
+    isOpenReVisit: {
       type: Boolean,
       default: true
     },

@@ -111,6 +111,8 @@
 
 <script>
 import CONFIG from '../config/config'
+import { Toast } from 'mint-ui'
+import { Indicator } from 'mint-ui'
 
 export default {
   name: 'LoginPage',
@@ -130,25 +132,33 @@ export default {
         this.$toast('请填写账号及密码')
         return
       }
+      Indicator.open({
+        text: '登录中...',
+        spinnerType: 'triple-bounce'
+      })
       this.$axios({
         url: CONFIG.HOST + '/org/employee/login',
         method: 'post',
         data: this.formData
-      }).then(res => { 
-        let {data} = res
+      }).then(data => {
         /* 当登录成功时 data 为 null
          * 登录失败时 data 为 
          * {Errors: string}
-         */ 
+         */
         // console.log(data)
-        if (data && data.Errors){ //登录失败
-          this.$toast(data.Errors)
+        if (data && data.Errors) { //登录失败
+          Indicator.close()
+          Toast(data.Errors)
         } else { // 登录成功
-          location.href = '/pages/index'
+          setTimeout(() => {
+            Indicator.close()
+            Indicator.open({
+              text: '登录成功!',
+              spinnerType: 'triple-bounce'
+            })
+            setTimeout(() => location.href = '/pages/index', 1000)
+          }, 600)
         }
-      }).catch(err =>{
-        console.warn(err)
-        this.$toast('请求失败，请检查网络')
       })
     }
   }
