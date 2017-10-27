@@ -18,7 +18,7 @@ app.post('/org/employee/login', (req, res) => {
   const { username, password } = req.body
   console.log(username, password)
   if (username && password) {
-    res.send('null')
+    res.json(null)
   }
 })
 
