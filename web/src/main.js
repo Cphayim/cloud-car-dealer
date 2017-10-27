@@ -4,7 +4,7 @@
  * @Author: Cphayim 
  * @Date: 2017-10-17 16:13:12 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-10-18 16:01:40
+ * @Last Modified time: 2017-10-26 00:48:21
  */
 
 // 全局样式 (有覆盖关系，顺序不要乱)
@@ -16,7 +16,7 @@ import '@/styles/coverage.scss' // 3
  * 预处理脚本
  */
 import Response from './scripts/response'
-import FastClick from 'fastclick'
+// import FastClick from 'fastclick'
 
 /**
  * Vue 相关
@@ -28,7 +28,7 @@ import router from './router'
 import axios from './scripts/request'
 import App from '@/App'
 
-document.addEventListener('DOMContentLoaded', () => { FastClick.attach(document.body) })
+// document.addEventListener('DOMContentLoaded', () => { FastClick.attach(document.body) })
 
 Vue.use(MintUI)
 Vue.config.productionTip = false
