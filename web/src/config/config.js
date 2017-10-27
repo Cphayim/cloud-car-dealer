@@ -4,19 +4,20 @@
  * @Author: Cphayim 
  * @Date: 2017-10-19 14:14:06 
  * @Last Modified by: Cphayim
- * @Last Modified time: 2017-10-25 16:43:40
+ * @Last Modified time: 2017-10-26 18:16:22
  */
 
 
 export default {
   // 应用名称
-  APP_NAME: 'YCS-sjzs for mobile web',
+  APP_NAME: 'YCS-sjzs for web',
   // 应用版本号
-  APP_VERSION: 'v0.0.1',
+  APP_VERSION: 'v2.0.1',
 
   // 请求主机名
   // HOST: 'http://app.vcar360.com', // 线上服务器
   // HOST: 'http://127.0.0.1:3000', // 本地模拟数据服务器
+  // HOST: 'http://192.168.10.110:3000',
   HOST: '', // 测试服务器
 
   // 下拉刷新延迟时间（毫秒）
