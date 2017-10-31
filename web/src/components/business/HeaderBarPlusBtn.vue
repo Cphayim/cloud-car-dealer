@@ -93,11 +93,10 @@ export default {
             url: CONFIG.HOST + '/Biz/QRCodeItem/ScanCode',
             method: 'post',
             data: { no: resultStr }
-          }).then(res => {
-            let { data } = res
+          }).then(data => {
             console.log(data)
-            if (!data || data.Error) {
-              return _this.$toast('二维码无效')
+            if (data && data.Errors) {
+              return _this.$toast(data.Errors)
             }
             if (!data.url) return
             window.location.href = data.url
@@ -106,5 +105,6 @@ export default {
       })
     }
   }
+
 }
 </script>
