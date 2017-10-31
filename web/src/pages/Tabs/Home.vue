@@ -193,10 +193,14 @@
       height: r(45);
       margin: auto;
       .badge {
-        position: absolute;top: -5px;right: -5px;
+        position: absolute;
+        top: -5px;
+        right: -5px;
         display: inline-block;
         border-radius: 50%;
-        width: 18px;height: 18px;text-align: center;
+        width: 18px;
+        height: 18px;
+        text-align: center;
         background-color: $color_em;
         @include font($font_small, #fff);
       }
@@ -678,7 +682,7 @@ export default {
 
   created() {
     // 判断后端是否传递了 全局的 角色信息
-    if (!(typeof GLOBAL.role === 'string')) return this.$toast('角色信息有误')
+    if (typeof GLOBAL !== 'object' || !(typeof GLOBAL.role === 'string')) return this.$toast('角色信息有误')
 
     this.role = GLOBAL.role
     this.employeeId = GLOBAL.employeeId
