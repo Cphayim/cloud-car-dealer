@@ -188,9 +188,18 @@
       display: block;
     }
     .icon {
+      position: relative;
       width: r(45);
       height: r(45);
       margin: auto;
+      .badge {
+        position: absolute;top: -5px;right: -5px;
+        display: inline-block;
+        border-radius: 50%;
+        width: 18px;height: 18px;text-align: center;
+        background-color: $color_em;
+        @include font($font_small, #fff);
+      }
     }
     .name {
       margin-top: r(2);
@@ -274,7 +283,7 @@
           <div class="icon"></div>
         </div>
         <div @click.stop="tempLinkToOld('/Pages/Article')" class="r">
-          <p class="last">[朋友圈营销] {{letter.lastMsg || '暂无'}}</p>
+          <p class="last"> {{letter.lastMsg || '暂无'}} </p>
         </div>
       </div>
       <!-- /朋友圈营销 -->
@@ -298,8 +307,8 @@
         <!-- 临时跳转到旧版 -->
         <div @click.stop="tempLinkToOld(role === roleEnum['店铺管理员']?'/Report/CustomerActiveReport/ActiveChart':(role === roleEnum['销售顾问']?'/UC/Customer/IndexForActive':'/UC/Customer/IndexForActive?Type=After'))" class="card">
           <p class="title">活跃客户</p>
-          <p class="new">{{cards.activeCustomer}}</p>
-          <p class="count">累计总数 {{cards.activeCustomerUndeal}}</p>
+          <p class="new">{{cards.activeCustomerUndeal}}</p>
+          <p class="count">累计总数 {{cards.activeCustomer}}</p>
         </div>
       </div>
       <!-- /卡片组 -->
@@ -366,7 +375,9 @@
         </div>
         <!-- 带建档: 销售 显示 -->
         <div @click.stop="tempLinkToOld('/UC/Customer/IndexForRecord')" v-if="role === roleEnum['销售顾问']" class="item">
-          <span class="icon icon-4"></span>
+          <span class="icon icon-4">
+            <em v-if="tools.unIncreased > 0" class="badge">{{ tools.unIncreased>99? '...' : tools.unIncreased }}</em>
+          </span>
           <span class="name">待建档</span>
         </div>
         <div class="item">
@@ -438,6 +449,9 @@ export default {
         followCurrent: 0, // 增粉当前
         followTarget: 0, // 增粉目标
         satisfied: 0 // 满意度
+      },
+      tools: {
+        unIncreased: 0 // 待建档数
       }
     }
   },
@@ -449,7 +463,7 @@ export default {
         text: this.$refs.refresh ? '正在刷新...' : '正在加载...',
         spinnerType: 'triple-bounce'
       })
-      
+
       // 加载角色所属数据
       setTimeout(() => {
         switch (this.role) {
@@ -568,8 +582,8 @@ export default {
           })(),
           message: data.MyMessage || 0,
           messageUnreply: data.MyMessageUnreply || 0,
-          activeCustomer: data.MyActiveCustomerUndeal || 0,
-          activeCustomerUndeal: (data.MyActiveCustomerUndeal + data.MyActiveCustomer) || 0
+          activeCustomer: (data.MyActiveCustomerUndeal + data.MyActiveCustomer) || 0,
+          activeCustomerUndeal: data.MyActiveCustomerUndeal || 0
         }
         this.task = {
           visit: data.MyVisitTotal || 0,
@@ -603,6 +617,7 @@ export default {
             return satisfied
           })()
         }
+        this.tools.unIncreased = data.MyCustomerPreUnIncreased || 0
         setTimeout(_ => {
           this.$indicator.close()
           this.isload = true
@@ -640,11 +655,10 @@ export default {
             url: CONFIG.HOST + '/Biz/QRCodeItem/ScanCode',
             method: 'post',
             data: { no: resultStr }
-          }).then(res => {
-            let { data } = res
+          }).then(data => {
             console.log(data)
-            if (!data || data.Error) {
-              return _this.$toast('二维码无效')
+            if (data && data.Errors) {
+              return _this.$toast(data.Errors)
             }
             if (!data.url) return
             window.location.href = data.url
