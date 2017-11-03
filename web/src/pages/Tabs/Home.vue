@@ -461,10 +461,19 @@ export default {
   },
   methods: {
     loadData() {
+
+      // 记录是否来自下拉刷新触发
+      // this.$refs.refresh 可能是 object 或 null
+      let isRefresh = !!this.$refs.refresh
+
+      // 如果是下拉刷新重置动画
+      // if (isRefresh) {
       this.isload = false
+      // }
+
       this.$indicator.open({
         // 处于下拉刷新状态则显示'刷新'
-        text: this.$refs.refresh ? '正在刷新...' : '正在加载...',
+        text: isRefresh ? '正在刷新...' : '正在加载...',
         spinnerType: 'triple-bounce'
       })
 
@@ -473,26 +482,26 @@ export default {
         switch (this.role) {
           case this.roleEnum['销售顾问']:
           case this.roleEnum['售后顾问']:
-            this.loadCounselor(); break
+            this.loadCounselor(isRefresh); break
           case this.roleEnum['店铺管理员']:
-            this.loadAdmin(); break
+            this.loadAdmin(isRefresh); break
           default:
             this.$toast('用户角色信息有误!')
             return
         }
-      }, this.$refs.refresh ? 600 : 0)
+      }, isRefresh ? CONFIG.REFRESH_DELAY : 0)
 
       // 判断是否处于下拉刷新状态，是则收起下拉层
-      if (this.$refs.refresh) {
+      if (isRefresh) {
         this.$refs.refresh.onTopLoaded()
       }
     },
     /**
      * 管理员数据加载
      */
-    loadAdmin() {
+    loadAdmin(isRefresh = false) {
       this.$axios({
-        url: CONFIG.HOST + '/Statistic/GetTenantTotal?&isNew=false&r=' + Math.random(),
+        url: `${CONFIG.HOST}/Statistic/GetTenantTotal?&isNew=${isRefresh ? 'true' : 'false'}&r=${Math.random()}`,
         method: 'get'
       }).then(data => {
         this.report = {
@@ -554,9 +563,9 @@ export default {
     /**
      * 顾问(销售、售后)数据加载
      */
-    loadCounselor() {
+    loadCounselor(isRefresh = false) {
       this.$axios({
-        url: CONFIG.HOST + '/Report/Statistic/GetEmployeeTotal?&isNew=false&r=' + Math.random(),
+        url: `${CONFIG.HOST}/Report/Statistic/GetEmployeeTotal?&isNew=${isRefresh ? 'true' : 'false'}&r=${Math.random()}`,
         method: 'get'
       }).then(data => {
         this.report = {
